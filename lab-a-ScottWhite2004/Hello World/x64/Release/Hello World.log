@@ -1,0 +1,6 @@
+﻿  Source.cpp
+  Generating code
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 12 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Hello World.vcxproj -> C:\Users\712769\Workspace\lab-a-ScottWhite2004\x64\Release\Hello World.exe
