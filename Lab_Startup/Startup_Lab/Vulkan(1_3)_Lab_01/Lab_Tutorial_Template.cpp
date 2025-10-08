@@ -3,6 +3,7 @@
 //====================================================
 
 #define GLFW_INCLUDE_VULKAN
+#define RESTART_INDEX 0xFFFF
 #include <GLFW/glfw3.h>
 
 #define GLM_FORCE_RADIANS
@@ -27,6 +28,7 @@
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 const int MAX_FRAMES_IN_FLIGHT = 2;
+const uint32_t instanceCount = 2;
 
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
@@ -82,9 +84,13 @@ struct Vertex {
 };
 
 struct UniformBufferObject {
-    alignas(16) glm::mat4 model;
     alignas(16) glm::mat4 view;
     alignas(16) glm::mat4 proj;
+};
+
+struct ModelPushConstant
+{
+	glm::mat4 model;
 };
 
 const std::vector<Vertex> Quad_vertices = {
@@ -114,7 +120,12 @@ const std::vector<uint16_t> cube_Edge_Indices = {
 };
 
 const std::vector<uint16_t> triangle_Strip_Indices = {
- 0,1,2,3,3,4,7
+ 0,1,3,2, RESTART_INDEX, 
+ 5,1,6,2, RESTART_INDEX, 
+ 4,5,7,6, RESTART_INDEX, 
+ 4,0,7,3, RESTART_INDEX, 
+ 3,2,7,6, RESTART_INDEX, 
+5,4,1,0, RESTART_INDEX
 };
 
 std::vector<Vertex> vertices;
@@ -932,10 +943,15 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
     vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
+	VkPushConstantRange pushConstantRange{};
+	pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+	pushConstantRange.offset = 0;
+    pushConstantRange.size = sizeof(ModelPushConstant);
+
     VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
     inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-    inputAssembly.primitiveRestartEnable = VK_FALSE;
+    inputAssembly.primitiveRestartEnable = VK_TRUE;
 
     VkProvokingVertexModeEXT provokingVertexMode = VK_PROVOKING_VERTEX_MODE_FIRST_VERTEX_EXT;
 
@@ -979,6 +995,8 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
     pipelineLayoutInfo.setLayoutCount = 1;
     pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
+	pipelineLayoutInfo.pushConstantRangeCount = 1;
+	pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
     if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
         throw std::runtime_error("Failed to create pipeline layout!");
@@ -1243,6 +1261,9 @@ void HelloTriangleApplication::cleanupSwapChain() {
 }
 
 void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
+    static auto startTime = std::chrono::high_resolution_clock::now();
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    float time = std::chrono::duration<float>(currentTime - startTime).count();
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     if (vkBeginCommandBuffer(commandBuffer, &beginInfo) != VK_SUCCESS) {
@@ -1300,7 +1321,16 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
     vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
-    vkCmdDrawIndexed(commandBuffer, 24, 1, 0, 0, 0);
+	ModelPushConstant pushUBO{};
+    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(-1.0f, 0.0f, 0.0f)) *
+        glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, triangle_Strip_Indices.size(), 1, 0, 0, 0);
+
+    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
+		glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, triangle_Strip_Indices.size(), 1, 0, 0, 0);
 
     vkCmdEndRendering(commandBuffer);
 
@@ -1331,12 +1361,13 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.proj = glm::perspective(glm::radians(45.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
     ubo.proj[1][1] *= -1;
 
     memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
+
+
 }
 
 // --- Helper Implementations ---
