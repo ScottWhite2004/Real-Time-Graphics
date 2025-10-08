@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\712769\\Workspace\\Lab_Startup_Question_1_2\\Startup_Lab\\Vulkan(1_3)_Lab_01\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Lab_Startup_Question_1_2\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Lab_Tutorial_Template.cpp",
+              "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Lab_Startup_Question_1_2\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
+              "RelativeDocumentMoniker": "Lab_Tutorial_Template.cpp",
+              "ToolTip": "C:\\Users\\712769\\Workspace\\Lab_Startup_Question_1_2\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
+              "RelativeToolTip": "Lab_Tutorial_Template.cpp",
+              "ViewState": "AgIAAJgDAAAAAAAAAAAewK8DAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-08T14:55:23.874Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
