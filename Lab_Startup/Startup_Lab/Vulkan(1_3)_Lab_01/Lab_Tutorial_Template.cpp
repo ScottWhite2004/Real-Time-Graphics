@@ -3,7 +3,7 @@
 //====================================================
 
 #define GLFW_INCLUDE_VULKAN
-#define RESTART_INDEX 0xFFFF
+#define RESTART_INDEX 0xFFFFFFFF
 #include <GLFW/glfw3.h>
 
 #define GLM_FORCE_RADIANS
@@ -119,7 +119,7 @@ const std::vector<uint16_t> cube_Edge_Indices = {
 1, 5, 2, 6, 3, 7
 };
 
-const std::vector<uint16_t> triangle_Strip_Indices = {
+const std::vector<uint32_t> triangle_Strip_Indices = {
  0,1,3,2, RESTART_INDEX, 
  5,1,6,2, RESTART_INDEX, 
  4,5,7,6, RESTART_INDEX, 
@@ -129,11 +129,10 @@ const std::vector<uint16_t> triangle_Strip_Indices = {
 };
 
 std::vector<Vertex> vertices;
-std::vector<uint16_t> indices;
+std::vector<uint32_t> indices;
 
 void loadModel() {
-    vertices = Quad_vertices;
-    indices = triangle_Strip_Indices;
+    
 }
 
 // --- Vulkan Debug Messenger ---
@@ -261,6 +260,11 @@ private:
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
+    //Lab 2 Grid creation
+    void createGrid(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	void createTerrain(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
 
     // --- Callbacks ---
     static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
@@ -305,6 +309,7 @@ void HelloTriangleApplication::initVulkan() {
 
     loadModel();
 
+	createTerrain(1000, 1000, vertices, indices);
     createVertexBuffer();
     createIndexBuffer();
     createUniformBuffers();
@@ -320,6 +325,63 @@ void HelloTriangleApplication::mainLoop() {
         drawFrame();
     }
     vkDeviceWaitIdle(device);
+}
+
+void HelloTriangleApplication::createGrid(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices) {
+	outVertices.clear();
+	outIndices.clear();
+
+    for (int i = 0; i < depth; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+			Vertex vertex{};
+			float x = -((float)j / 10);
+			float y = -((float)i / 10);
+            float z = -1.0f;
+            vertex.pos = glm::vec3(x,y,z);
+			vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+			outVertices.push_back(vertex);
+        }
+    }
+
+    for (int i = 0; i < depth - 1; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+			outIndices.push_back(i * width + j);
+			outIndices.push_back((i + 1) * width + j);
+        }
+    }
+}
+
+void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+    outVertices.clear();
+    outIndices.clear();
+
+    for (int i = 0; i < depth; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            Vertex vertex{};
+            float x = -((float)j / 10);
+            float y = -((float)i / 10);
+            float z = sinf(x) * cosf(y);
+            vertex.pos = glm::vec3(x, y, z);
+            vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+            outVertices.push_back(vertex);
+        }
+    }
+
+    for (int i = 0; i < depth - 1; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            outIndices.push_back(i * width + j);
+            outIndices.push_back((i + 1) * width + j);
+        }
+    }
 }
 
 void HelloTriangleApplication::cleanup() {
@@ -965,6 +1027,7 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     rasterizer.depthClampEnable = VK_FALSE;
     rasterizer.rasterizerDiscardEnable = VK_FALSE;
     rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
+    //rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizer.lineWidth = 1.0f;
     rasterizer.cullMode = VK_CULL_MODE_NONE;
     rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
@@ -1319,18 +1382,17 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     VkBuffer vertexBuffers[] = { vertexBuffer };
     VkDeviceSize offsets[] = { 0 };
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 	ModelPushConstant pushUBO{};
-    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(-1.0f, 0.0f, 0.0f)) *
-        glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, triangle_Strip_Indices.size(), 1, 0, 0, 0);
+    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
-    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
-		glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, triangle_Strip_Indices.size(), 1, 0, 0, 0);
+    //pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
+		//glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    //vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    //vkCmdDrawIndexed(commandBuffer, triangle_Strip_Indices.size(), 1, 0, 0, 0);
 
     vkCmdEndRendering(commandBuffer);
 
@@ -1362,7 +1424,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
 
     UniformBufferObject ubo{};
     ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    ubo.proj = glm::perspective(glm::radians(45.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
+    ubo.proj = glm::perspective(glm::radians(90.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 200.0f);
     ubo.proj[1][1] *= -1;
 
     memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
