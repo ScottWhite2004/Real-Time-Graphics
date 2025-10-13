@@ -336,8 +336,8 @@ void HelloTriangleApplication::createGrid(int width, int depth, std::vector<Vert
         for (int j = 0; j < width; ++j)
         {
 			Vertex vertex{};
-			float x = -((float)j / 10);
-			float y = -((float)i / 10);
+			float x = -((float)j / 2);
+			float y = -((float)i / 2);
             float z = -1.0f;
             vertex.pos = glm::vec3(x,y,z);
 			vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -365,8 +365,8 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
         for (int j = 0; j < width; ++j)
         {
             Vertex vertex{};
-            float x = -((float)j / 10);
-            float y = -((float)i / 10);
+            float x = -((float)j / 2.0f);
+            float y = -((float)i / 2.0f);
             float z = sinf(x) * cosf(y);
             vertex.pos = glm::vec3(x, y, z);
             vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
