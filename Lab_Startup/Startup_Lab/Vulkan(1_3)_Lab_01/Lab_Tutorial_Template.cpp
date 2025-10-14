@@ -394,10 +394,10 @@ float HelloTriangleApplication::perlin(float x, float y, int grid_Size)
 	float dx = x / grid_Size - x0;
 	float dy = y / grid_Size - y0;
 
-	std::vector<float> g00 = gradient((rand() % 100) * 2 * 3.14);
-	std::vector<float> g10 = gradient((rand() % 100) * 2 * 3.14);
-	std::vector<float> g01 = gradient((rand() % 100) * 2 * 3.14);
-	std::vector<float> g11 = gradient((rand() % 100) * 2 * 3.14);
+	std::vector<float> g00 = gradient((rand() % 10) * 2 * 3.14);
+	std::vector<float> g10 = gradient((rand() % 10) * 2 * 3.14);
+	std::vector<float> g01 = gradient((rand() % 10) * 2 * 3.14);
+	std::vector<float> g11 = gradient((rand() % 10) * 2 * 3.14);
 
 	float dot00 = g00[0] * (x - x0 * grid_Size) + g00[1] * (y - y0 * grid_Size);
 	float dot10 = g10[0] * (x - x1 * grid_Size) + g10[1] * (y - y0 * grid_Size);
@@ -424,7 +424,7 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
             Vertex vertex{};
             float x = -((float)j / 2.0f);
             float y = -((float)i / 2.0f);
-            float z = perlin(x, y, width);
+            float z = perlin(x* 10, y * 10, width*depth);
             vertex.pos = glm::vec3(x, y, z);
             vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
             outVertices.push_back(vertex);
