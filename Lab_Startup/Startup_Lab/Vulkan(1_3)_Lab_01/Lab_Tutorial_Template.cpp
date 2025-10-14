@@ -252,7 +252,9 @@ private:
     float perlin(float x, float y, int grid_Size);
 
 
+    // Procedural Generation
 
+    void createCylinder();
 
     // --- Helper Functions ---
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -320,7 +322,8 @@ void HelloTriangleApplication::initVulkan() {
 
     loadModel();
 
-	createTerrain(1000, 1000, vertices, indices);
+	createTerrain(100, 100, vertices, indices);
+	//createCylinder();
     createVertexBuffer();
     createIndexBuffer();
     createUniformBuffers();
@@ -439,6 +442,32 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
             outIndices.push_back((i + 1) * width + j);
         }
     }
+}
+
+void HelloTriangleApplication::createCylinder()
+{
+    const int segments = 100;
+    const float radius = 1.0f;
+    const float height = 2.0f;
+    vertices.clear();
+    indices.clear();
+    // Create vertices
+    for (int i = 0; i <= segments; ++i) {
+        float theta = (float)i / segments * 2.0f * 3.14159265359f;
+        float x = radius * cosf(theta);
+        float y = radius * sinf(theta);
+        // Bottom circle
+        vertices.push_back({ glm::vec3(x, y, -height / 2), glm::vec3(1.0f, 0.0f, 0.0f) });
+        // Top circle
+        vertices.push_back({ glm::vec3(x, y, height / 2), glm::vec3(0.0f, 1.0f, 0.0f) });
+    }
+    // Create indices for triangle strip
+    for (int i = 0; i < segments; ++i) {
+        indices.push_back(i * 2);
+        indices.push_back(i * 2 + 1);
+        indices.push_back((i + 1) * 2);
+        indices.push_back((i + 1) * 2 + 1);
+	}
 }
 
 void HelloTriangleApplication::cleanup() {
