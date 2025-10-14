@@ -338,7 +338,7 @@ void HelloTriangleApplication::mainLoop() {
     vkDeviceWaitIdle(device);
 }
 
-void HelloTriangleApplication::createGrid(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices) {
+void HelloTriangleApplication::createGrid(const int width, const int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices) {
 	outVertices.clear();
 	outIndices.clear();
 
@@ -424,7 +424,7 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
             Vertex vertex{};
             float x = -((float)j / 2.0f);
             float y = -((float)i / 2.0f);
-            float z = perlin(x* 10, y * 10, width*depth);
+            float z = cosf(x) * sinf(y);
             vertex.pos = glm::vec3(x, y, z);
             vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
             outVertices.push_back(vertex);
@@ -1480,7 +1480,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.proj = glm::perspective(glm::radians(90.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 200.0f);
     ubo.proj[1][1] *= -1;
 
