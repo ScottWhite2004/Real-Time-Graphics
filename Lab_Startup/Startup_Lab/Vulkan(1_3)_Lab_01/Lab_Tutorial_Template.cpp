@@ -254,7 +254,7 @@ private:
 
     // Procedural Generation
 
-    void createCylinder();
+    void createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices );
 
     // --- Helper Functions ---
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -322,8 +322,8 @@ void HelloTriangleApplication::initVulkan() {
 
     loadModel();
 
-	createTerrain(100, 100, vertices, indices);
-	//createCylinder();
+	//createTerrain(100, 100, vertices, indices);
+	createCylinder(0.1f,2.0f,vertices,indices);
     createVertexBuffer();
     createIndexBuffer();
     createUniformBuffers();
@@ -444,30 +444,15 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
     }
 }
 
-void HelloTriangleApplication::createCylinder()
+void HelloTriangleApplication::createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
-    const int segments = 100;
-    const float radius = 1.0f;
-    const float height = 2.0f;
-    vertices.clear();
-    indices.clear();
-    // Create vertices
-    for (int i = 0; i <= segments; ++i) {
-        float theta = (float)i / segments * 2.0f * 3.14159265359f;
-        float x = radius * cosf(theta);
-        float y = radius * sinf(theta);
-        // Bottom circle
-        vertices.push_back({ glm::vec3(x, y, -height / 2), glm::vec3(1.0f, 0.0f, 0.0f) });
-        // Top circle
-        vertices.push_back({ glm::vec3(x, y, height / 2), glm::vec3(0.0f, 1.0f, 0.0f) });
+    for (int i = 0; i < 3.14 * 2; i += cylinderIncrement)
+    {
+		float x = radius * cosf(i);
+        float y = radius * sinf(i);
+        Vertex vertex{};
+		vertex.pos = glm::vec3(x, y, 0.0f);
     }
-    // Create indices for triangle strip
-    for (int i = 0; i < segments; ++i) {
-        indices.push_back(i * 2);
-        indices.push_back(i * 2 + 1);
-        indices.push_back((i + 1) * 2);
-        indices.push_back((i + 1) * 2 + 1);
-	}
 }
 
 void HelloTriangleApplication::cleanup() {
