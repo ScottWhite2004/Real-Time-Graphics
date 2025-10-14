@@ -242,6 +242,17 @@ private:
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void updateUniformBuffer(uint32_t currentImage);
 
+    // Perlin Noise Generation
+    std::vector<float> gradient(float h);
+
+	float lerp(float a, float b, float c);
+
+	float fade(float t);
+
+    float perlin(float x, float y, int grid_Size);
+
+
+
 
     // --- Helper Functions ---
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -355,6 +366,52 @@ void HelloTriangleApplication::createGrid(int width, int depth, std::vector<Vert
     }
 }
 
+std::vector<float> HelloTriangleApplication::gradient(float h)
+{ 
+    return {
+        cosf(h), sinf(h)
+	};
+
+}
+
+float HelloTriangleApplication::lerp(float a, float b, float x)
+{
+	return a + x * (b - a);
+}
+
+float HelloTriangleApplication::fade(float t)
+{
+    return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
+float HelloTriangleApplication::perlin(float x, float y, int grid_Size)
+{
+	int x0 = x / grid_Size;
+	int y0 = y / grid_Size;
+	int x1 = x0 + 1;
+	int y1 = y0 + 1;
+
+	float dx = x / grid_Size - x0;
+	float dy = y / grid_Size - y0;
+
+	std::vector<float> g00 = gradient((rand() % 100) * 2 * 3.14);
+	std::vector<float> g10 = gradient((rand() % 100) * 2 * 3.14);
+	std::vector<float> g01 = gradient((rand() % 100) * 2 * 3.14);
+	std::vector<float> g11 = gradient((rand() % 100) * 2 * 3.14);
+
+	float dot00 = g00[0] * (x - x0 * grid_Size) + g00[1] * (y - y0 * grid_Size);
+	float dot10 = g10[0] * (x - x1 * grid_Size) + g10[1] * (y - y0 * grid_Size);
+	float dot01 = g01[0] * (x - x0 * grid_Size) + g01[1] * (y - y1 * grid_Size);
+	float dot11 = g11[0] * (x - x1 * grid_Size) + g11[1] * (y - y1 * grid_Size);
+
+	float u = fade(dx);
+	float v = fade(dy);
+
+	return lerp(lerp(dot00, dot10, u), lerp(dot01, dot11, u), v);
+}
+
+
+
 void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
     outVertices.clear();
@@ -367,7 +424,7 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
             Vertex vertex{};
             float x = -((float)j / 2.0f);
             float y = -((float)i / 2.0f);
-            float z = sinf(x) * cosf(y);
+            float z = perlin(x, y, width);
             vertex.pos = glm::vec3(x, y, z);
             vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
             outVertices.push_back(vertex);
