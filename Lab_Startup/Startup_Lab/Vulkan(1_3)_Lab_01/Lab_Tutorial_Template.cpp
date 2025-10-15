@@ -323,7 +323,7 @@ void HelloTriangleApplication::initVulkan() {
     loadModel();
 
 	//createTerrain(100, 100, vertices, indices);
-	createCylinder(0.1f,2.0f,vertices,indices);
+	createCylinder(0.3f,0.5f,vertices,indices);
     createVertexBuffer();
     createIndexBuffer();
     createUniformBuffers();
@@ -345,7 +345,8 @@ void HelloTriangleApplication::createGrid(const int width, const int depth, std:
 	outVertices.clear();
 	outIndices.clear();
 
-    for (int i = 0; i < depth; ++i)
+    
+for (int i = 0; i < depth; ++i)
     {
         for (int j = 0; j < width; ++j)
         {
@@ -446,13 +447,59 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
 
 void HelloTriangleApplication::createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
-    for (int i = 0; i < 3.14 * 2; i += cylinderIncrement)
+    outVertices.clear();
+	outIndices.clear();
+
+    for (float i = 0.0f; i < glm::two_pi<float>(); i += cylinderIncrement)
+        {
+            float x = -(radius * cosf(i));
+            float y = -(radius * sinf(i));
+            Vertex vertex{};
+            vertex.pos = glm::vec3(x, y, 0.0f);
+            vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+            outVertices.push_back(vertex);
+			Vertex vertex2{};
+            vertex2.pos = glm::vec3(x, y, 1.0f);
+            vertex2.color = glm::vec3(0.0f, 1.0f, 0.0f);
+			outVertices.push_back(vertex2);
+
+        }
+
+    for (int j = 0; j < outVertices.size() - 2; j += 2)
     {
-		float x = radius * cosf(i);
-        float y = radius * sinf(i);
-        Vertex vertex{};
-		vertex.pos = glm::vec3(x, y, 0.0f);
+        outIndices.push_back(j);
+        outIndices.push_back(j + 1);
     }
+
+	outIndices.push_back(outVertices.size() - 2);
+	outIndices.push_back(outVertices.size() - 1);
+    outIndices.push_back(0);
+	outIndices.push_back(1);
+	outIndices.push_back(RESTART_INDEX);
+
+    Vertex centerBottom{};
+    centerBottom.pos = glm::vec3(0.0f, 0.0f, 0.0f);
+    centerBottom.color = glm::vec3(0.0f, 1.0f, 0.0f);
+    outVertices.push_back(centerBottom);
+
+    Vertex centerTop{};
+    centerTop.pos = glm::vec3(0.0f, 0.0f, 1.0f);
+    centerTop.color = glm::vec3(0.0f, 1.0f, 0.0f);
+    outVertices.push_back(centerTop);
+	
+    int centerBottomIndex = outVertices.size() - 2;
+    int centerTopIndex = outVertices.size() - 1;
+    for (int k = 0; k < outVertices.size() - 2; k += 2)
+    {
+        outIndices.push_back(centerBottomIndex);
+        outIndices.push_back(k);
+		outIndices.push_back(k + 2);
+        outIndices.push_back(RESTART_INDEX);
+        outIndices.push_back(centerTopIndex);
+        outIndices.push_back(k + 1);
+		outIndices.push_back(k + 3);
+        outIndices.push_back(RESTART_INDEX);
+	}
 }
 
 void HelloTriangleApplication::cleanup() {
@@ -1456,7 +1503,7 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 	ModelPushConstant pushUBO{};
-    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
@@ -1494,7 +1541,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.proj = glm::perspective(glm::radians(90.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 200.0f);
     ubo.proj[1][1] *= -1;
 
