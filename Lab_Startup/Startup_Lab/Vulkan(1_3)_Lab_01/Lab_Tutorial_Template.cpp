@@ -24,6 +24,17 @@
 #include <optional>
 #include <set>
 
+struct ShapeDrawInfo {
+    uint32_t indexCount;
+    uint32_t indexOffset;
+    uint32_t vertexOffset;
+    glm::mat4 modelMatrix;
+};
+
+std::vector<ShapeDrawInfo> shapeDrawInfos;
+
+
+
 // --- Configuration ---
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -88,6 +99,109 @@ struct UniformBufferObject {
     alignas(16) glm::mat4 proj;
 };
 
+//Geometry Generator
+namespace geometryGenerator
+{
+    struct MeshData
+    {
+        std::vector<Vertex> Vertices;
+        std::vector<uint32_t> Indices;
+    };
+    
+    static std::pair < std::vector<Vertex>, std::vector<uint32_t>> CreateGrid(int Width, int Depth)
+    {
+        std::vector<Vertex> outVertices;
+        std::vector<uint32_t> outIndices;
+
+        for (int i = 0; i < Depth; ++i)
+        {
+            for (int j = 0; j < Width; ++j)
+            {
+                Vertex vertex{};
+                float x = -((float)j / 2);
+                float y = -((float)i / 2);
+                float z = -1.0f;
+                vertex.pos = glm::vec3(x, y, z);
+                vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+                outVertices.push_back(vertex);
+            }
+        }
+
+        for (int i = 0; i < Depth - 1; ++i)
+        {
+            for (int j = 0; j < Width; ++j)
+            {
+                outIndices.push_back(i * Width + j);
+                outIndices.push_back((i + 1) * Width + j);
+            }
+			outIndices.push_back(RESTART_INDEX);
+        }
+
+        return std::pair(outVertices, outIndices);
+    }
+
+    static std::pair < std::vector<Vertex>, std::vector<uint32_t>> CreateCylinder(float Radius, int Segments, float height)
+    {
+
+        std::vector<Vertex> outVertices;
+        std::vector<uint32_t> outIndices;
+
+        for (float i = 0.0f; i < glm::two_pi<float>(); i += glm::two_pi<float>() / Segments)
+        {
+            float x = -(Radius * cosf(i));
+            float y = -(Radius * sinf(i));
+            Vertex vertex{};
+            vertex.pos = glm::vec3(x, y, 0.0f);
+            vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+            outVertices.push_back(vertex);
+            Vertex vertex2{};
+            vertex2.pos = glm::vec3(x, y, height);
+            vertex2.color = glm::vec3(0.0f, 1.0f, 0.0f);
+            outVertices.push_back(vertex2);
+
+        }
+
+        for (int j = 0; j < outVertices.size() - 2; j += 2)
+        {
+            outIndices.push_back(j);
+            outIndices.push_back(j + 1);
+        }
+
+        outIndices.push_back(outVertices.size() - 2);
+        outIndices.push_back(outVertices.size() - 1);
+        outIndices.push_back(0);
+        outIndices.push_back(1);
+        outIndices.push_back(RESTART_INDEX);
+
+        Vertex centerBottom{};
+        centerBottom.pos = glm::vec3(0.0f, 0.0f, 0.0f);
+        centerBottom.color = glm::vec3(0.0f, 1.0f, 0.0f);
+        outVertices.push_back(centerBottom);
+
+        Vertex centerTop{};
+        centerTop.pos = glm::vec3(0.0f, 0.0f, height);
+        centerTop.color = glm::vec3(0.0f, 1.0f, 0.0f);
+        outVertices.push_back(centerTop);
+
+        int centerBottomIndex = outVertices.size() - 2;
+        int centerTopIndex = outVertices.size() - 1;
+        for (int k = 0; k < outVertices.size() - 2; k += 2)
+        {
+            outIndices.push_back(centerBottomIndex);
+            outIndices.push_back(k);
+            outIndices.push_back(k + 2);
+            outIndices.push_back(RESTART_INDEX);
+            outIndices.push_back(centerTopIndex);
+            outIndices.push_back(k + 1);
+            outIndices.push_back(k + 3);
+            outIndices.push_back(RESTART_INDEX);
+        }
+
+        return std::pair(outVertices, outIndices);
+
+    }
+}
+
 struct ModelPushConstant
 {
 	glm::mat4 model;
@@ -132,7 +246,36 @@ std::vector<Vertex> vertices;
 std::vector<uint32_t> indices;
 
 void loadModel() {
+	vertices.clear();
+	indices.clear();
+	shapeDrawInfos.clear();
     
+	auto [gridVertices, gridIndices] = geometryGenerator::CreateGrid(50, 50);
+	auto [cylinderVertices, cylinderIndices] = geometryGenerator::CreateCylinder(0.5f, 20,2.0f);
+    
+    ShapeDrawInfo gridInfo;
+	gridInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
+	gridInfo.indexOffset = static_cast<uint32_t>(indices.size());
+	gridInfo.indexCount = static_cast<uint32_t>(gridIndices.size());
+	gridInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
+	vertices.insert(vertices.end(), gridVertices.begin(), gridVertices.end());
+    for (auto idx : gridIndices)
+    {
+		indices.push_back(idx + gridInfo.vertexOffset);
+    }
+	shapeDrawInfos.push_back(gridInfo);
+
+	ShapeDrawInfo cylinderInfo;
+	cylinderInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
+	cylinderInfo.indexOffset = static_cast<uint32_t>(indices.size());
+	cylinderInfo.indexCount = static_cast<uint32_t>(cylinderIndices.size());
+	cylinderInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
+    vertices.insert(vertices.end(), cylinderVertices.begin(), cylinderVertices.end());
+    for (auto idx : cylinderIndices)
+    {
+        indices.push_back(idx == RESTART_INDEX ? RESTART_INDEX : idx + cylinderInfo.vertexOffset);
+	}
+	shapeDrawInfos.push_back(cylinderInfo);		
 }
 
 // --- Vulkan Debug Messenger ---
@@ -254,7 +397,8 @@ private:
 
     // Procedural Generation
 
-    void createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices );
+    //void createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices );
+
 
     // --- Helper Functions ---
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -274,7 +418,7 @@ private:
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
     //Lab 2 Grid creation
-    void createGrid(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+    //void createGrid(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 	void createTerrain(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
@@ -321,9 +465,8 @@ void HelloTriangleApplication::initVulkan() {
     createCommandPool();
 
     loadModel();
-
-	//createTerrain(100, 100, vertices, indices);
-	createCylinder(0.3f,0.5f,vertices,indices);
+    //createTerrain(100, 100, vertices, indices);
+	//createCylinder(0.3f,0.5f,vertices,indices);
     createVertexBuffer();
     createIndexBuffer();
     createUniformBuffers();
@@ -331,6 +474,7 @@ void HelloTriangleApplication::initVulkan() {
     createDescriptorSets();
     createCommandBuffers();
     createSyncObjects();
+
 }
 
 void HelloTriangleApplication::mainLoop() {
@@ -341,34 +485,34 @@ void HelloTriangleApplication::mainLoop() {
     vkDeviceWaitIdle(device);
 }
 
-void HelloTriangleApplication::createGrid(const int width, const int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices) {
-	outVertices.clear();
-	outIndices.clear();
-
-    
-for (int i = 0; i < depth; ++i)
-    {
-        for (int j = 0; j < width; ++j)
-        {
-			Vertex vertex{};
-			float x = -((float)j / 2);
-			float y = -((float)i / 2);
-            float z = -1.0f;
-            vertex.pos = glm::vec3(x,y,z);
-			vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
-			outVertices.push_back(vertex);
-        }
-    }
-
-    for (int i = 0; i < depth - 1; ++i)
-    {
-        for (int j = 0; j < width; ++j)
-        {
-			outIndices.push_back(i * width + j);
-			outIndices.push_back((i + 1) * width + j);
-        }
-    }
-}
+//void HelloTriangleApplication::createGrid(const int width, const int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices) {
+//	outVertices.clear();
+//	outIndices.clear();
+//
+//    
+//for (int i = 0; i < depth; ++i)
+//    {
+//        for (int j = 0; j < width; ++j)
+//        {
+//			Vertex vertex{};
+//			float x = -((float)j / 2);
+//			float y = -((float)i / 2);
+//            float z = -1.0f;
+//            vertex.pos = glm::vec3(x,y,z);
+//			vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+//			outVertices.push_back(vertex);
+//        }
+//    }
+//
+//    for (int i = 0; i < depth - 1; ++i)
+//    {
+//        for (int j = 0; j < width; ++j)
+//        {
+//			outIndices.push_back(i * width + j);
+//			outIndices.push_back((i + 1) * width + j);
+//        }
+//    }
+//}
 
 std::vector<float> HelloTriangleApplication::gradient(float h)
 { 
@@ -442,65 +586,66 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
             outIndices.push_back(i * width + j);
             outIndices.push_back((i + 1) * width + j);
         }
+		outIndices.push_back(RESTART_INDEX);
     }
 }
 
-void HelloTriangleApplication::createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
-{
-    outVertices.clear();
-	outIndices.clear();
-
-    for (float i = 0.0f; i < glm::two_pi<float>(); i += cylinderIncrement)
-        {
-            float x = -(radius * cosf(i));
-            float y = -(radius * sinf(i));
-            Vertex vertex{};
-            vertex.pos = glm::vec3(x, y, 0.0f);
-            vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
-            outVertices.push_back(vertex);
-			Vertex vertex2{};
-            vertex2.pos = glm::vec3(x, y, 1.0f);
-            vertex2.color = glm::vec3(0.0f, 1.0f, 0.0f);
-			outVertices.push_back(vertex2);
-
-        }
-
-    for (int j = 0; j < outVertices.size() - 2; j += 2)
-    {
-        outIndices.push_back(j);
-        outIndices.push_back(j + 1);
-    }
-
-	outIndices.push_back(outVertices.size() - 2);
-	outIndices.push_back(outVertices.size() - 1);
-    outIndices.push_back(0);
-	outIndices.push_back(1);
-	outIndices.push_back(RESTART_INDEX);
-
-    Vertex centerBottom{};
-    centerBottom.pos = glm::vec3(0.0f, 0.0f, 0.0f);
-    centerBottom.color = glm::vec3(0.0f, 1.0f, 0.0f);
-    outVertices.push_back(centerBottom);
-
-    Vertex centerTop{};
-    centerTop.pos = glm::vec3(0.0f, 0.0f, 1.0f);
-    centerTop.color = glm::vec3(0.0f, 1.0f, 0.0f);
-    outVertices.push_back(centerTop);
-	
-    int centerBottomIndex = outVertices.size() - 2;
-    int centerTopIndex = outVertices.size() - 1;
-    for (int k = 0; k < outVertices.size() - 2; k += 2)
-    {
-        outIndices.push_back(centerBottomIndex);
-        outIndices.push_back(k);
-		outIndices.push_back(k + 2);
-        outIndices.push_back(RESTART_INDEX);
-        outIndices.push_back(centerTopIndex);
-        outIndices.push_back(k + 1);
-		outIndices.push_back(k + 3);
-        outIndices.push_back(RESTART_INDEX);
-	}
-}
+//void HelloTriangleApplication::createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+//{
+//    outVertices.clear();
+//	outIndices.clear();
+//
+//    for (float i = 0.0f; i < glm::two_pi<float>(); i += cylinderIncrement)
+//        {
+//            float x = -(radius * cosf(i));
+//            float y = -(radius * sinf(i));
+//            Vertex vertex{};
+//            vertex.pos = glm::vec3(x, y, 0.0f);
+//            vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+//            outVertices.push_back(vertex);
+//			Vertex vertex2{};
+//            vertex2.pos = glm::vec3(x, y, 1.0f);
+//            vertex2.color = glm::vec3(0.0f, 1.0f, 0.0f);
+//			outVertices.push_back(vertex2);
+//
+//        }
+//
+//    for (int j = 0; j < outVertices.size() - 2; j += 2)
+//    {
+//        outIndices.push_back(j);
+//        outIndices.push_back(j + 1);
+//    }
+//
+//	outIndices.push_back(outVertices.size() - 2);
+//	outIndices.push_back(outVertices.size() - 1);
+//    outIndices.push_back(0);
+//	outIndices.push_back(1);
+//	outIndices.push_back(RESTART_INDEX);
+//
+//    Vertex centerBottom{};
+//    centerBottom.pos = glm::vec3(0.0f, 0.0f, 0.0f);
+//    centerBottom.color = glm::vec3(0.0f, 1.0f, 0.0f);
+//    outVertices.push_back(centerBottom);
+//
+//    Vertex centerTop{};
+//    centerTop.pos = glm::vec3(0.0f, 0.0f, 1.0f);
+//    centerTop.color = glm::vec3(0.0f, 1.0f, 0.0f);
+//    outVertices.push_back(centerTop);
+//	
+//    int centerBottomIndex = outVertices.size() - 2;
+//    int centerTopIndex = outVertices.size() - 1;
+//    for (int k = 0; k < outVertices.size() - 2; k += 2)
+//    {
+//        outIndices.push_back(centerBottomIndex);
+//        outIndices.push_back(k);
+//		outIndices.push_back(k + 2);
+//        outIndices.push_back(RESTART_INDEX);
+//        outIndices.push_back(centerTopIndex);
+//        outIndices.push_back(k + 1);
+//		outIndices.push_back(k + 3);
+//        outIndices.push_back(RESTART_INDEX);
+//	}
+//}
 
 void HelloTriangleApplication::cleanup() {
     cleanupSwapChain();
@@ -1502,10 +1647,14 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
     vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
-	ModelPushConstant pushUBO{};
-    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+    for (const auto& shape : shapeDrawInfos)
+    {
+        ModelPushConstant pushUBO{};
+        pushUBO.model = shape.modelMatrix; //* glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+        vkCmdDrawIndexed(commandBuffer, shape.indexCount, 1, shape.indexOffset, 0, 0);
+    }
+
 
     //pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
 		//glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));

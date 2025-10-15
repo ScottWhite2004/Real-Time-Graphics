@@ -25,8 +25,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
@@ -78,7 +82,7 @@
               "RelativeDocumentMoniker": "Lab_Tutorial_Template.cpp",
               "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
               "RelativeToolTip": "Lab_Tutorial_Template.cpp",
-              "ViewState": "AgIAAF8EAAAAAAAAAAAqwHoEAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAqwJ0AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-10-07T12:22:05.895Z",
               "EditorCaption": ""
