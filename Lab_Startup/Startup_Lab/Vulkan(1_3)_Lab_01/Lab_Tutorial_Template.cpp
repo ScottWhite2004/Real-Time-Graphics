@@ -285,30 +285,30 @@ void loadModel() {
 	//shapeDrawInfos.push_back(cylinderInfo);
     // 
     
-    //Lab B Exercise 5
-	//Assimp::Importer importer;
- //   const aiScene* scene = importer.ReadFile("20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
- //   aiMesh* mesh = scene->mMeshes[0];
+    Lab B Exercise 5
+	Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile("20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
+    aiMesh* mesh = scene->mMeshes[0];
 
- //   for (unsigned int i = 0; i < mesh->mNumVertices; i++)
- //   {
- //       Vertex vertex{};
- //       vertex.pos = {
- //           mesh->mVertices[i].x / 3.0f,
- //           mesh->mVertices[i].y / 3.0f,
- //           mesh->mVertices[i].z / 3.0f,
-	//	};
+    for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+    {
+        Vertex vertex{};
+        vertex.pos = {
+            mesh->mVertices[i].x / 3.0f,
+            mesh->mVertices[i].y / 3.0f,
+            mesh->mVertices[i].z / 3.0f,
+		};
 
-	//	vertex.color = { 0.0f, 1.0f, 0.0f };
-	//	vertices.push_back(vertex);
- //   }
+		vertex.color = { 0.0f, 1.0f, 0.0f };
+		vertices.push_back(vertex);
+    }
 
- //   for(unsigned int i = 0; i < mesh->mNumFaces; i++)
- //   {
- //       aiFace face = mesh->mFaces[i];
- //       for (unsigned int j = 0; j < face.mNumIndices; j++)
- //           indices.push_back(face.mIndices[j]);
-	//}
+    for(unsigned int i = 0; i < mesh->mNumFaces; i++)
+    {
+        aiFace face = mesh->mFaces[i];
+        for (unsigned int j = 0; j < face.mNumIndices; j++)
+            indices.push_back(face.mIndices[j]);
+	}
 }
 
 // --- Vulkan Debug Messenger ---
