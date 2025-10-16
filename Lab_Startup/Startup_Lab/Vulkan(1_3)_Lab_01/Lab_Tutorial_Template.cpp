@@ -5,6 +5,11 @@
 #define GLFW_INCLUDE_VULKAN
 #define RESTART_INDEX 0xFFFFFFFF
 #include <GLFW/glfw3.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -246,36 +251,64 @@ std::vector<Vertex> vertices;
 std::vector<uint32_t> indices;
 
 void loadModel() {
-	vertices.clear();
-	indices.clear();
-	shapeDrawInfos.clear();
+	
+    //Lab B Exercise 4
+    //vertices.clear();
+	//indices.clear();
+	//shapeDrawInfos.clear();
+ //   
+	//auto [gridVertices, gridIndices] = geometryGenerator::CreateGrid(50, 50);
+	//auto [cylinderVertices, cylinderIndices] = geometryGenerator::CreateCylinder(0.5f, 20,2.0f);
     
-	auto [gridVertices, gridIndices] = geometryGenerator::CreateGrid(50, 50);
-	auto [cylinderVertices, cylinderIndices] = geometryGenerator::CreateCylinder(0.5f, 20,2.0f);
-    
-    ShapeDrawInfo gridInfo;
-	gridInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
-	gridInfo.indexOffset = static_cast<uint32_t>(indices.size());
-	gridInfo.indexCount = static_cast<uint32_t>(gridIndices.size());
-	gridInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
-	vertices.insert(vertices.end(), gridVertices.begin(), gridVertices.end());
-    for (auto idx : gridIndices)
-    {
-		indices.push_back(idx + gridInfo.vertexOffset);
-    }
-	shapeDrawInfos.push_back(gridInfo);
+ //   ShapeDrawInfo gridInfo;
+	//gridInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
+	//gridInfo.indexOffset = static_cast<uint32_t>(indices.size());
+	//gridInfo.indexCount = static_cast<uint32_t>(gridIndices.size());
+	//gridInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
+	//vertices.insert(vertices.end(), gridVertices.begin(), gridVertices.end());
+ //   for (auto idx : gridIndices)
+ //   {
+	//	indices.push_back(idx + gridInfo.vertexOffset);
+ //   }
+	//shapeDrawInfos.push_back(gridInfo);
 
-	ShapeDrawInfo cylinderInfo;
-	cylinderInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
-	cylinderInfo.indexOffset = static_cast<uint32_t>(indices.size());
-	cylinderInfo.indexCount = static_cast<uint32_t>(cylinderIndices.size());
-	cylinderInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
-    vertices.insert(vertices.end(), cylinderVertices.begin(), cylinderVertices.end());
-    for (auto idx : cylinderIndices)
+	//ShapeDrawInfo cylinderInfo;
+	//cylinderInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
+	//cylinderInfo.indexOffset = static_cast<uint32_t>(indices.size());
+	//cylinderInfo.indexCount = static_cast<uint32_t>(cylinderIndices.size());
+	//cylinderInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
+ //   vertices.insert(vertices.end(), cylinderVertices.begin(), cylinderVertices.end());
+ //   for (auto idx : cylinderIndices)
+ //   {
+ //       indices.push_back(idx == RESTART_INDEX ? RESTART_INDEX : idx + cylinderInfo.vertexOffset);
+	//}
+	//shapeDrawInfos.push_back(cylinderInfo);
+    // 
+    
+    //Lab B Exercise 5
+	Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile("C:\\Users\\712769\\Workspace\\Real - Time - Graphics\\Lab_Startup\\Startup_Lab\\20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
+    aiMesh* mesh = scene->mMeshes[0];
+
+    for (unsigned int i = 0; i < mesh->mNumVertices; i++)
     {
-        indices.push_back(idx == RESTART_INDEX ? RESTART_INDEX : idx + cylinderInfo.vertexOffset);
+        Vertex vertex{};
+        vertex.pos = {
+            mesh->mVertices[i].x,
+            mesh->mVertices[i].y,
+            mesh->mVertices[i].z
+		};
+
+		vertex.color = { 0.0f, 1.0f, 0.0f };
+		vertices.push_back(vertex);
+    }
+
+    for(unsigned int i = 0; i < mesh->mNumFaces; i++)
+    {
+        aiFace face = mesh->mFaces[i];
+        for (unsigned int j = 0; j < face.mNumIndices; j++)
+            indices.push_back(face.mIndices[j]);
 	}
-	shapeDrawInfos.push_back(cylinderInfo);		
 }
 
 // --- Vulkan Debug Messenger ---
@@ -1647,13 +1680,21 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
     vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
-    for (const auto& shape : shapeDrawInfos)
-    {
-        ModelPushConstant pushUBO{};
-        pushUBO.model = shape.modelMatrix; //* glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-        vkCmdDrawIndexed(commandBuffer, shape.indexCount, 1, shape.indexOffset, 0, 0);
-    }
+    
+	// Draw multiple objects with offsets
+    //for (const auto& shape : shapeDrawInfos)
+    //{
+    //    ModelPushConstant pushUBO{};
+    //    pushUBO.model = shape.modelMatrix; //* glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    //    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    //    vkCmdDrawIndexed(commandBuffer, shape.indexCount, 1, shape.indexOffset, 0, 0);
+    //}
+
+    // Draw a singular object with not offsets    
+    //ModelPushConstant pushUBO{};
+    //pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(3.0f, 3.0f, 0.0f)); //* glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    //vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    //vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
 
     //pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
