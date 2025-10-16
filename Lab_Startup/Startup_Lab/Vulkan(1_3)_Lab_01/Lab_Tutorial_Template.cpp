@@ -286,29 +286,29 @@ void loadModel() {
     // 
     
     //Lab B Exercise 5
-	Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile("C:\\Users\\712769\\Workspace\\Real - Time - Graphics\\Lab_Startup\\Startup_Lab\\20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
-    aiMesh* mesh = scene->mMeshes[0];
+	//Assimp::Importer importer;
+ //   const aiScene* scene = importer.ReadFile("20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
+ //   aiMesh* mesh = scene->mMeshes[0];
 
-    for (unsigned int i = 0; i < mesh->mNumVertices; i++)
-    {
-        Vertex vertex{};
-        vertex.pos = {
-            mesh->mVertices[i].x,
-            mesh->mVertices[i].y,
-            mesh->mVertices[i].z
-		};
+ //   for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+ //   {
+ //       Vertex vertex{};
+ //       vertex.pos = {
+ //           mesh->mVertices[i].x / 3.0f,
+ //           mesh->mVertices[i].y / 3.0f,
+ //           mesh->mVertices[i].z / 3.0f,
+	//	};
 
-		vertex.color = { 0.0f, 1.0f, 0.0f };
-		vertices.push_back(vertex);
-    }
+	//	vertex.color = { 0.0f, 1.0f, 0.0f };
+	//	vertices.push_back(vertex);
+ //   }
 
-    for(unsigned int i = 0; i < mesh->mNumFaces; i++)
-    {
-        aiFace face = mesh->mFaces[i];
-        for (unsigned int j = 0; j < face.mNumIndices; j++)
-            indices.push_back(face.mIndices[j]);
-	}
+ //   for(unsigned int i = 0; i < mesh->mNumFaces; i++)
+ //   {
+ //       aiFace face = mesh->mFaces[i];
+ //       for (unsigned int j = 0; j < face.mNumIndices; j++)
+ //           indices.push_back(face.mIndices[j]);
+	//}
 }
 
 // --- Vulkan Debug Messenger ---
@@ -430,7 +430,7 @@ private:
 
     // Procedural Generation
 
-    //void createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices );
+    void createCylinder(int Segments, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices );
 
 
     // --- Helper Functions ---
@@ -451,7 +451,7 @@ private:
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
     //Lab 2 Grid creation
-    //void createGrid(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+    void createGrid(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 	void createTerrain(int width, int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
@@ -499,7 +499,8 @@ void HelloTriangleApplication::initVulkan() {
 
     loadModel();
     //createTerrain(100, 100, vertices, indices);
-	//createCylinder(0.3f,0.5f,vertices,indices);
+	createCylinder(20,0.5f,vertices,indices);
+	//createGrid(50, 50, vertices, indices);
     createVertexBuffer();
     createIndexBuffer();
     createUniformBuffers();
@@ -518,34 +519,35 @@ void HelloTriangleApplication::mainLoop() {
     vkDeviceWaitIdle(device);
 }
 
-//void HelloTriangleApplication::createGrid(const int width, const int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices) {
-//	outVertices.clear();
-//	outIndices.clear();
-//
-//    
-//for (int i = 0; i < depth; ++i)
-//    {
-//        for (int j = 0; j < width; ++j)
-//        {
-//			Vertex vertex{};
-//			float x = -((float)j / 2);
-//			float y = -((float)i / 2);
-//            float z = -1.0f;
-//            vertex.pos = glm::vec3(x,y,z);
-//			vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
-//			outVertices.push_back(vertex);
-//        }
-//    }
-//
-//    for (int i = 0; i < depth - 1; ++i)
-//    {
-//        for (int j = 0; j < width; ++j)
-//        {
-//			outIndices.push_back(i * width + j);
-//			outIndices.push_back((i + 1) * width + j);
-//        }
-//    }
-//}
+void HelloTriangleApplication::createGrid(const int width, const int depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices) {
+	outVertices.clear();
+	outIndices.clear();
+
+    
+for (int i = 0; i < depth; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+			Vertex vertex{};
+			float x = -((float)j / 2);
+			float y = -((float)i / 2);
+            float z = -1.0f;
+            vertex.pos = glm::vec3(x,y,z);
+			vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+			outVertices.push_back(vertex);
+        }
+    }
+
+    for (int i = 0; i < depth - 1; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+			outIndices.push_back(i * width + j);
+			outIndices.push_back((i + 1) * width + j);
+        }
+		outIndices.push_back(RESTART_INDEX);
+    }
+}
 
 std::vector<float> HelloTriangleApplication::gradient(float h)
 { 
@@ -623,62 +625,62 @@ void HelloTriangleApplication::createTerrain(int width, int depth, std::vector<V
     }
 }
 
-//void HelloTriangleApplication::createCylinder(float cylinderIncrement, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
-//{
-//    outVertices.clear();
-//	outIndices.clear();
-//
-//    for (float i = 0.0f; i < glm::two_pi<float>(); i += cylinderIncrement)
-//        {
-//            float x = -(radius * cosf(i));
-//            float y = -(radius * sinf(i));
-//            Vertex vertex{};
-//            vertex.pos = glm::vec3(x, y, 0.0f);
-//            vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
-//            outVertices.push_back(vertex);
-//			Vertex vertex2{};
-//            vertex2.pos = glm::vec3(x, y, 1.0f);
-//            vertex2.color = glm::vec3(0.0f, 1.0f, 0.0f);
-//			outVertices.push_back(vertex2);
-//
-//        }
-//
-//    for (int j = 0; j < outVertices.size() - 2; j += 2)
-//    {
-//        outIndices.push_back(j);
-//        outIndices.push_back(j + 1);
-//    }
-//
-//	outIndices.push_back(outVertices.size() - 2);
-//	outIndices.push_back(outVertices.size() - 1);
-//    outIndices.push_back(0);
-//	outIndices.push_back(1);
-//	outIndices.push_back(RESTART_INDEX);
-//
-//    Vertex centerBottom{};
-//    centerBottom.pos = glm::vec3(0.0f, 0.0f, 0.0f);
-//    centerBottom.color = glm::vec3(0.0f, 1.0f, 0.0f);
-//    outVertices.push_back(centerBottom);
-//
-//    Vertex centerTop{};
-//    centerTop.pos = glm::vec3(0.0f, 0.0f, 1.0f);
-//    centerTop.color = glm::vec3(0.0f, 1.0f, 0.0f);
-//    outVertices.push_back(centerTop);
-//	
-//    int centerBottomIndex = outVertices.size() - 2;
-//    int centerTopIndex = outVertices.size() - 1;
-//    for (int k = 0; k < outVertices.size() - 2; k += 2)
-//    {
-//        outIndices.push_back(centerBottomIndex);
-//        outIndices.push_back(k);
-//		outIndices.push_back(k + 2);
-//        outIndices.push_back(RESTART_INDEX);
-//        outIndices.push_back(centerTopIndex);
-//        outIndices.push_back(k + 1);
-//		outIndices.push_back(k + 3);
-//        outIndices.push_back(RESTART_INDEX);
-//	}
-//}
+void HelloTriangleApplication::createCylinder(int segments, float radius, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+    outVertices.clear();
+	outIndices.clear();
+
+    for (float i = 0.0f; i < glm::two_pi<float>(); i += glm::two_pi<float>()/ segments)
+        {
+            float x = -(radius * cosf(i));
+            float y = -(radius * sinf(i));
+            Vertex vertex{};
+            vertex.pos = glm::vec3(x, y, 0.0f);
+            vertex.color = glm::vec3(0.0f, 1.0f, 0.0f);
+            outVertices.push_back(vertex);
+			Vertex vertex2{};
+            vertex2.pos = glm::vec3(x, y, 1.0f);
+            vertex2.color = glm::vec3(0.0f, 1.0f, 0.0f);
+			outVertices.push_back(vertex2);
+
+        }
+
+    for (int j = 0; j < outVertices.size() - 2; j += 2)
+    {
+        outIndices.push_back(j);
+        outIndices.push_back(j + 1);
+    }
+
+	outIndices.push_back(outVertices.size() - 2);
+	outIndices.push_back(outVertices.size() - 1);
+    outIndices.push_back(0);
+	outIndices.push_back(1);
+	outIndices.push_back(RESTART_INDEX);
+
+    Vertex centerBottom{};
+    centerBottom.pos = glm::vec3(0.0f, 0.0f, 0.0f);
+    centerBottom.color = glm::vec3(0.0f, 1.0f, 0.0f);
+    outVertices.push_back(centerBottom);
+
+    Vertex centerTop{};
+    centerTop.pos = glm::vec3(0.0f, 0.0f, 1.0f);
+    centerTop.color = glm::vec3(0.0f, 1.0f, 0.0f);
+    outVertices.push_back(centerTop);
+	
+    int centerBottomIndex = outVertices.size() - 2;
+    int centerTopIndex = outVertices.size() - 1;
+    for (int k = 0; k < outVertices.size() - 2; k += 2)
+    {
+        outIndices.push_back(centerBottomIndex);
+        outIndices.push_back(k);
+		outIndices.push_back(k + 2);
+        outIndices.push_back(RESTART_INDEX);
+        outIndices.push_back(centerTopIndex);
+        outIndices.push_back(k + 1);
+		outIndices.push_back(k + 3);
+        outIndices.push_back(RESTART_INDEX);
+	}
+}
 
 void HelloTriangleApplication::cleanup() {
     cleanupSwapChain();
@@ -1691,10 +1693,10 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     //}
 
     // Draw a singular object with not offsets    
-    //ModelPushConstant pushUBO{};
-    //pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(3.0f, 3.0f, 0.0f)); //* glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    //vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    //vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+    ModelPushConstant pushUBO{};
+    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));  // * glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
 
     //pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
