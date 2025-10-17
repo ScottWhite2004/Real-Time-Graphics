@@ -214,13 +214,13 @@ struct ModelPushConstant
 
 const std::vector<Vertex> Quad_vertices = {
     {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
     {{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{-0.5f,-0.5f,-0.5f},{0.0f,1.0f,0.0f}},
-    {{0.5f,-0.5f,-0.5f},{0.0f,1.0f,0.0f}},
+    {{-0.5f,-0.5f,-0.5f},{1.0f,0.0f,0.0f}},
+    {{0.5f,-0.5f,-0.5f},{0.0f,0.0f,1.0f}},
     {{0.5f,0.5f,-0.5f},{0.0f,1.0f,0.0f}},
-	{{-0.5f,0.5f,-0.5f},{0.0f,1.0f,0.0f}}
+	{{-0.5f,0.5f,-0.5f},{1.0f,0.0f,0.0f}}
 };
 
 const std::vector<uint16_t> Quad_indices = {
@@ -252,6 +252,9 @@ std::vector<uint32_t> indices;
 
 void loadModel() {
 	
+	indices = triangle_Strip_Indices;
+	vertices = Quad_vertices;
+    
     //Lab B Exercise 4
     //vertices.clear();
 	//indices.clear();
@@ -285,30 +288,30 @@ void loadModel() {
 	//shapeDrawInfos.push_back(cylinderInfo);
     // 
     
-    Lab B Exercise 5
-	Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile("20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
-    aiMesh* mesh = scene->mMeshes[0];
+    //Lab B Exercise 5
+	//Assimp::Importer importer;
+ //   const aiScene* scene = importer.ReadFile("20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
+ //   aiMesh* mesh = scene->mMeshes[0];
 
-    for (unsigned int i = 0; i < mesh->mNumVertices; i++)
-    {
-        Vertex vertex{};
-        vertex.pos = {
-            mesh->mVertices[i].x / 3.0f,
-            mesh->mVertices[i].y / 3.0f,
-            mesh->mVertices[i].z / 3.0f,
-		};
+ //   for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+ //   {
+ //       Vertex vertex{};
+ //       vertex.pos = {
+ //           mesh->mVertices[i].x / 3.0f,
+ //           mesh->mVertices[i].y / 3.0f,
+ //           mesh->mVertices[i].z / 3.0f,
+	//	};
 
-		vertex.color = { 0.0f, 1.0f, 0.0f };
-		vertices.push_back(vertex);
-    }
+	//	vertex.color = { 0.0f, 1.0f, 0.0f };
+	//	vertices.push_back(vertex);
+ //   }
 
-    for(unsigned int i = 0; i < mesh->mNumFaces; i++)
-    {
-        aiFace face = mesh->mFaces[i];
-        for (unsigned int j = 0; j < face.mNumIndices; j++)
-            indices.push_back(face.mIndices[j]);
-	}
+ //   for(unsigned int i = 0; i < mesh->mNumFaces; i++)
+ //   {
+ //       aiFace face = mesh->mFaces[i];
+ //       for (unsigned int j = 0; j < face.mNumIndices; j++)
+ //           indices.push_back(face.mIndices[j]);
+	//}
 }
 
 // --- Vulkan Debug Messenger ---
@@ -499,7 +502,7 @@ void HelloTriangleApplication::initVulkan() {
 
     loadModel();
     //createTerrain(100, 100, vertices, indices);
-	createCylinder(20,0.5f,vertices,indices);
+	//createCylinder(20,0.5f,vertices,indices);
 	//createGrid(50, 50, vertices, indices);
     createVertexBuffer();
     createIndexBuffer();
@@ -1324,8 +1327,8 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     rasterizer.depthClampEnable = VK_FALSE;
     rasterizer.rasterizerDiscardEnable = VK_FALSE;
-    rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
-    //rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+    //rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
+    rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizer.lineWidth = 1.0f;
     rasterizer.cullMode = VK_CULL_MODE_NONE;
     rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
@@ -1694,15 +1697,21 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
 
     // Draw a singular object with not offsets    
     ModelPushConstant pushUBO{};
-    pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));  // * glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::rotate(model, time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
+	pushUBO.model = model;
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+    
+    
+    glm::mat4 model2 = glm::mat4(1.0f);
+    pushUBO.model = model2;
     vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
 
-    //pushUBO.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) *
-		//glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    //vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    //vkCmdDrawIndexed(commandBuffer, triangle_Strip_Indices.size(), 1, 0, 0, 0);
+
 
     vkCmdEndRendering(commandBuffer);
 
