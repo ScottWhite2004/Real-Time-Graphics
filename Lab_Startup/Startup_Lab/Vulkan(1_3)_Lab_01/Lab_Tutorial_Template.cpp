@@ -776,7 +776,7 @@ void HelloTriangleApplication::cleanup() {
     if (enableValidationLayers) {
         DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     }
-
+    
     vkDestroySurfaceKHR(instance, surface, nullptr);
     vkDestroyInstance(instance, nullptr);
 
@@ -1784,7 +1784,7 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
     
     float angle = time * glm::radians(90.0f);
-    float orbitRadius = 3.0f;
+    float orbitRadius = 4.0f;
 
     glm::mat4 model2 = glm::mat4(1.0f);
     model2 = glm::translate(model2, glm::vec3(0.0f, 0.0f, 0.0f));
