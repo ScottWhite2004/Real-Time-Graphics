@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Shaders\\shader.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Shaders\\shader.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,19 +22,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "shader.frag",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\shader.frag",
               "RelativeDocumentMoniker": "SHADERS\\shader.frag",
@@ -47,7 +43,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "shader.vert",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\shader.vert",
               "RelativeDocumentMoniker": "SHADERS\\shader.vert",
@@ -66,7 +62,7 @@
               "RelativeDocumentMoniker": "Lab_Tutorial_Template.cpp",
               "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
               "RelativeToolTip": "Lab_Tutorial_Template.cpp",
-              "ViewState": "AgIAALkGAAAAAAAAAAAewNAGAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAM8GAAAAAAAAAAAnwPoGAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-10-07T12:22:05.895Z",
               "EditorCaption": ""

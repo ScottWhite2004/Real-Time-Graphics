@@ -250,6 +250,10 @@ const std::vector<uint32_t> triangle_Strip_Indices = {
 std::vector<Vertex> vertices;
 std::vector<uint32_t> indices;
 
+VkImage depthImage;
+VkDeviceMemory depthImageMemory;
+VkImageView depthImageView;
+
 void loadModel() {
 	
 	indices = triangle_Strip_Indices;
@@ -385,6 +389,9 @@ private:
     std::vector<VkSemaphore> renderFinishedSemaphores;
     std::vector<VkFence> inFlightFences;
 
+    //Depth Buffer Creation
+	void createDepthResources();
+
     // --- Main Flow ---
     void initWindow();
     void initVulkan();
@@ -477,6 +484,58 @@ void HelloTriangleApplication::run() {
     cleanup();
 }
 
+void HelloTriangleApplication::createDepthResources()
+{
+	VkFormat depthFormat = VK_FORMAT_D32_SFLOAT;
+    VkImageCreateInfo imageInfo{};
+	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+	imageInfo.imageType = VK_IMAGE_TYPE_2D;
+	imageInfo.extent.width = swapChainExtent.width;
+	imageInfo.extent.height = swapChainExtent.height;
+	imageInfo.extent.depth = 1;
+	imageInfo.mipLevels = 1;
+	imageInfo.arrayLayers = 1;
+	imageInfo.format = depthFormat;
+	imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+	imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	imageInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+	imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+	imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+    if (vkCreateImage(device, &imageInfo, nullptr, &depthImage) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create depth image!");
+	}
+
+	VkMemoryRequirements memRequirements;
+	vkGetImageMemoryRequirements(device, depthImage, &memRequirements);
+	VkMemoryAllocateInfo allocInfo{};
+	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+	allocInfo.allocationSize = memRequirements.size;
+	allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+    if (vkAllocateMemory(device, &allocInfo, nullptr, &depthImageMemory) != VK_SUCCESS) {
+        throw std::runtime_error("failed to allocate depth image memory!");
+	}
+
+	vkBindImageMemory(device, depthImage, depthImageMemory, 0);
+	VkImageViewCreateInfo viewInfo{};
+	viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+	viewInfo.image = depthImage;
+	viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	viewInfo.format = depthFormat;
+	viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+	viewInfo.subresourceRange.baseMipLevel = 0;
+	viewInfo.subresourceRange.levelCount = 1;
+	viewInfo.subresourceRange.baseArrayLayer = 0;
+    viewInfo.subresourceRange.layerCount = 1;
+    
+    if (vkCreateImageView(device, &viewInfo, nullptr, &depthImageView) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create depth image view!");
+	}
+
+
+}
+
 void HelloTriangleApplication::initWindow() {
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -492,6 +551,7 @@ void HelloTriangleApplication::initVulkan() {
     pickPhysicalDevice();
     createLogicalDevice();
     createSwapChain();
+	createDepthResources();
     createImageViews();
     createDescriptorSetLayout();
 	//createWireFrameGraphicsPipeline();
@@ -1334,6 +1394,14 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
     rasterizer.depthBiasEnable = VK_FALSE;
 
+	VkPipelineDepthStencilStateCreateInfo depthStencil{};
+	depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+	depthStencil.depthTestEnable = VK_TRUE;
+	depthStencil.depthWriteEnable = VK_TRUE;
+	depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+	depthStencil.depthBoundsTestEnable = VK_FALSE;
+	depthStencil.stencilTestEnable = VK_FALSE;
+
     VkPipelineMultisampleStateCreateInfo multisampling{};
     multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
     multisampling.sampleShadingEnable = VK_FALSE;
@@ -1386,6 +1454,7 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     pipelineInfo.layout = pipelineLayout;
     pipelineInfo.renderPass = VK_NULL_HANDLE;
     pipelineInfo.subpass = 0;
+	pipelineInfo.pDepthStencilState = &depthStencil;
 
     if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
         throw std::runtime_error("Failed to create graphics pipeline!");
@@ -1658,12 +1727,21 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
     colorAttachment.clearValue.color = { {0.0f, 0.0f, 0.0f, 1.0f} };
 
+	VkRenderingAttachmentInfo depthAttachment{};
+	depthAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
+	depthAttachment.imageView = depthImageView;
+	depthAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	depthAttachment.clearValue.depthStencil = { 1.0f, 0 };
+
     VkRenderingInfo renderingInfo{};
     renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO;
     renderingInfo.renderArea = { {0, 0}, swapChainExtent };
     renderingInfo.layerCount = 1;
     renderingInfo.colorAttachmentCount = 1;
     renderingInfo.pColorAttachments = &colorAttachment;
+	renderingInfo.pDepthAttachment = &depthAttachment;
 
     vkCmdBeginRendering(commandBuffer, &renderingInfo);
 
@@ -1695,20 +1773,39 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     //    vkCmdDrawIndexed(commandBuffer, shape.indexCount, 1, shape.indexOffset, 0, 0);
     //}
 
-    // Draw a singular object with not offsets    
+    // Draw a singular object with not offsets        
+   
     ModelPushConstant pushUBO{};
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model, time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
-	pushUBO.model = model;
+	
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 2.0f));
+    pushUBO.model = model;
     vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
     
-    
+    float angle = time * glm::radians(90.0f);
+    float orbitRadius = 3.0f;
+
     glm::mat4 model2 = glm::mat4(1.0f);
+    model2 = glm::translate(model2, glm::vec3(0.0f, 0.0f, 0.0f));
+	model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+	model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
+	model2 = glm::scale(model2, glm::vec3(0.5f, 0.5f, 0.5f));
     pushUBO.model = model2;
     vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+    
+    
+
+
+
+
+
+//model = glm::rotate(model, time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
+    
+    
+
 
 
 
@@ -1742,7 +1839,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    ubo.view = glm::lookAt(glm::vec3(2.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.proj = glm::perspective(glm::radians(90.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 200.0f);
     ubo.proj[1][1] *= -1;
 
