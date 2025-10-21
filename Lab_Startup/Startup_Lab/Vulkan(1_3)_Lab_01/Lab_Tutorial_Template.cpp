@@ -250,9 +250,10 @@ const std::vector<uint32_t> triangle_Strip_Indices = {
 std::vector<Vertex> vertices;
 std::vector<uint32_t> indices;
 
-VkImage depthImage;
-VkDeviceMemory depthImageMemory;
-VkImageView depthImageView;
+VkFormat depthFormat = VK_FORMAT_D32_SFLOAT;
+VkImage depthImage = VK_NULL_HANDLE;
+VkDeviceMemory depthImageMemory = VK_NULL_HANDLE;
+VkImageView depthImageView = VK_NULL_HANDLE;
 
 void loadModel() {
 	
@@ -486,7 +487,8 @@ void HelloTriangleApplication::run() {
 
 void HelloTriangleApplication::createDepthResources()
 {
-	VkFormat depthFormat = VK_FORMAT_D32_SFLOAT;
+	depthFormat = VK_FORMAT_D32_SFLOAT;
+    
     VkImageCreateInfo imageInfo{};
 	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 	imageInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -1438,6 +1440,7 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     renderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO;
     renderingCreateInfo.colorAttachmentCount = 1;
     renderingCreateInfo.pColorAttachmentFormats = &swapChainImageFormat;
+	renderingCreateInfo.depthAttachmentFormat = depthFormat;
 
     VkGraphicsPipelineCreateInfo pipelineInfo{};
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -1683,6 +1686,7 @@ void HelloTriangleApplication::recreateSwapChain() {
     vkDeviceWaitIdle(device);
     cleanupSwapChain();
     createSwapChain();
+	createDepthResources();
     createImageViews();
 }
 
@@ -1691,6 +1695,19 @@ void HelloTriangleApplication::cleanupSwapChain() {
         vkDestroyImageView(device, imageView, nullptr);
     }
     vkDestroySwapchainKHR(device, swapChain, nullptr);
+
+    if (depthImageView != VK_NULL_HANDLE) {
+        vkDestroyImageView(device, depthImageView, nullptr);
+        depthImageView = VK_NULL_HANDLE;
+    }
+    if (depthImage != VK_NULL_HANDLE) {
+        vkDestroyImage(device, depthImage, nullptr);
+        depthImage = VK_NULL_HANDLE;
+    }
+    if (depthImageMemory != VK_NULL_HANDLE) {
+        vkFreeMemory(device, depthImageMemory, nullptr);
+        depthImageMemory = VK_NULL_HANDLE;
+    }
 }
 
 void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
@@ -1713,10 +1730,21 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     imageBarrierToAttachment.image = swapChainImages[imageIndex];
     imageBarrierToAttachment.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
 
+	VkImageMemoryBarrier2 depthImageBarrierToAttachment{};
+	depthImageBarrierToAttachment.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
+	depthImageBarrierToAttachment.srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
+	depthImageBarrierToAttachment.dstStageMask = VK_PIPELINE_STAGE_2_EARLY_FRAGMENT_TESTS_BIT;
+	depthImageBarrierToAttachment.dstAccessMask = VK_ACCESS_2_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+	depthImageBarrierToAttachment.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	depthImageBarrierToAttachment.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	depthImageBarrierToAttachment.image = depthImage;
+	depthImageBarrierToAttachment.subresourceRange = { VK_IMAGE_ASPECT_DEPTH_BIT, 0, 1, 0, 1 };
+
+
     VkDependencyInfo dependencyInfoToAttachment{};
     dependencyInfoToAttachment.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
     dependencyInfoToAttachment.imageMemoryBarrierCount = 1;
-    dependencyInfoToAttachment.pImageMemoryBarriers = &imageBarrierToAttachment;
+	dependencyInfoToAttachment.pImageMemoryBarriers = &depthImageBarrierToAttachment;
     vkCmdPipelineBarrier2(commandBuffer, &dependencyInfoToAttachment);
 
     VkRenderingAttachmentInfo colorAttachment{};
@@ -1775,23 +1803,53 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
 
     // Draw a singular object with not offsets        
    
+    //Cube and axis 1
     ModelPushConstant pushUBO{};
 	
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 2.0f));
+	model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
     pushUBO.model = model;
     vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
     
     float angle = time * glm::radians(90.0f);
-    float orbitRadius = 4.0f;
+    float orbitRadius = 1.0f;
 
     glm::mat4 model2 = glm::mat4(1.0f);
-    model2 = glm::translate(model2, glm::vec3(0.0f, 0.0f, 0.0f));
+    model2 = glm::translate(model2, glm::vec3(0.0f, -2.0f, 0.75f));
 	model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
 	model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
-	model2 = glm::scale(model2, glm::vec3(0.5f, 0.5f, 0.5f));
+	model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
     pushUBO.model = model2;
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+
+    //Cube and axis 2;
+    
+    model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
+    pushUBO.model = model;
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+
+    angle = time * glm::radians(45.0f);
+    orbitRadius = 1.0f;
+
+    model2 = glm::mat4(1.0f);
+    model2 = glm::translate(model2, glm::vec3(0.0f, 2.0f, 0.75f));
+    model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+    model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
+    model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
+    pushUBO.model = model2;
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
+    model = glm::scale(model, glm::vec3(6.0f, 6.0f, 0.25f));
+    pushUBO.model = model;
     vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
     
@@ -1839,7 +1897,8 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    ubo.view = glm::lookAt(glm::vec3(2.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    float cameraDistance = 5.0f;
+    ubo.view = glm::lookAt(glm::vec3(cameraDistance, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.proj = glm::perspective(glm::radians(90.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 200.0f);
     ubo.proj[1][1] *= -1;
 

@@ -1,34 +1,37 @@
 ﻿  Lab_Tutorial_Template.cpp
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:         with
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:         [
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:             _Ty=uint32_t
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:         ]
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:         with
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:         [
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:             _Ty=uint32_t
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:         ]
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(191,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(192,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(635,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(636,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(643,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(644,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(645,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(646,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(717,42): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(717,42): warning C4267:         with
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(717,42): warning C4267:         [
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(717,42): warning C4267:             _Ty=uint32_t
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(717,42): warning C4267:         ]
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(718,42): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(718,42): warning C4267:         with
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(718,42): warning C4267:         [
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(718,42): warning C4267:             _Ty=uint32_t
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(718,42): warning C4267:         ]
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(733,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(734,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(1784,49): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
-C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(1796,49): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
-  Lab_Tutorial_Template.vcxproj -> C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\x64\Debug\Lab_Tutorial_Template(Vulkan1_3).exe
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:         with
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:         [
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:             _Ty=uint32_t
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(175,49): warning C4267:         ]
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:         with
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:         [
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:             _Ty=uint32_t
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(176,49): warning C4267:         ]
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(191,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(192,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(637,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(638,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(645,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(646,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(647,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(648,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(719,42): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(719,42): warning C4267:         with
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(719,42): warning C4267:         [
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(719,42): warning C4267:             _Ty=uint32_t
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(719,42): warning C4267:         ]
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(720,42): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(720,42): warning C4267:         with
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(720,42): warning C4267:         [
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(720,42): warning C4267:             _Ty=uint32_t
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(720,42): warning C4267:         ]
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(735,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(736,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(1814,49): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(1826,49): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(1835,49): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(1847,49): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\Lab_Tutorial_Template.cpp(1854,49): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+  Lab_Tutorial_Template.vcxproj -> E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\x64\Debug\Lab_Tutorial_Template(Vulkan1_3).exe

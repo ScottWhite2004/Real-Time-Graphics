@@ -188,7 +188,7 @@
     <LocalDebuggerEnvironment>PATH=$(VULKAN_SDK)\Bin
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LibraryPath>C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan%281_3%29_Lab_01\packages\assimp_native.4.0.1\build\native\lib\x64\v140\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\UniTemp\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan%281_3%29_Lab_01\packages\assimp_native.4.0.1\build\native\lib\x64\v140\Debug;C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan%281_3%29_Lab_01\packages\assimp_native.4.0.1\build\native\lib\x64\v140\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerEnvironment>PATH=$(VULKAN_SDK)\Bin
