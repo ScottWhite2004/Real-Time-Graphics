@@ -1803,69 +1803,139 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
 
     // Draw a singular object with not offsets        
    
-    //Cube and axis 1
-    ModelPushConstant pushUBO{};
-	
-    glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
-    pushUBO.model = model;
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-    
-    float angle = time * glm::radians(90.0f);
-    float orbitRadius = 1.0f;
 
-    glm::mat4 model2 = glm::mat4(1.0f);
-    model2 = glm::translate(model2, glm::vec3(0.0f, -2.0f, 0.75f));
-	model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-	model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
-	model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
-    pushUBO.model = model2;
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+    //Lab 3 - Task 2
+    //Cube and axis 1
+ //   ModelPushConstant pushUBO{};
+	//
+ //   glm::mat4 model = glm::mat4(1.0f);
+	//model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+ //   model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
+ //   pushUBO.model = model;
+ //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+ //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+ //   
+ //   float angle = time * glm::radians(90.0f);
+ //   float orbitRadius = 1.0f;
+
+ //   glm::mat4 model2 = glm::mat4(1.0f);
+ //   model2 = glm::translate(model2, glm::vec3(0.0f, -2.0f, 0.75f));
+	//model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
+	//model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
+ //   pushUBO.model = model2;
+ //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+ //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
     //Cube and axis 2;
+ //   
+ //   model = glm::mat4(1.0f);
+	//model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+ //   model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
+ //   pushUBO.model = model;
+ //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+ //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+
+ //   angle = time * glm::radians(45.0f);
+ //   orbitRadius = 1.0f;
+
+ //   model2 = glm::mat4(1.0f);
+ //   model2 = glm::translate(model2, glm::vec3(0.0f, 2.0f, 0.75f));
+ //   model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+ //   model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
+ //   model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
+ //   pushUBO.model = model2;
+ //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+ //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+
+ //   model = glm::mat4(1.0f);
+ //   model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
+ //   model = glm::scale(model, glm::vec3(6.0f, 6.0f, 0.25f));
+ //   pushUBO.model = model;
+ //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+ //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
     
-    model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
+//Lab 3 Task 3
+ //   ModelPushConstant pushUBO{};
+ //   
+ //   glm::mat4 model = glm::mat4(1.0f);
+ //   model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+ //   model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
+ //   pushUBO.model = model;
+ //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+ //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+ //   
+ //   float angle = time * glm::radians(-90.0f);
+ //   float orbitRadius = 1.0f;
+ //   glm::vec3 orbitCenter = glm::vec3(0.0f, -2.0f, 0.75f);
+
+	//glm::vec3 posOnPath = orbitCenter + glm::vec3(orbitRadius * cos(angle), orbitRadius * sin(angle), 0.0f);
+
+	//glm::vec3 tangent = glm::vec3(-glm::sin(angle) * orbitRadius, glm::cos(angle) * orbitRadius, 0.0f);
+	//tangent = glm::normalize(tangent);
+
+	//glm::vec3 worldUp = glm::vec3(0.0f, 0.0f, 1.0f);
+
+ //   glm::vec3 right = glm::normalize(glm::cross(worldUp, tangent));
+ //   glm::vec3 upCorrected = glm::cross(tangent, right);
+
+ //   glm::mat3 basis = glm::mat3(right, tangent, upCorrected);
+ //   glm::mat4 rot = glm::mat4(basis);
+
+ //   glm::mat4 model2 = glm::mat4(1.0f);
+ //   model2 = glm::translate(model2, posOnPath);
+ //   model2 *= rot;
+ //   model2 = glm::scale(model2, glm::vec3(0.25f, 1.0f, 0.25f));
+
+ //   pushUBO.model = model2;
+ //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+ //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+
+//Lab 3 - Task 4
+
+glm::vec3 sunPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+
+
+//Sun
+    ModelPushConstant pushUBO{};
+    
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, sunPosition);
+    model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+	model = glm::rotate(model, time * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    pushUBO.model = model;
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+    
+
+
+
+//Earth
+
+    float orbitalDistance = 1.0f;
+	glm::vec3 orbitTranslation = glm::vec3(orbitalDistance, orbitalDistance, 0.0f);
+
+
+    model = glm::rotate(model, time * glm::radians(20.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, orbitTranslation);
+    model = glm::rotate(model, time * glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
     pushUBO.model = model;
     vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
     vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
-    angle = time * glm::radians(45.0f);
-    orbitRadius = 1.0f;
 
-    model2 = glm::mat4(1.0f);
-    model2 = glm::translate(model2, glm::vec3(0.0f, 2.0f, 0.75f));
-    model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-    model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
-    model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
-    pushUBO.model = model2;
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+//Moon
 
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
-    model = glm::scale(model, glm::vec3(6.0f, 6.0f, 0.25f));
-    pushUBO.model = model;
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-    
-    
+	float moonOrbitalDistance = 1.5f;
+	glm::vec3 moonOrbitTranslation = glm::vec3(0.0f, moonOrbitalDistance, 0.0f);
 
-
-
-
-
-//model = glm::rotate(model, time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-//model = glm::translate(model, glm::vec3(-1.5f, 0.0f, 0.0f));
-    
-    
-
-
-
+	model = glm::rotate(model, time * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, moonOrbitTranslation);
+	model = glm::scale(model, glm::vec3(0.27f, 0.27f, 0.27f));
+	pushUBO.model = model;
+	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+	vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
 
     vkCmdEndRendering(commandBuffer);
@@ -1897,7 +1967,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    float cameraDistance = 5.0f;
+    float cameraDistance = 8.0f;
     ubo.view = glm::lookAt(glm::vec3(cameraDistance, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.proj = glm::perspective(glm::radians(90.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 200.0f);
     ubo.proj[1][1] *= -1;
