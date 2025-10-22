@@ -100,8 +100,13 @@ struct Vertex {
 };
 
 struct UniformBufferObject {
-    alignas(16) glm::mat4 view;
-    alignas(16) glm::mat4 proj;
+    glm::vec4 eye;
+	glm::vec4 center;
+	glm::vec4 up;
+    float fovy;
+    float aspect;
+    float zNear;
+	float zFar;
 };
 
 //Geometry Generator
@@ -1968,9 +1973,19 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
 
     UniformBufferObject ubo{};
     float cameraDistance = 8.0f;
-    ubo.view = glm::lookAt(glm::vec3(cameraDistance, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    ubo.proj = glm::perspective(glm::radians(90.0f), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 200.0f);
-    ubo.proj[1][1] *= -1;
+    glm::vec3 eyePos = glm::vec3(cameraDistance, 0.0f, 0.0f);
+	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 up = glm::vec3(0.0f, 0.0f, 1.0f);
+
+	ubo.eye = glm::vec4(eyePos, 1.0f);
+	ubo.center = glm::vec4(center, 1.0f);
+	ubo.up = glm::vec4(up, 0.0f);
+
+    ubo.fovy = glm::radians(90.0f);
+	ubo.aspect = swapChainExtent.width / (float)swapChainExtent.height;
+    ubo.zNear = 0.1f;
+	ubo.zFar = 200.0f;
+
 
     memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
 

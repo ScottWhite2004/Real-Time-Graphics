@@ -1,9 +1,5 @@
 #version 450
 
-layout(binding = 0) uniform UniformBufferObject {
-    mat4 view;
-    mat4 proj;
-} ubo;
 
 layout(std140, binding = 0) uniform Camera{
     vec4 eye;
@@ -66,7 +62,7 @@ void main() {
     mat4 viewMatrix = lookAtRH(eyePos, centerPos, upDir);
     mat4 projMatrix = perspective(cam.fovy, cam.aspect, cam.zNear, cam.zFar);
     
-    gl_Position = proj * view * pushConstants.model * vec4(inPosition, 1.0);
+    gl_Position = projMatrix * viewMatrix * pushConstants.model * vec4(inPosition, 1.0);
     gl_PointSize = 10.0;
     fragColor = inColor;
 }
