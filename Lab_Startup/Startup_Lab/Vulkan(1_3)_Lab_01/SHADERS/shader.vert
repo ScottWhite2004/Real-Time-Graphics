@@ -5,6 +5,7 @@ layout(std140, binding = 0) uniform Camera{
     vec4 eye;
     vec4 center;
     vec4 up;
+    vec3 lightPos;
     float fovy;
     float aspect;
     float zNear;
@@ -17,8 +18,11 @@ layout(push_constant) uniform PushConstants {
 
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inColor;
+layout(location = 2) in vec3 inNormal;
 
 layout(location = 0) out vec3 fragColor;
+layout(location = 1) out vec3 fragWorldPos;
+layout(location = 2) out vec3 fragWorldNormal; 
 
 mat4 lookAtRH(vec3 eye, vec3 center, vec3 up)
 {
@@ -62,7 +66,26 @@ void main() {
     mat4 viewMatrix = lookAtRH(eyePos, centerPos, upDir);
     mat4 projMatrix = perspective(cam.fovy, cam.aspect, cam.zNear, cam.zFar);
     
+    // Transform position and normal to world space
+    //vec3 worldPos = (pushConstants.model * vec4(inPosition, 1.0)).xyz;
+    //vec3 worldNormal = mat3(transpose(inverse(pushConstants.model))) * inNormal;
+    // Define light and material properties
+    //vec3 lightColor = vec3(1.0, 0.0, 0.0); // Light color
+    //vec3 ambientMaterial = vec3(0.2, 0.1, 0.2); // Ambient light component
+    // Diffuse calculation
+    //vec3 norm = normalize(worldNormal);
+    //vec3 lightDir = normalize(cam.lightPos.xyz - worldPos);
+    //float diff = max(dot(norm, lightDir), 0.0);
+    //vec3 diffuse = diff * lightColor;
+    // Combine and pass to fragment shader
+    //vec3 diffMaterial=vec3(1.0);
+    //fragColor = ambientMaterial* lightColor;
+    //fragColor += diffMaterial* lightColor* diffuse;
+
+    fragWorldPos = (pushConstants.model * vec4(inPosition, 1.0)).xyz;
+    fragWorldNormal = mat3(transpose(inverse(pushConstants.model))) * inNormal;
+    fragColor = inColor;
+    
     gl_Position = projMatrix * viewMatrix * pushConstants.model * vec4(inPosition, 1.0);
     gl_PointSize = 10.0;
-    fragColor = inColor;
 }

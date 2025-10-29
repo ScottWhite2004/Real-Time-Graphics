@@ -3,16 +3,19 @@
   "WorkspaceRootPath": "E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Shaders\\shader.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Shaders\\shader.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
@@ -25,7 +28,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -39,21 +42,31 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Microsoft.CppCommon.targets",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
+              "ViewState": "AgIAAOoAAAAAAAAAAAAcwP0AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-10-29T11:44:21.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Microsoft.CppCommon.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
-              "ViewState": "AgIAAOoAAAAAAAAAAAAcwP0AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
               "WhenOpened": "2025-10-22T13:43:59.885Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "shader.frag",
               "DocumentMoniker": "E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\shader.frag",
               "RelativeDocumentMoniker": "SHADERS\\shader.frag",
               "ToolTip": "E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\shader.frag",
               "RelativeToolTip": "SHADERS\\shader.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-10-08T13:29:04.19Z",
               "EditorCaption": ""
@@ -66,20 +79,20 @@
               "RelativeDocumentMoniker": "SHADERS\\shader.vert",
               "ToolTip": "E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\shader.vert",
               "RelativeToolTip": "SHADERS\\shader.vert",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEgAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-10-08T13:20:38.966Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Lab_Tutorial_Template.cpp",
               "DocumentMoniker": "E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
               "RelativeDocumentMoniker": "Lab_Tutorial_Template.cpp",
               "ToolTip": "E:\\UniTemp\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
               "RelativeToolTip": "Lab_Tutorial_Template.cpp",
-              "ViewState": "AgIAAKsHAAAAAAAAAAAqwMIHAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAN8AAAAAAAAAAAAjwBkBAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-10-07T12:22:05.895Z",
               "EditorCaption": ""

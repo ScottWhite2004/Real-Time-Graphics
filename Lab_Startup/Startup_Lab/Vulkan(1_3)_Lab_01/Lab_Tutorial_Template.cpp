@@ -82,6 +82,8 @@ struct SwapChainSupportDetails {
 struct Vertex {
     glm::vec3 pos;
     glm::vec3 color;
+    glm::vec3 normal;
+
 
     static VkVertexInputBindingDescription getBindingDescription() {
         VkVertexInputBindingDescription bindingDescription{};
@@ -91,10 +93,11 @@ struct Vertex {
         return bindingDescription;
     }
 
-    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
-        std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
+    static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions() {
+        std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
         attributeDescriptions[0] = { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, pos) };
         attributeDescriptions[1] = { 1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color) };
+		attributeDescriptions[2] = { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) };
         return attributeDescriptions;
     }
 };
@@ -103,6 +106,7 @@ struct UniformBufferObject {
     glm::vec4 eye;
 	glm::vec4 center;
 	glm::vec4 up;
+	glm::vec3 lightPos;
     float fovy;
     float aspect;
     float zNear;
@@ -228,6 +232,56 @@ const std::vector<Vertex> Quad_vertices = {
 	{{-0.5f,0.5f,-0.5f},{1.0f,0.0f,0.0f}}
 };
 
+const std::vector<Vertex> Quad_vertices_normals = {
+    // Front face (+Z)  normal (0,0,1)
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
+
+    // Back face (-Z) normal (0,0,-1)
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
+
+    // Right face (+X) normal (1,0,0)
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
+
+    // Left face (-X) normal (-1,0,0)
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
+
+    // Top face (+Y) normal (0,1,0)
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
+
+    // Bottom face (-Y) normal (0,-1,0)
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}}
+};
+
 const std::vector<uint16_t> Quad_indices = {
 	4,0,3,3,7,4,1,5,6,6,2,1,5,1,0,0,4,5,3,2,6,6,7,3
 };
@@ -242,6 +296,8 @@ const std::vector<uint16_t> cube_Edge_Indices = {
 // Connect back to front (verticals)
 1, 5, 2, 6, 3, 7
 };
+
+
 
 const std::vector<uint32_t> triangle_Strip_Indices = {
  0,1,3,2, RESTART_INDEX, 
@@ -263,7 +319,7 @@ VkImageView depthImageView = VK_NULL_HANDLE;
 void loadModel() {
 	
 	indices = triangle_Strip_Indices;
-	vertices = Quad_vertices;
+	vertices = Quad_vertices_normals;
     
     //Lab B Exercise 4
     //vertices.clear();
@@ -994,7 +1050,7 @@ void HelloTriangleApplication::createDescriptorSetLayout() {
     uboLayoutBinding.binding = 0;
     uboLayoutBinding.descriptorCount = 1;
     uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+    uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
 
     VkDescriptorSetLayoutCreateInfo layoutInfo{};
     layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -1897,51 +1953,60 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
  //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
 
 //Lab 3 - Task 4
+//glm::vec3 sunPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+//
+//
+////Sun
+//    ModelPushConstant pushUBO{};
+//    
+//    glm::mat4 model = glm::mat4(1.0f);
+//    model = glm::translate(model, sunPosition);
+//    model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+//	model = glm::rotate(model, time * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//    pushUBO.model = model;
+//    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+//    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+//    
+//
+//
+//
+////Earth
+//
+//    float orbitalDistance = 1.0f;
+//	glm::vec3 orbitTranslation = glm::vec3(orbitalDistance, orbitalDistance, 0.0f);
+//
+//
+//    model = glm::rotate(model, time * glm::radians(20.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//	model = glm::translate(model, orbitTranslation);
+//    model = glm::rotate(model, time * glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+//    pushUBO.model = model;
+//    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+//    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+//
+//
+////Moon
+//
+//	float moonOrbitalDistance = 1.5f;
+//	glm::vec3 moonOrbitTranslation = glm::vec3(0.0f, moonOrbitalDistance, 0.0f);
+//
+//	model = glm::rotate(model, time * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//	model = glm::translate(model, moonOrbitTranslation);
+//	model = glm::scale(model, glm::vec3(0.27f, 0.27f, 0.27f));
+//	pushUBO.model = model;
+//	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+//	vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+//
+//
 
-glm::vec3 sunPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-
-
-//Sun
-    ModelPushConstant pushUBO{};
+//Lab 4
     
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, sunPosition);
-    model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-	model = glm::rotate(model, time * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    pushUBO.model = model;
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-    
-
-
-
-//Earth
-
-    float orbitalDistance = 1.0f;
-	glm::vec3 orbitTranslation = glm::vec3(orbitalDistance, orbitalDistance, 0.0f);
-
-
-    model = glm::rotate(model, time * glm::radians(20.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, orbitTranslation);
-    model = glm::rotate(model, time * glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-    pushUBO.model = model;
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-
-
-//Moon
-
-	float moonOrbitalDistance = 1.5f;
-	glm::vec3 moonOrbitTranslation = glm::vec3(0.0f, moonOrbitalDistance, 0.0f);
-
-	model = glm::rotate(model, time * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, moonOrbitTranslation);
-	model = glm::scale(model, glm::vec3(0.27f, 0.27f, 0.27f));
-	pushUBO.model = model;
-	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-	vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-
+ModelPushConstant pushUBO{};
+glm::mat4 model = glm::mat4(1.0f);
+model = glm::rotate(model, time * glm::radians(30.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+pushUBO.model = model;
+vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
 
     vkCmdEndRendering(commandBuffer);
 
@@ -1972,14 +2037,16 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    float cameraDistance = 8.0f;
-    glm::vec3 eyePos = glm::vec3(cameraDistance, 0.0f, 0.0f);
+    float cameraDistance = 4.0f;
+    glm::vec3 eyePos = glm::vec3(cameraDistance, 2.0f, -1.0f);
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 0.0f, 1.0f);
+	glm::vec3 lightPos = glm::vec3(2.0f, 0.0f, 0.0f);
 
 	ubo.eye = glm::vec4(eyePos, 1.0f);
 	ubo.center = glm::vec4(center, 1.0f);
 	ubo.up = glm::vec4(up, 0.0f);
+	ubo.lightPos = lightPos;
 
     ubo.fovy = glm::radians(90.0f);
 	ubo.aspect = swapChainExtent.width / (float)swapChainExtent.height;
