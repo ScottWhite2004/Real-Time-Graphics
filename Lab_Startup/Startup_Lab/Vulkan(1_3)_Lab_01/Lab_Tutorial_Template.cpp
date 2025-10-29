@@ -234,52 +234,52 @@ const std::vector<Vertex> Quad_vertices = {
 
 const std::vector<Vertex> Quad_vertices_normals = {
     // Front face (+Z)  normal (0,0,1)
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}},
 
     // Back face (-Z) normal (0,0,-1)
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}},
 
     // Right face (+X) normal (1,0,0)
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}},
 
     // Left face (-X) normal (-1,0,0)
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}},
 
     // Top face (+Y) normal (0,1,0)
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}},
 
     // Bottom face (-Y) normal (0,-1,0)
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f,-1.0f,0.0f}}
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}}
 };
 
 const std::vector<uint16_t> Quad_indices = {
@@ -1436,7 +1436,8 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
 
     VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
     inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+    //inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     inputAssembly.primitiveRestartEnable = VK_TRUE;
 
     VkProvokingVertexModeEXT provokingVertexMode = VK_PROVOKING_VERTEX_MODE_FIRST_VERTEX_EXT;
@@ -2003,10 +2004,22 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     
 ModelPushConstant pushUBO{};
 glm::mat4 model = glm::mat4(1.0f);
-model = glm::rotate(model, time * glm::radians(30.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 pushUBO.model = model;
 vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
+
+model = glm::mat4(1.0f);
+model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
+pushUBO.model = model;
+vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 2, 0, 0);
+
+model = glm::mat4(1.0f);
+model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+pushUBO.model = model;
+vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
+vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 3, 0, 0);
 
     vkCmdEndRendering(commandBuffer);
 
@@ -2041,7 +2054,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     glm::vec3 eyePos = glm::vec3(cameraDistance, 2.0f, -1.0f);
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 0.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(2.0f, 0.0f, 0.0f);
+	glm::vec3 lightPos = glm::vec3(2.0f, 2.0f, -2.0f);
 
 	ubo.eye = glm::vec4(eyePos, 1.0f);
 	ubo.center = glm::vec4(center, 1.0f);

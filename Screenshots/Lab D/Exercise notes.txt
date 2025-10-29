@@ -1,0 +1,10 @@
+Exercise 2
+Light Pos - 2.0, 2.0, 2.0
+Light Colour = 1.0, 1.0, 1.0
+Light Colour  1.0, 1.0, 1.0
+
+
+Exercise 4
+Light Pos = 2.0, 2.0, 2.0
+Light Colour = 1.0, 1.0, 1.0
+

@@ -22,7 +22,8 @@ void main() {
     // Transform position and normal to world space
     // Define light and material properties
     
-    vec3 lightColor = vec3(1.0, 0.0, 0.0); // Light color
+    // White light
+    vec3 lightColor = vec3(1.0, 1.0, 1.0); // Light color
     vec3 ambientMaterial = vec3(0.2, 0.1, 0.2); // Ambient light component
     
     // Diffuse calculation
@@ -34,7 +35,16 @@ void main() {
 
 
     vec3 diffMaterial = fragColor;
+    vec3 viewDir = normalize(ubo.eye.xyz - fragWorldPos);
+    vec3 reflectDir = normalize(reflect(-lightDir, norm));
+    float shininess = 1.0;
+    float spec = pow(max(dot(reflectDir, viewDir), 0.0), shininess);
+    vec3 specMaterial=vec3(1.0);
+    vec3 specular = specMaterial * lightColor * spec;
+
 
     vec3 color = ambientMaterial * lightColor + diffuse * diffMaterial;
+    color += specular;
+    
     outColor = vec4(color, 1.0);
 }

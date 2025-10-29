@@ -77,10 +77,18 @@ void main() {
     //vec3 lightDir = normalize(cam.lightPos.xyz - worldPos);
     //float diff = max(dot(norm, lightDir), 0.0);
     //vec3 diffuse = diff * lightColor;
+
+    //vec3 viewDir = normalize(eyePos - worldPos);
+    //vec3 reflectDir = normalize(reflect(-lightDir, norm));
+    //float shininess = 1.0;
+   //float spec = pow(max(dot(reflectDir, viewDir), 0.0), shininess);
+    //vec3 specMaterial=vec3(1.0);
+    //vec3 specular = specMaterial *lightColor*spec;
     // Combine and pass to fragment shader
     //vec3 diffMaterial=vec3(1.0);
     //fragColor = ambientMaterial* lightColor;
     //fragColor += diffMaterial* lightColor* diffuse;
+    //fragColor += specular;
 
     fragWorldPos = (pushConstants.model * vec4(inPosition, 1.0)).xyz;
     fragWorldNormal = mat3(transpose(inverse(pushConstants.model))) * inNormal;
