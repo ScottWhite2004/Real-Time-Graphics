@@ -106,7 +106,8 @@ struct UniformBufferObject {
     glm::vec4 eye;
 	glm::vec4 center;
 	glm::vec4 up;
-	glm::vec3 lightPos;
+	glm::vec4 lightPos;
+    glm::vec4 light2Pos;
     float fovy;
     float aspect;
     float zNear;
@@ -219,6 +220,8 @@ namespace geometryGenerator
 struct ModelPushConstant
 {
 	glm::mat4 model;
+	float shininess;
+    glm::vec4 matAmbient;
 };
 
 const std::vector<Vertex> Quad_vertices = {
@@ -1430,7 +1433,7 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
     vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 	VkPushConstantRange pushConstantRange{};
-	pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+	pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
 	pushConstantRange.offset = 0;
     pushConstantRange.size = sizeof(ModelPushConstant);
 
@@ -2006,18 +2009,24 @@ ModelPushConstant pushUBO{};
 glm::mat4 model = glm::mat4(1.0f);
 model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 pushUBO.model = model;
+pushUBO.shininess = 1.0f;
+pushUBO.matAmbient = glm::vec4(0.2f, 0.1f, 0.2f,0.0f);
 vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
 
 model = glm::mat4(1.0f);
 model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
 pushUBO.model = model;
+pushUBO.shininess = 32.0f;
+pushUBO.matAmbient = glm::vec4(0.5f, 0.1f, 0.7f, 0.0f);
 vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 2, 0, 0);
 
 model = glm::mat4(1.0f);
 model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
 pushUBO.model = model;
+pushUBO.shininess = 100.0f;
+pushUBO.matAmbient = glm::vec4(0.01f, 0.2f, 0.3f, 0.0f);
 vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 3, 0, 0);
 
@@ -2054,13 +2063,17 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     glm::vec3 eyePos = glm::vec3(cameraDistance, 2.0f, -1.0f);
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 0.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(2.0f, 2.0f, -2.0f);
+	glm::vec3 lightPos = glm::vec3(2.0f, 2.0f, 0.0f);
+
+    float radius = 10.0f;
+	float angle = time * glm::radians(45.0f);
+	glm::vec3 lightPos2 = glm::vec3(radius * cos(angle), radius * sin(angle), -1.0f);
 
 	ubo.eye = glm::vec4(eyePos, 1.0f);
 	ubo.center = glm::vec4(center, 1.0f);
 	ubo.up = glm::vec4(up, 0.0f);
-	ubo.lightPos = lightPos;
-
+	ubo.lightPos = glm::vec4(lightPos,0.0f);
+    ubo.light2Pos = glm::vec4(lightPos2, 0.0f);
     ubo.fovy = glm::radians(90.0f);
 	ubo.aspect = swapChainExtent.width / (float)swapChainExtent.height;
     ubo.zNear = 0.1f;

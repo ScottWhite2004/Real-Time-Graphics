@@ -1,19 +1,22 @@
 #version 450
 
 
-layout(std140, binding = 0) uniform Camera{
+layout(std140, binding = 0) uniform UniformBufferObject{
     vec4 eye;
     vec4 center;
     vec4 up;
-    vec3 lightPos;
+    vec4 lightPos;
+    vec4 light2Pos;
     float fovy;
     float aspect;
     float zNear;
     float zFar;
-}cam;
+}ubo;
 
 layout(push_constant) uniform PushConstants {
     mat4 model;
+    float shininess;
+    vec4 matAmbient;
 } pushConstants;
 
 layout(location = 0) in vec3 inPosition;
@@ -59,12 +62,12 @@ mat4 perspective(float fovy, float aspect, float zNear, float zFar)
 
 void main() {
     
-    vec3 eyePos = cam.eye.xyz;
-    vec3 centerPos = cam.center.xyz;
-    vec3 upDir = cam.up.xyz;
+    vec3 eyePos = ubo.eye.xyz;
+    vec3 centerPos = ubo.center.xyz;
+    vec3 upDir = ubo.up.xyz;
 
     mat4 viewMatrix = lookAtRH(eyePos, centerPos, upDir);
-    mat4 projMatrix = perspective(cam.fovy, cam.aspect, cam.zNear, cam.zFar);
+    mat4 projMatrix = perspective(ubo.fovy, ubo.aspect, ubo.zNear, ubo.zFar);
     
     // Transform position and normal to world space
     //vec3 worldPos = (pushConstants.model * vec4(inPosition, 1.0)).xyz;
