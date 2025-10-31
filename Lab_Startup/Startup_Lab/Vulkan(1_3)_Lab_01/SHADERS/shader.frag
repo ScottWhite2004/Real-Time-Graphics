@@ -12,6 +12,8 @@ layout(std140, binding = 0) uniform UniformBufferObject{
     float zFar;
 }ubo;
 
+layout(binding = 1) uniform sampler2D texSampler;
+
 layout(push_constant) uniform PushConstants {
     mat4 model;
     float shininess;
@@ -21,6 +23,7 @@ layout(push_constant) uniform PushConstants {
 layout(location = 0) in vec3 fragColor;
 layout(location = 1) in vec3 fragWorldPos;
 layout(location = 2) in vec3 fragWorldNormal;
+layout(location = 3) in vec2 fragTexCoord;
 
 layout(location = 0) out vec4 outColor;
 
@@ -28,9 +31,9 @@ void main() {
     
     // Transform position and normal to world space
     // Define light and material properties
-    
+    vec4 textureColor = texture(texSampler, fragTexCoord);
     // White light
-    vec3 lightColor = vec3(1.0, 1.0, 1.0); // Light color
+    vec3 lightColor = vec3(1.0, 1.0, 0.0); // Light color
     vec3 ambientMaterial = pushConstants.matAmbient.xyz; // Ambient light component
     
     // Diffuse calculation
@@ -41,7 +44,7 @@ void main() {
     vec3 diffuse = diff * lightColor;
 
 
-    vec3 diffMaterial = fragColor;
+    vec3 diffMaterial = textureColor.xyz;
     vec3 viewDir = normalize(ubo.eye.xyz - fragWorldPos);
     vec3 reflectDir = normalize(reflect(-lightDir, norm));
     float shininess = pushConstants.shininess;
@@ -50,12 +53,11 @@ void main() {
     vec3 specular = specMaterial * lightColor * spec;
 
 
-    vec3 color = ambientMaterial * lightColor + diffuse * diffMaterial;
+    vec3 color = ambientMaterial * lightColor + specular + diffuse * diffMaterial;
 
-    color += specular;
 
     //Red light
-    lightColor = vec3(1.0, 0.0, 0.0); // Light color
+    lightColor = vec3(1.0, 1.0, 0.0); // Light color
     ambientMaterial = pushConstants.matAmbient.xyz; // Ambient light component
     
     // Diffuse calculation
@@ -66,7 +68,7 @@ void main() {
     diffuse = diff * lightColor;
 
 
-    diffMaterial = fragColor;
+    diffMaterial = textureColor.xyz;
     viewDir = normalize(ubo.eye.xyz - fragWorldPos);
     reflectDir = normalize(reflect(-lightDir, norm));
     shininess = pushConstants.shininess;
@@ -75,9 +77,9 @@ void main() {
     specular = specMaterial * lightColor * spec;
 
 
-    color += ambientMaterial * lightColor + diffuse * diffMaterial;
+    color += ambientMaterial * lightColor + specular + diffuse * diffMaterial;
 
-    color += specular;
+
 
     outColor = vec4(color, 1.0);
 }
