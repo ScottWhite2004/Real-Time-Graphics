@@ -3,8 +3,28 @@ Light Pos - 2.0, 2.0, 2.0
 Light Colour = 1.0, 1.0, 1.0
 Light Colour  1.0, 1.0, 1.0
 
+Exercise 3
+Light Colour 1.0, 0.0, 0.0
+Light Pos = 2.0, 2.0, 2.0
+Light Colour = 1.0, 1.0, 1.0
+Light Pos 2.0, 2.0, 2.0
 
 Exercise 4
 Light Pos = 2.0, 2.0, 2.0
 Light Colour = 1.0, 1.0, 1.0
+
+Exercise 5
+Light Colour 1.0,1.0,1.0
+Light Pos = 2.0, 2.0, 2.0
+Shininess = 1.0
+
+Shininiess = 50.0
+
+Shininess = 1.0
+Light Pos = 2.0, 0.0, -2.0
+
+Shininiess = 1.0
+Light Pos = 2.0, 2.0, -2.0
+
+Exercise 6
 

@@ -12,7 +12,7 @@ layout(std140, binding = 0) uniform UniformBufferObject{
     float zFar;
 }ubo;
 
-layout(binding = 1) uniform sampler2D texSampler;
+layout(binding = 1) uniform sampler2D texSampler[2];
 
 layout(push_constant) uniform PushConstants {
     mat4 model;
@@ -31,55 +31,56 @@ void main() {
     
     // Transform position and normal to world space
     // Define light and material properties
-    vec4 textureColor = texture(texSampler, fragTexCoord);
+    
     // White light
-    vec3 lightColor = vec3(1.0, 1.0, 0.0); // Light color
-    vec3 ambientMaterial = pushConstants.matAmbient.xyz; // Ambient light component
+    //vec3 lightColor = vec3(1.0, 1.0, 0.0); // Light color
+   // vec3 ambientMaterial = pushConstants.matAmbient.xyz; // Ambient light component
     
     // Diffuse calculation
     
-    vec3 norm = normalize(fragWorldNormal);
-    vec3 lightDir = normalize(ubo.lightPos.xyz - fragWorldPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
+    //vec3 norm = normalize(fragWorldNormal);
+    //vec3 lightDir = normalize(ubo.lightPos.xyz - fragWorldPos);
+    //float diff = max(dot(norm, lightDir), 0.0);
+    //vec3 diffuse = diff * lightColor;
 
 
-    vec3 diffMaterial = textureColor.xyz;
-    vec3 viewDir = normalize(ubo.eye.xyz - fragWorldPos);
-    vec3 reflectDir = normalize(reflect(-lightDir, norm));
-    float shininess = pushConstants.shininess;
-    float spec = pow(max(dot(reflectDir, viewDir), 0.0), shininess);
-    vec3 specMaterial=vec3(1.0);
-    vec3 specular = specMaterial * lightColor * spec;
+    //vec3 diffMaterial = textureColor.xyz;
+    //vec3 viewDir = normalize(ubo.eye.xyz - fragWorldPos);
+    //vec3 reflectDir = normalize(reflect(-lightDir, norm));
+    //float shininess = pushConstants.shininess;
+    //float spec = pow(max(dot(reflectDir, viewDir), 0.0), shininess);
+    //vec3 specMaterial=vec3(1.0);
+    //vec3 specular = specMaterial * lightColor * spec;
 
 
-    vec3 color = ambientMaterial * lightColor + specular + diffuse * diffMaterial;
+    //vec3 color = ambientMaterial * lightColor + specular + diffuse * diffMaterial;
 
 
     //Red light
-    lightColor = vec3(1.0, 1.0, 0.0); // Light color
-    ambientMaterial = pushConstants.matAmbient.xyz; // Ambient light component
+    //lightColor = vec3(1.0, 1.0, 0.0); // Light color
+    //ambientMaterial = pushConstants.matAmbient.xyz; // Ambient light component
     
     // Diffuse calculation
     
-    norm = normalize(fragWorldNormal);
-    lightDir = normalize(ubo.light2Pos.xyz - fragWorldPos);
-    diff = max(dot(norm, lightDir), 0.0);
-    diffuse = diff * lightColor;
+    //norm = normalize(fragWorldNormal);
+    //lightDir = normalize(ubo.light2Pos.xyz - fragWorldPos);
+    //diff = max(dot(norm, lightDir), 0.0);
+    //diffuse = diff * lightColor;
 
 
-    diffMaterial = textureColor.xyz;
-    viewDir = normalize(ubo.eye.xyz - fragWorldPos);
-    reflectDir = normalize(reflect(-lightDir, norm));
-    shininess = pushConstants.shininess;
-    spec = pow(max(dot(reflectDir, viewDir), 0.0), shininess);
-    specMaterial=vec3(1.0);
-    specular = specMaterial * lightColor * spec;
-
-
-    color += ambientMaterial * lightColor + specular + diffuse * diffMaterial;
+   //diffMaterial = textureColor.xyz;
+    //viewDir = normalize(ubo.eye.xyz - fragWorldPos);
+    //reflectDir = normalize(reflect(-lightDir, norm));
+    //shininess = pushConstants.shininess;
+    //spec = pow(max(dot(reflectDir, viewDir), 0.0), shininess);
+    //specMaterial=vec3(1.0);
+    //specular = specMaterial * lightColor * spec;
 
 
 
-    outColor = vec4(color, 1.0);
+
+    vec4 coin = texture(texSampler[0], fragTexCoord);
+    vec4 base = texture(texSampler[1], fragTexCoord);
+    vec3 rgb = coin.xyz + base.xyz;
+    outColor = vec4(rgb, 1.0);
 }
