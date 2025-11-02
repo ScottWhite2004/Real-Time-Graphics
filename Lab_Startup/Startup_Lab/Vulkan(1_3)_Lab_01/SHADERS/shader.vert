@@ -95,11 +95,21 @@ void main() {
     //fragColor += diffMaterial* lightColor* diffuse;
     //fragColor += specular;
 
-    fragWorldPos = (pushConstants.model * vec4(inPosition, 1.0)).xyz;
-    fragWorldNormal = mat3(transpose(inverse(pushConstants.model))) * inNormal;
-    fragColor = inColor;
     
+        // Model -> World
+    mat4 model = pushConstants.model;
+    vec4 worldPos4 = model * vec4(inPosition, 1.0);
+    fragWorldPos = worldPos4.xyz;
+
+    // Normal matrix and world-space normal
+    mat3 normalMat = mat3(transpose(inverse(model)));
+    fragWorldNormal = normalize(normalMat * inNormal);
+
+    // Pass-through
+    fragTexCoord = inTexCoord;
+    fragColor = inColor;
+
     gl_Position = projMatrix * viewMatrix * pushConstants.model * vec4(inPosition, 1.0);
     gl_PointSize = 10.0;
-    fragTexCoord = inTexCoord;
+
 }

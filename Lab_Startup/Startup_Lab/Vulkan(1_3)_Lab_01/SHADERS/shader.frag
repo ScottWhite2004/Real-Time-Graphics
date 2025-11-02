@@ -79,8 +79,43 @@ void main() {
 
 
 
-    vec4 coin = texture(texSampler[0], fragTexCoord);
-    vec4 base = texture(texSampler[1], fragTexCoord);
-    vec3 rgb = coin.xyz + base.xyz;
-    outColor = vec4(rgb, 1.0);
+    //vec4 coin = texture(texSampler[0], fragTexCoord);
+    //vec4 base = texture(texSampler[1], fragTexCoord);
+    //vec3 rgb = coin.xyz + base.xyz;
+    //outColor = vec4(rgb, 1.0);
+
+    vec3 N = normalize(fragWorldNormal);
+    vec3 aN = abs(N);
+
+    // identify dominant axis (which face of the cube)
+    int face;
+    if (aN.z > aN.x && aN.z > aN.y) {
+        face = (N.z > 0.0) ? 0 : 1; // +Z front / -Z back
+    } else if (aN.x > aN.y) {
+        face = (N.x > 0.0) ? 2 : 3; // +X right / -X left
+    } else {
+        face = (N.y > 0.0) ? 4 : 5; // +Y top / -Y bottom
+    }
+
+    if(face == 4 || face ==5)
+    {
+    discard;
+    }
+
+    // For 2 textures: choose texture index by sign (example)
+    // map positive-direction faces -> texture 0, negative-direction faces -> texture 1
+    int texIdx = gl_FrontFacing ? 0 : 1;
+
+    // Optionally use different UV scale per face
+    vec2 uv = fragTexCoord;
+
+    // safe clamp just in case
+    texIdx = clamp(texIdx, 0, 1);
+
+    vec4 sampled = texture(texSampler[texIdx], uv);
+
+    // If coin (or second texture) has alpha and you want opaque result:
+    sampled.a = 1.0;
+
+    outColor = sampled;
 }
