@@ -23,11 +23,16 @@ layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inColor;
 layout(location = 2) in vec3 inNormal;
 layout(location = 3) in vec2 inTexCoord;
+layout(location = 4) in vec3 inTangent;
+layout(location = 5) in vec3 inBinomial;
 
 layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec3 fragWorldPos;
 layout(location = 2) out vec3 fragWorldNormal; 
 layout(location = 3) out vec2 fragTexCoord;
+layout(location = 4) out vec3 fragLightPos_tangent;
+layout(location = 5) out vec3 fragViewPos_tangent;
+layout(location = 6) out vec3 fragPos_tangent;
 
 mat4 lookAtRH(vec3 eye, vec3 center, vec3 up)
 {
@@ -112,4 +117,17 @@ void main() {
     gl_Position = projMatrix * viewMatrix * pushConstants.model * vec4(inPosition, 1.0);
     gl_PointSize = 10.0;
 
+    Mat4 ModelMatrix_TInv= transpose(inverse(ubo.model);
+    vec3 T = normalize(mat3(ModelMatrix_TInv) * inTangent);
+    vec3 B = normalize(mat3(ModelMatrix_TInv) * inBinormal);
+    vec3 N = normalize(mat3(ModelMatrix_TInv) * inNormal);
+    mat3 TBN = transpose(mat3(T, B, N)); // Use transpose to invert
+    // Get world-space light and view positions
+    vec3 lightPos_world = ubo.lightPos;
+    vec3 viewPos_world = ubo.viewPos;
+    vec3 fragPos_world = (ubo.model * vec4(inPosition, 1.0)).xyz;
+    // Transform light and view POSITIONS to tangent space
+    fragLightPos_tangent = TBN * lightPos_world;
+    fragViewPos_tangent = TBN * viewPos_world;
+    fragPos_tangent =TBN *fragPos_world;
 }

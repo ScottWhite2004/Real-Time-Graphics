@@ -92,6 +92,8 @@ struct Vertex {
     glm::vec3 color;
     glm::vec3 normal;
 	glm::vec2 texCoord;
+    glm::vec3 tangent;
+    glm::vec3 binomial;
 
 
     static VkVertexInputBindingDescription getBindingDescription() {
@@ -102,12 +104,14 @@ struct Vertex {
         return bindingDescription;
     }
 
-    static std::array<VkVertexInputAttributeDescription, 4> getAttributeDescriptions() {
-        std::array<VkVertexInputAttributeDescription, 4> attributeDescriptions{};
+    static std::array<VkVertexInputAttributeDescription, 6> getAttributeDescriptions() {
+        std::array<VkVertexInputAttributeDescription, 6> attributeDescriptions{};
         attributeDescriptions[0] = { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, pos) };
         attributeDescriptions[1] = { 1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color) };
 		attributeDescriptions[2] = { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) };
         attributeDescriptions[3] = { 3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord) };
+        attributeDescriptions[4] = { 4, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, tangent) };
+        attributeDescriptions[5] = { 5, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, binomial) };
         return attributeDescriptions;
     }
 };
@@ -247,52 +251,52 @@ const std::vector<Vertex> Quad_vertices = {
 
 const std::vector<Vertex> Quad_vertices_normals = {
     // Front face (+Z)  normal (0,0,1)
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Back face (-Z) normal (0,0,-1)
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Right face (+X) normal (1,0,0)
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Left face (-X) normal (-1,0,0)
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Top face (+Y) normal (0,1,0)
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Bottom face (-Y) normal (0,-1,0)
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,1.0f}}
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}}
 };
 
 const std::vector<uint16_t> Quad_indices = {
@@ -860,8 +864,8 @@ void HelloTriangleApplication::initVulkan() {
 	createTriangleStripGraphicsPipeline();
     createCommandPool();
 
-	createTextureFromFile("Wood2.jpg");
-	createTextureFromFile("rocks2.jpg");
+	createTextureFromFile("stones2.jpg");
+	createTextureFromFile("rockNormal.jpg");
 
     loadModel();
     //createTerrain(100, 100, vertices, indices);
@@ -2331,7 +2335,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
 
     UniformBufferObject ubo{};
     float cameraDistance = 2.0f;
-    glm::vec3 eyePos = glm::vec3(cameraDistance, -1.0f, -1.0f);
+    glm::vec3 eyePos = glm::vec3(cameraDistance, -1.0f, -2.0f);
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 lightPos = glm::vec3(2.0f, -4.0f, 2.0f);
