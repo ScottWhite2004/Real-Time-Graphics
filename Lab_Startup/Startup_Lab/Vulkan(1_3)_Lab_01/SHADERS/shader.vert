@@ -85,6 +85,20 @@ void main() {
     mat3 normalMat = mat3(transpose(inverse(model)));
     fragWorldNormal = normalize(normalMat * inNormal);
 
+    mat4 ModelMatrix_TInv= transpose(inverse(model));
+    vec3 T = normalize(mat3(ModelMatrix_TInv) * inTangent);
+    vec3 B = normalize(mat3(ModelMatrix_TInv) * inBinormal);
+    vec3 N = normalize(mat3(ModelMatrix_TInv) * inNormal);
+    mat3 TBN = transpose(mat3(T, B, N)); // Use transpose to invert
+    // Get world-space light and view positions
+    vec3 lightPos_world = ubo.lightPos.xyz;
+    vec3 viewPos_world = eyePos;
+    vec3 fragPos_world = (model * vec4(inPosition, 1.0)).xyz;
+    // Transform light and view POSITIONS to tangent space
+    fragLightPos_tangent = TBN * lightPos_world;
+    fragViewPos_tangent = TBN * viewPos_world;
+    fragPos_tangent =TBN *fragPos_world;
+
     // Pass-through
     fragTexCoord = inTexCoord;
     fragColor = inColor;
@@ -92,17 +106,4 @@ void main() {
     gl_Position = projMatrix * viewMatrix * model * vec4(inPosition, 1.0);
     gl_PointSize = 10.0;
 
-    mat4 ModelMatrix_TInv= transpose(inverse(model));
-    vec3 T = normalize(mat3(ModelMatrix_TInv) * inTangent);
-    vec3 B = normalize(mat3(ModelMatrix_TInv) * inBinormal);
-    vec3 N = normalize(mat3(ModelMatrix_TInv) * fragWorldNormal);
-    mat3 TBN = transpose(mat3(T, B, N)); // Use transpose to invert
-    // Get world-space light and view positions
-    vec3 lightPos_world = ubo.lightPos.xyz;
-    vec3 viewPos_world = eyePos;
-    vec3 fragPos_world = (model * vec4(inPosition, 1.0)).xyz;
-    // Transform light and view POSITIONS to tangent space
-    fragLightPos_tangent = TBN * lightPos_world - fragWorldPos;
-    fragViewPos_tangent = TBN * viewPos_world - fragWorldPos;
-    fragPos_tangent =TBN *fragPos_world;
 }

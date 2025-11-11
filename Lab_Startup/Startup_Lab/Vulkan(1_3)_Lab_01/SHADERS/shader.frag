@@ -14,6 +14,7 @@ layout(std140, binding = 0) uniform UniformBufferObject{
 
 layout(binding = 1) uniform sampler2D texSampler[2];
 layout(binding = 2) uniform sampler2D normalSampler;
+layout(binding = 3) uniform sampler2D heightSampler;
 
 
 layout(push_constant) uniform PushConstants {
