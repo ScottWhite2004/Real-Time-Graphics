@@ -45,6 +45,11 @@ std::vector<VkDeviceMemory> textureImageMemories;
 std::vector<VkImageView> textureImageViews;
 std::vector<VkSampler> textureSamplers;
 
+VkImage normalImages;
+VkDeviceMemory normalImageMemory;
+VkImageView normalImageView;
+VkSampler normalSampler;
+
 
 
 
@@ -93,7 +98,7 @@ struct Vertex {
     glm::vec3 normal;
 	glm::vec2 texCoord;
     glm::vec3 tangent;
-    glm::vec3 binomial;
+    glm::vec3 binormal;
 
 
     static VkVertexInputBindingDescription getBindingDescription() {
@@ -111,7 +116,7 @@ struct Vertex {
 		attributeDescriptions[2] = { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) };
         attributeDescriptions[3] = { 3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord) };
         attributeDescriptions[4] = { 4, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, tangent) };
-        attributeDescriptions[5] = { 5, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, binomial) };
+        attributeDescriptions[5] = { 5, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, binormal) };
         return attributeDescriptions;
     }
 };
@@ -556,6 +561,9 @@ private:
     void createTextureFromFile(const std::string& filename);
 	void createTextureSampler(VkSampler &outSampler);
 
+	void createNormalMapFromFile(const std::string& filename);
+	void createNormalMapSampler(VkSampler& outSampler);
+
 
 
     // --- Callbacks ---
@@ -676,6 +684,108 @@ void HelloTriangleApplication::createTextureFromFile(const std::string &filename
     textureImageMemories.push_back(textureImageMemoryLocal);
     textureImageViews.push_back(view);
     textureSamplers.push_back(sampler);
+}
+
+void HelloTriangleApplication::createNormalMapSampler(VkSampler& outSampler)
+{
+    VkPhysicalDeviceProperties properties{};
+    vkGetPhysicalDeviceProperties(physicalDevice, &properties);
+    VkSamplerCreateInfo samplerInfo{};
+    samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+    samplerInfo.magFilter = VK_FILTER_LINEAR;
+    samplerInfo.minFilter = VK_FILTER_LINEAR;
+    samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    samplerInfo.anisotropyEnable = VK_TRUE;
+    samplerInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
+    samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+    samplerInfo.unnormalizedCoordinates = VK_FALSE;
+    samplerInfo.compareEnable = VK_FALSE;
+    samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+    samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+    samplerInfo.minLod = 0.0f;
+    samplerInfo.maxLod = 0.0f;
+    samplerInfo.mipLodBias = 0.0f;
+
+    if (vkCreateSampler(device, &samplerInfo, nullptr, &outSampler) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create texture sampler!");
+    }
+}
+
+void HelloTriangleApplication::createNormalMapFromFile(const std::string& filename)
+{
+    int texWidth, texHeight, texChannels;
+    stbi_uc* pixels = stbi_load(filename.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    if (!pixels) {
+        throw std::runtime_error(std::string("failed to load texture image: ") + filename);
+    }
+    VkDeviceSize imageSize = static_cast<VkDeviceSize>(texWidth) * static_cast<VkDeviceSize>(texHeight) * 4;
+
+    // staging buffer
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
+    createBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+        stagingBuffer, stagingBufferMemory);
+
+    void* data;
+    vkMapMemory(device, stagingBufferMemory, 0, imageSize, 0, &data);
+    memcpy(data, pixels, static_cast<size_t>(imageSize));
+    vkUnmapMemory(device, stagingBufferMemory);
+    stbi_image_free(pixels);
+
+    // create image
+    VkImage normalImageLocal;
+    VkDeviceMemory normalImageMemoryLocal;
+
+    VkImageCreateInfo imageInfo{};
+    imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+    imageInfo.imageType = VK_IMAGE_TYPE_2D;
+    imageInfo.extent.width = static_cast<uint32_t>(texWidth);
+    imageInfo.extent.height = static_cast<uint32_t>(texHeight);
+    imageInfo.extent.depth = 1;
+    imageInfo.mipLevels = 1;
+    imageInfo.arrayLayers = 1;
+    imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+    imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+    imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+    imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+    imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+    if (vkCreateImage(device, &imageInfo, nullptr, &normalImageLocal) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create image!");
+    }
+
+    VkMemoryRequirements memRequirements;
+    vkGetImageMemoryRequirements(device, normalImageLocal, &memRequirements);
+    VkMemoryAllocateInfo allocInfo{};
+    allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+    allocInfo.allocationSize = memRequirements.size;
+    allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+    if (vkAllocateMemory(device, &allocInfo, nullptr, &normalImageMemoryLocal) != VK_SUCCESS) {
+        throw std::runtime_error("failed to allocate image memory!");
+    }
+    vkBindImageMemory(device, normalImageLocal, normalImageMemoryLocal, 0);
+
+    // copy staging -> image
+    transitionImageLayout(normalImageLocal, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_ASPECT_COLOR_BIT);
+    copyBufferToImage(stagingBuffer, normalImageLocal, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
+    transitionImageLayout(normalImageLocal, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, VK_IMAGE_ASPECT_COLOR_BIT);
+
+    vkDestroyBuffer(device, stagingBuffer, nullptr);
+    vkFreeMemory(device, stagingBufferMemory, nullptr);
+
+    // create view and sampler and push them into vectors
+    VkImageView view = createImageView(normalImageLocal, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_ASPECT_COLOR_BIT);
+    VkSampler sampler;
+    createNormalMapSampler(sampler);
+
+    normalImages = normalImageLocal;
+    normalImageMemory = normalImageMemoryLocal;
+    normalImageView = view;
+    normalSampler = sampler;
 }
 
 VkImageView HelloTriangleApplication::createImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags)
@@ -865,7 +975,7 @@ void HelloTriangleApplication::initVulkan() {
     createCommandPool();
 
 	createTextureFromFile("stones2.jpg");
-	createTextureFromFile("rockNormal.jpg");
+	createNormalMapFromFile("rockNormal.bmp");
 
     loadModel();
     //createTerrain(100, 100, vertices, indices);
@@ -1071,6 +1181,11 @@ void HelloTriangleApplication::cleanup() {
     }
     textureImages.clear();
     textureImageMemories.clear();
+
+	if (normalSampler != VK_NULL_HANDLE) vkDestroySampler(device, normalSampler, nullptr);
+	if (normalImageView != VK_NULL_HANDLE) vkDestroyImageView(device, normalImageView, nullptr);
+	if (normalImages != VK_NULL_HANDLE) vkDestroyImage(device, normalImages, nullptr);
+	if (normalImageMemory != VK_NULL_HANDLE) vkFreeMemory(device, normalImageMemory, nullptr);
     
     vkDestroyPipeline(device, graphicsPipeline, nullptr);
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
@@ -1323,7 +1438,13 @@ void HelloTriangleApplication::createDescriptorSetLayout() {
 	samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
-    std::array<VkDescriptorSetLayoutBinding, 2> bindings = { uboLayoutBinding, samplerLayoutBinding };
+	VkDescriptorSetLayoutBinding normalSamplerLayoutBinding{};
+	normalSamplerLayoutBinding.binding = 2;
+	normalSamplerLayoutBinding.descriptorCount = 1;
+	normalSamplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	normalSamplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    std::array<VkDescriptorSetLayoutBinding, 3> bindings = { uboLayoutBinding, samplerLayoutBinding, normalSamplerLayoutBinding };
     VkDescriptorSetLayoutCreateInfo layoutInfo{};
     layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
     layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
@@ -1860,11 +1981,13 @@ void HelloTriangleApplication::createUniformBuffers() {
 }
 
 void HelloTriangleApplication::createDescriptorPool() {
-std::array<VkDescriptorPoolSize, 2> poolSizes{};
+std::array<VkDescriptorPoolSize, 3> poolSizes{};
 poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 poolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT) * 2;
+poolSizes[2].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 VkDescriptorPoolCreateInfo poolInfo{};
 poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
@@ -1895,14 +2018,19 @@ void HelloTriangleApplication::createDescriptorSets() {
         bufferInfo.range = sizeof(UniformBufferObject);
 
         std::vector<VkDescriptorImageInfo> imageInfos(2);
-        for(int i = 0; i < 2; i++)
+        for(int j = 0; j < 2; j++)
         {
-            imageInfos[i].imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            imageInfos[i].imageView = textureImageViews[i];
-            imageInfos[i].sampler = textureSamplers[i];
+            imageInfos[j].imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            imageInfos[j].imageView = textureImageViews[0];
+            imageInfos[j].sampler = textureSamplers[0];
 		}
+
+		VkDescriptorImageInfo normalImageInfo{};
+		normalImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		normalImageInfo.imageView = normalImageView;
+		normalImageInfo.sampler = normalSampler;
         //2 descriptors: uniform buffer + texture sampler
-        std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+        std::array<VkWriteDescriptorSet, 3> descriptorWrites{};
         //(1) Uniform Buffer
         descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         descriptorWrites[0].dstSet = descriptorSets[i];
@@ -1919,6 +2047,14 @@ void HelloTriangleApplication::createDescriptorSets() {
         descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         descriptorWrites[1].descriptorCount = 2;
         descriptorWrites[1].pImageInfo = imageInfos.data();
+
+		descriptorWrites[2].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrites[2].dstSet = descriptorSets[i];
+		descriptorWrites[2].dstBinding = 2;
+		descriptorWrites[2].dstArrayElement = 0;
+		descriptorWrites[2].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorWrites[2].descriptorCount = 1;
+		descriptorWrites[2].pImageInfo = &normalImageInfo;
         vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()),
             descriptorWrites.data(), 0, nullptr);
     }
@@ -2296,12 +2432,12 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     
 ModelPushConstant pushUBO{};
 glm::mat4 model = glm::mat4(1.0f);
-model = glm::rotate(model, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 pushUBO.model = model;
 pushUBO.shininess = 1.0f;
-pushUBO.matAmbient = glm::vec4(0.2f, 0.2f, 0.2f,0.0f);
+pushUBO.matAmbient = glm::vec4(0.2f, 0.2f, 0.2f,1.0f);
 vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
 
@@ -2334,8 +2470,8 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    float cameraDistance = 2.0f;
-    glm::vec3 eyePos = glm::vec3(cameraDistance, -1.0f, -2.0f);
+    float cameraDistance = 1.0f;
+    glm::vec3 eyePos = glm::vec3(cameraDistance, 0.0f, 0.0f);
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 lightPos = glm::vec3(2.0f, -4.0f, 2.0f);

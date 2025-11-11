@@ -24,7 +24,7 @@ layout(location = 1) in vec3 inColor;
 layout(location = 2) in vec3 inNormal;
 layout(location = 3) in vec2 inTexCoord;
 layout(location = 4) in vec3 inTangent;
-layout(location = 5) in vec3 inBinomial;
+layout(location = 5) in vec3 inBinormal;
 
 layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec3 fragWorldPos;
@@ -75,32 +75,7 @@ void main() {
 
     mat4 viewMatrix = lookAtRH(eyePos, centerPos, upDir);
     mat4 projMatrix = perspective(ubo.fovy, ubo.aspect, ubo.zNear, ubo.zFar);
-    
-    // Transform position and normal to world space
-    //vec3 worldPos = (pushConstants.model * vec4(inPosition, 1.0)).xyz;
-    //vec3 worldNormal = mat3(transpose(inverse(pushConstants.model))) * inNormal;
-    // Define light and material properties
-    //vec3 lightColor = vec3(1.0, 0.0, 0.0); // Light color
-    //vec3 ambientMaterial = vec3(0.2, 0.1, 0.2); // Ambient light component
-    // Diffuse calculation
-    //vec3 norm = normalize(worldNormal);
-    //vec3 lightDir = normalize(cam.lightPos.xyz - worldPos);
-    //float diff = max(dot(norm, lightDir), 0.0);
-    //vec3 diffuse = diff * lightColor;
-
-    //vec3 viewDir = normalize(eyePos - worldPos);
-    //vec3 reflectDir = normalize(reflect(-lightDir, norm));
-    //float shininess = 1.0;
-   //float spec = pow(max(dot(reflectDir, viewDir), 0.0), shininess);
-    //vec3 specMaterial=vec3(1.0);
-    //vec3 specular = specMaterial *lightColor*spec;
-    // Combine and pass to fragment shader
-    //vec3 diffMaterial=vec3(1.0);
-    //fragColor = ambientMaterial* lightColor;
-    //fragColor += diffMaterial* lightColor* diffuse;
-    //fragColor += specular;
-
-    
+        
         // Model -> World
     mat4 model = pushConstants.model;
     vec4 worldPos4 = model * vec4(inPosition, 1.0);
@@ -114,20 +89,20 @@ void main() {
     fragTexCoord = inTexCoord;
     fragColor = inColor;
 
-    gl_Position = projMatrix * viewMatrix * pushConstants.model * vec4(inPosition, 1.0);
+    gl_Position = projMatrix * viewMatrix * model * vec4(inPosition, 1.0);
     gl_PointSize = 10.0;
 
-    Mat4 ModelMatrix_TInv= transpose(inverse(ubo.model);
+    mat4 ModelMatrix_TInv= transpose(inverse(model));
     vec3 T = normalize(mat3(ModelMatrix_TInv) * inTangent);
     vec3 B = normalize(mat3(ModelMatrix_TInv) * inBinormal);
-    vec3 N = normalize(mat3(ModelMatrix_TInv) * inNormal);
+    vec3 N = normalize(mat3(ModelMatrix_TInv) * fragWorldNormal);
     mat3 TBN = transpose(mat3(T, B, N)); // Use transpose to invert
     // Get world-space light and view positions
-    vec3 lightPos_world = ubo.lightPos;
-    vec3 viewPos_world = ubo.viewPos;
-    vec3 fragPos_world = (ubo.model * vec4(inPosition, 1.0)).xyz;
+    vec3 lightPos_world = ubo.lightPos.xyz;
+    vec3 viewPos_world = eyePos;
+    vec3 fragPos_world = (model * vec4(inPosition, 1.0)).xyz;
     // Transform light and view POSITIONS to tangent space
-    fragLightPos_tangent = TBN * lightPos_world;
-    fragViewPos_tangent = TBN * viewPos_world;
+    fragLightPos_tangent = TBN * lightPos_world - fragWorldPos;
+    fragViewPos_tangent = TBN * viewPos_world - fragWorldPos;
     fragPos_tangent =TBN *fragPos_world;
 }
