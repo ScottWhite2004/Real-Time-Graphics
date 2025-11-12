@@ -1086,6 +1086,7 @@ void HelloTriangleApplication::initVulkan() {
 
 	createTextureFromFile("stones2.jpg");
 	createNormalMapFromFile("rockNormal.bmp");
+	createHeightMapFromFile("rockHeight.tga");
 
     loadModel();
     //createTerrain(100, 100, vertices, indices);
@@ -1296,7 +1297,12 @@ void HelloTriangleApplication::cleanup() {
 	if (normalImageView != VK_NULL_HANDLE) vkDestroyImageView(device, normalImageView, nullptr);
 	if (normalImages != VK_NULL_HANDLE) vkDestroyImage(device, normalImages, nullptr);
 	if (normalImageMemory != VK_NULL_HANDLE) vkFreeMemory(device, normalImageMemory, nullptr);
-    
+
+	if (heightImageMemory != VK_NULL_HANDLE) vkFreeMemory(device, heightImageMemory, nullptr);
+	if (heightImages != VK_NULL_HANDLE) vkDestroyImage(device, heightImages, nullptr);
+	if (heightImageView != VK_NULL_HANDLE) vkDestroyImageView(device, heightImageView, nullptr);
+	if (heightSampler != VK_NULL_HANDLE) vkDestroySampler(device, heightSampler, nullptr);
+
     vkDestroyPipeline(device, graphicsPipeline, nullptr);
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
@@ -1555,10 +1561,10 @@ void HelloTriangleApplication::createDescriptorSetLayout() {
 	normalSamplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
     VkDescriptorSetLayoutBinding heightSamplerLayoutBinding{};
-    normalSamplerLayoutBinding.binding = 3;
-    normalSamplerLayoutBinding.descriptorCount = 1;
-    normalSamplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    normalSamplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+    heightSamplerLayoutBinding.binding = 3;
+    heightSamplerLayoutBinding.descriptorCount = 1;
+    heightSamplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    heightSamplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
     std::array<VkDescriptorSetLayoutBinding, 4> bindings = { uboLayoutBinding, samplerLayoutBinding, normalSamplerLayoutBinding, heightSamplerLayoutBinding };
     VkDescriptorSetLayoutCreateInfo layoutInfo{};

@@ -35,22 +35,23 @@ layout(location = 0) out vec4 outColor;
 
 void main() {
     
+    vec3 lightColour = vec3(1.0, 1.0, 1.0);
     vec3 albedo = texture(texSampler[0], fragTexCoord).rgb;
 
-    vec3 N_tangent = texture(normalSampler, fragTexCoord).rgb * 2.0 - 1.0;
-    N_tangent = normalize(N_tangent);
+    vec3 N_tangent = texture(normalSampler, fragTexCoord).xyz;
+    N_tangent = normalize(vec3((N_tangent.r * 2.0 - 1.0), -(N_tangent.g * 2.0 - 1.0), (N_tangent.b * 2.0 - 1.0)));
 
-    vec3 L = normalize(fragLightPos_tangent);
-    vec3 V = normalize(fragViewPos_tangent);
+    vec3 L = normalize(fragLightPos_tangent - fragPos_tangent);
+    vec3 V = normalize(fragViewPos_tangent - fragPos_tangent);
 
     vec3 ambient = pushConstants.matAmbient.rgb * albedo;
 
     float NdotL = max(dot(N_tangent, L), 0.0);
-    vec3 diffuse = NdotL * albedo;
+    vec3 diffuse = lightColour * NdotL * albedo;
 
     vec3 H = normalize(L + V);
     float spec = pow(max(dot(N_tangent, H), 0.0), pushConstants.shininess);
-    vec3 specular = spec * texture(texSampler[1], fragTexCoord).rgb;
+    vec3 specular = lightColour * spec * texture(texSampler[1], fragTexCoord).rgb * 0.3;
 
     vec3 color = ambient + diffuse + specular;
     
