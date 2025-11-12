@@ -269,44 +269,44 @@ const std::vector<Vertex> Quad_vertices_normals = {
     {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Back face (-Z) normal (0,0,-1)
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Right face (+X) normal (1,0,0)
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
 
     // Left face (-X) normal (-1,0,0)
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
 
     // Top face (+Y) normal (0,1,0)
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
 
     // Bottom face (-Y) normal (0,-1,0)
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}}
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}}
 };
 
 const std::vector<uint16_t> Quad_indices = {
@@ -813,7 +813,7 @@ void HelloTriangleApplication::createHeightMapSampler(VkSampler& outSampler)
     samplerInfo.unnormalizedCoordinates = VK_FALSE;
     samplerInfo.compareEnable = VK_FALSE;
     samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
-    samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+    samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
     samplerInfo.minLod = 0.0f;
     samplerInfo.maxLod = 0.0f;
     samplerInfo.mipLodBias = 0.0f;
@@ -826,11 +826,11 @@ void HelloTriangleApplication::createHeightMapSampler(VkSampler& outSampler)
 void HelloTriangleApplication::createHeightMapFromFile(const std::string& filename)
 {
     int texWidth, texHeight, texChannels;
-    stbi_uc* pixels = stbi_load(filename.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc* pixels = stbi_load(filename.c_str(), &texWidth, &texHeight, &texChannels, STBI_grey);
     if (!pixels) {
         throw std::runtime_error(std::string("failed to load texture image: ") + filename);
     }
-    VkDeviceSize imageSize = static_cast<VkDeviceSize>(texWidth) * static_cast<VkDeviceSize>(texHeight) * 4;
+    VkDeviceSize imageSize = static_cast<VkDeviceSize>(texWidth) * static_cast<VkDeviceSize>(texHeight) * 1;
 
     // staging buffer
     VkBuffer stagingBuffer;
@@ -857,7 +857,7 @@ void HelloTriangleApplication::createHeightMapFromFile(const std::string& filena
     imageInfo.extent.depth = 1;
     imageInfo.mipLevels = 1;
     imageInfo.arrayLayers = 1;
-    imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+    imageInfo.format = VK_FORMAT_R8_UNORM;
     imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
     imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
     imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
@@ -888,9 +888,9 @@ void HelloTriangleApplication::createHeightMapFromFile(const std::string& filena
     vkFreeMemory(device, stagingBufferMemory, nullptr);
 
     // create view and sampler and push them into vectors
-    VkImageView view = createImageView(heightImageLocal, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_ASPECT_COLOR_BIT);
+    VkImageView view = createImageView(heightImageLocal, VK_FORMAT_R8_UNORM, VK_IMAGE_ASPECT_COLOR_BIT);
     VkSampler sampler;
-    createNormalMapSampler(sampler);
+    createHeightMapSampler(sampler);
 
     heightImages = heightImageLocal;
     heightImageMemory = heightImageMemoryLocal;
@@ -1086,7 +1086,7 @@ void HelloTriangleApplication::initVulkan() {
 
 	createTextureFromFile("stones2.jpg");
 	createNormalMapFromFile("rockNormal.bmp");
-	createHeightMapFromFile("rockHeight.tga");
+	createHeightMapFromFile("rockheight.tga");
 
     loadModel();
     //createTerrain(100, 100, vertices, indices);
@@ -2570,7 +2570,7 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     
 ModelPushConstant pushUBO{};
 glm::mat4 model = glm::mat4(1.0f);
-model = glm::rotate(model, time * glm::radians(10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 pushUBO.model = model;
