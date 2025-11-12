@@ -1,4 +1,2 @@
 ﻿  Performing Custom Build Tools
-  .\Shaders\shader.frag:44: error: 'fragPos_tangent' : undeclared identifier
-  1 error generated.
-C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(254,5): error MSB8066: Custom build for 'Shaders\shader.frag' exited with code 1.
+  Lab_Tutorial_Template.vcxproj -> C:\Users\712769\Workspace\Real-Time-Graphics\Lab_Startup\Startup_Lab\Vulkan(1_3)_Lab_01\x64\Debug\Lab_Tutorial_Template(Vulkan1_3).exe

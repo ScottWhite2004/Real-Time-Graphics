@@ -2570,12 +2570,12 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     
 ModelPushConstant pushUBO{};
 glm::mat4 model = glm::mat4(1.0f);
-model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+model = glm::rotate(model, time * glm::radians(10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 pushUBO.model = model;
-pushUBO.shininess = 1.0f;
-pushUBO.matAmbient = glm::vec4(0.2f, 0.2f, 0.2f,1.0f);
+pushUBO.shininess = 32.0f;
+pushUBO.matAmbient = glm::vec4(0.05f, 0.05f, 0.05f,0.0f);
 vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
 
@@ -2608,11 +2608,11 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    float cameraDistance = 1.0f;
-    glm::vec3 eyePos = glm::vec3(cameraDistance, 0.0f, 0.0f);
+    float cameraDistance = 0.0f;
+    glm::vec3 eyePos = glm::vec3(cameraDistance, 0.0f, -2.0f);
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 lightPos = glm::vec3(2.0f, -4.0f, 2.0f);
+	glm::vec3 lightPos = glm::vec3(-3.0f, -3.0f, -3.0f);
 
 	glm::vec3 lightPos2 = glm::vec3(-2.0f,0.0f,0.0f);
 
