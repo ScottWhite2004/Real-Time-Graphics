@@ -39,33 +39,10 @@ void main() {
     vec3 lightColour = vec3(1.0, 1.0, 1.0);
     vec3 albedo = texture(texSampler[0], fragTexCoord).rgb;
 
-    const float tileSize = 0.25;
-    const float bumpRadius = 0.12;
-    const float halfTile = tileSize * 0.5;
-
-    vec2 pos = fragPos_tangent.xy;
-
-    vec2 tileUV = fract(pos/tileSize);
-    vec2 local = tileUV * tileSize - vec2(halfTile);
-
-    float r2 = dot(local, local);
-    float z = 0.0;
-
-    vec3 N_tangent;
-
-    if (r2 < bumpRadius * bumpRadius)
-    {
-        z = sqrt(bumpRadius * bumpRadius - r2);
-        N_tangent = normalize(vec3(local.x, local.y, z));
-    }
-    else
-    {
-    N_tangent = vec3(0.0, 0.0, 1.0);
-   
-    }
-
-
-
+    vec3 N_tangent = texture(normalSampler, fragTexCoord).xyz;
+    N_tangent.xy *= 1.0;
+    N_tangent.z = sqrt(max(0.0, 1.0 - dot(N_tangent.xy, N_tangent.xy)));
+    N_tangent = normalize(vec3((N_tangent.r * 2.0 - 1.0), (N_tangent.g * 2.0 - 1.0), (N_tangent.b * 2.0 - 1.0)));
 
     vec3 L = normalize(fragLightPos_tangent - fragPos_tangent);
     vec3 V = normalize(fragViewPos_tangent - fragPos_tangent);
