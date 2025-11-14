@@ -12,7 +12,7 @@ layout(std140, binding = 0) uniform UniformBufferObject{
     float zFar;
 }ubo;
 
-layout(binding = 1) uniform sampler2D texSampler[2];
+layout(binding = 1) uniform sampler2D texSampler;
 layout(binding = 2) uniform sampler2D normalSampler;
 layout(binding = 3) uniform sampler2D heightSampler;
 
@@ -37,7 +37,7 @@ layout(location = 0) out vec4 outColor;
 void main() {
     
     vec3 lightColour = vec3(1.0, 1.0, 1.0);
-    vec3 albedo = texture(texSampler[0], fragTexCoord).rgb;
+    vec3 albedo = texture(texSampler, fragTexCoord).rgb;
 
     vec3 N_tangent = texture(normalSampler, fragTexCoord).xyz;
     N_tangent.xy *= 1.0;
@@ -57,7 +57,7 @@ void main() {
     float specMask = 1.0;
     vec3 specular = lightColour * spec * specMask * 0.3;
 
-    vec3 color = ambient + diffuse + specular;
+    vec3 color = albedo;
     
     outColor = vec4(color, 1.0);
 }
