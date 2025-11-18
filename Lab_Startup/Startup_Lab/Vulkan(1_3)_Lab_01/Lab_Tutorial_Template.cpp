@@ -2833,18 +2833,6 @@ pushUBO.matAmbient = glm::vec4(0.05f, 0.05f, 0.05f,0.0f);
 vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
 
-model = glm::mat4(1.0f);
-model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-model = glm::translate(model, glm::vec3(1.f, 0.0f, 1.0f));
-model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-pushUBO.model = model;
-pushUBO.shininess = 32.0f;
-pushUBO.matAmbient = glm::vec4(0.05f, 0.05f, 0.05f, 0.0f);
-vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
-
-
-
     vkCmdEndRendering(commandBuffer);
 
     VkImageMemoryBarrier2 imageBarrierToPresent{};
