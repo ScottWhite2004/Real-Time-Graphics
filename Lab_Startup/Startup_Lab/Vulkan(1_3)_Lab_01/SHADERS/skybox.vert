@@ -18,34 +18,18 @@ layout(push_constant) uniform PushConstants {
 } pushConstants;
 
 layout(location = 0) in vec3 inPosition;
-layout(location = 1) in vec3 inColor;
-layout(location = 2) in vec3 inNormal;
-layout(location = 3) in vec2 inTexCoord;
-layout(location = 4) in vec3 inTangent;
-layout(location = 5) in vec3 inBinormal;
 
-layout(location = 1) out vec3 viewDir;
-layout(location = 3) out vec3 fragTexCoord;
+layout(location = 3) out vec3 fragDir;
 
-mat4 lookAtRH(vec3 eye, vec3 center, vec3 up)
-{
-    vec3 z_axis = normalize(eye - center);
-    vec3 x_axis = normalize(cross(up, z_axis));
-    vec3 y_axis = cross(z_axis, x_axis);
-    mat4 result = mat4(1.0);
-    result[0][0] = x_axis.x;
-    result[1][0] = x_axis.y;
-    result[2][0] = x_axis.z;
-    result[0][1] = y_axis.x;
-    result[1][1] = y_axis.y;
-    result[2][1] = y_axis.z;
-    result[0][2] = z_axis.x;
-    result[1][2] = z_axis.y;
-    result[2][2] = z_axis.z;
-    result[3][0] = -dot(x_axis, eye);
-    result[3][1] = -dot(y_axis, eye);
-    result[3][2] = -dot(z_axis, eye);
-    return result;
+mat4 viewRotationOnly(vec3 eye, vec3 center, vec3 up) {
+    vec3 f = normalize(center - eye);
+    vec3 s = normalize(cross(f, up));
+    vec3 u = cross(s, f);
+    mat4 v = mat4(1.0);
+    v[0][0] = s.x; v[1][0] = s.y; v[2][0] = s.z;
+    v[0][1] = u.x; v[1][1] = u.y; v[2][1] = u.z;
+    v[0][2] = -f.x; v[1][2] = -f.y; v[2][2] = -f.z;
+    return v; // no translation -> skybox stays centered
 }
 
 mat4 perspective(float fovy, float aspect, float zNear, float zFar)
@@ -62,11 +46,11 @@ mat4 perspective(float fovy, float aspect, float zNear, float zFar)
 
 void main()
 {
-    viewDir = inPosition;
-    vce3 wPos = inPosition + ubo.eye.xyz;
-    mat4 view = lookAtRH(ubo.eye.xyz, ubo.center.xyz, ubo.up.xyz);
+    fragDir = inPosition;
+    mat4 view = viewRotationOnly(ubo.eye.xyz, ubo.center.xyz, ubo.up.xyz);
     mat4 proj = perspective(ubo.fovy, ubo.aspect, ubo.zNear, ubo.zFar);
-    fragTexCoord = inTexCoord;
-    gl_Position = proj * view * vec4(wPos, 1.0);
+    proj[1][1] *= -1; // flip Y for Vulkan]
+    mat4 modelRotScale = mat4(mat3(pushConstants.model));
+    gl_Position = proj * view * modelRotScale * vec4(inPosition, 1.0);
 }
 

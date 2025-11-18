@@ -453,6 +453,10 @@ private:
     VkQueue presentQueue = VK_NULL_HANDLE;
     VkCommandPool commandPool = VK_NULL_HANDLE;
 
+    float cameraYaw = 0.0f;
+    float cameraPitch = 0.0f;
+    float cameraRadius = 5.0f;
+
     // --- Swapchain ---
     VkSwapchainKHR swapChain = VK_NULL_HANDLE;;
     std::vector<VkImage> swapChainImages;
@@ -526,6 +530,9 @@ private:
     void cleanupSwapChain();
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void updateUniformBuffer(uint32_t currentImage);
+
+	//camera control
+    void handleCameraInput(float dt);
 
     // Perlin Noise Generation
     std::vector<float> gradient(float h);
@@ -604,6 +611,21 @@ void HelloTriangleApplication::run() {
     initVulkan();
     mainLoop();
     cleanup();
+}
+
+void HelloTriangleApplication::handleCameraInput(float dt) {
+    const float yawSpeed = 1.0f;
+    const float pitchSpeed = 1.0f;
+    const float zoomSpeed = 2.0f;
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) cameraYaw -= yawSpeed * dt;
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) cameraYaw += yawSpeed * dt;
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) cameraPitch += pitchSpeed * dt;
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) cameraPitch -= pitchSpeed * dt;
+    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS) cameraRadius = std::max(1.0f, cameraRadius - zoomSpeed * dt);
+    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS) cameraRadius += zoomSpeed * dt;
+
+    cameraPitch = glm::clamp(cameraPitch, glm::radians(-85.0f), glm::radians(85.0f));
 }
 
 VkFormat HelloTriangleApplication::findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
@@ -1269,9 +1291,23 @@ void HelloTriangleApplication::initVulkan() {
 	createDepthResources();
     createImageViews();
     createDescriptorSetLayout();
-	//createWireFrameGraphicsPipeline();
-    //createPointGraphicsPipeline();
-	//createGraphicsPipeline();
+
+    VkPushConstantRange pcRange{};
+    pcRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    pcRange.offset = 0;
+    pcRange.size = sizeof(ModelPushConstant);
+
+    VkPipelineLayoutCreateInfo plInfo{};
+    plInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    plInfo.setLayoutCount = 1;
+    plInfo.pSetLayouts = &descriptorSetLayout;
+    plInfo.pushConstantRangeCount = 1;
+    plInfo.pPushConstantRanges = &pcRange;
+    if (vkCreatePipelineLayout(device, &plInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create shared pipeline layout!");
+    }
+
+
 	createTriangleStripGraphicsPipeline();
     createSkyboxGraphicsPipeline();
     createCommandPool();
@@ -1303,8 +1339,14 @@ void HelloTriangleApplication::initVulkan() {
 }
 
 void HelloTriangleApplication::mainLoop() {
+    auto lastTime = std::chrono::high_resolution_clock::now();
     while (!glfwWindowShouldClose(window)) {
+        auto now = std::chrono::high_resolution_clock::now();
+        float dt = std::chrono::duration<float>(now - lastTime).count();
+        lastTime = now;
+
         glfwPollEvents();
+        handleCameraInput(dt);
         drawFrame();
     }
     vkDeviceWaitIdle(device);
@@ -2246,8 +2288,8 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
 
 void HelloTriangleApplication::createSkyboxGraphicsPipeline()
 {
-    auto vertShaderCode = readFile("shaders/vert.spv");
-    auto fragShaderCode = readFile("shaders/frag.spv");
+    auto vertShaderCode = readFile("shaders/skyboxVert.spv");
+    auto fragShaderCode = readFile("shaders/skyboxFrag.spv");
 
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
@@ -2301,7 +2343,7 @@ void HelloTriangleApplication::createSkyboxGraphicsPipeline()
     //rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
     rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizer.lineWidth = 1.0f;
-    rasterizer.cullMode = VK_CULL_MODE_FRONT_BIT;
+	rasterizer.cullMode = VK_CULL_MODE_FRONT_BIT;
     rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
     rasterizer.depthBiasEnable = VK_FALSE;
 
@@ -2747,8 +2789,6 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
 
     vkCmdBeginRendering(commandBuffer, &renderingInfo);
 
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-
     VkViewport viewport{};
     viewport.width = static_cast<float>(swapChainExtent.width);
     viewport.height = static_cast<float>(swapChainExtent.height);
@@ -2764,155 +2804,23 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     VkDeviceSize offsets[] = { 0 };
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
     vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, skyboxPipeline);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
-    
-	// Draw multiple objects with offsets
-    //for (const auto& shape : shapeDrawInfos)
-    //{
-    //    ModelPushConstant pushUBO{};
-    //    pushUBO.model = shape.modelMatrix; //* glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    //    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-    //    vkCmdDrawIndexed(commandBuffer, shape.indexCount, 1, shape.indexOffset, 0, 0);
-    //}
 
-    // Draw a singular object with not offsets        
-   
+    ModelPushConstant skyPC{};
+    // Large cube; translation ignored in skybox.vert (view has no translation)
+    skyPC.model = glm::scale(glm::mat4(1.0f), glm::vec3(50.0f));
+    skyPC.shininess = 0.0f;
+    skyPC.matAmbient = glm::vec4(0.0f);
+    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &skyPC);
 
-    //Lab 3 - Task 2
-    //Cube and axis 1
- //   ModelPushConstant pushUBO{};
-	//
- //   glm::mat4 model = glm::mat4(1.0f);
-	//model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
- //   model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
- //   pushUBO.model = model;
- //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
- //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
- //   
- //   float angle = time * glm::radians(90.0f);
- //   float orbitRadius = 1.0f;
+    // Non-indexed draw: your skybox uses the same 36-vertex cube data (Quad_vertices_normals)
+    vkCmdDraw(commandBuffer, static_cast<uint32_t>(Quad_vertices_normals.size()), 1, 0, 0);
 
- //   glm::mat4 model2 = glm::mat4(1.0f);
- //   model2 = glm::translate(model2, glm::vec3(0.0f, -2.0f, 0.75f));
-	//model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-	//model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
-	//model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
- //   pushUBO.model = model2;
- //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
- //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+    vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-    //Cube and axis 2;
- //   
- //   model = glm::mat4(1.0f);
-	//model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
- //   model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
- //   pushUBO.model = model;
- //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
- //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-
- //   angle = time * glm::radians(45.0f);
- //   orbitRadius = 1.0f;
-
- //   model2 = glm::mat4(1.0f);
- //   model2 = glm::translate(model2, glm::vec3(0.0f, 2.0f, 0.75f));
- //   model2 = glm::rotate(model2, angle, glm::vec3(0.0f, 0.0f, 1.0f));
- //   model2 = glm::translate(model2, glm::vec3(orbitRadius, 0.0f, 0.0f));
- //   model2 = glm::scale(model2, glm::vec3(0.25f, 0.25f, 0.25f));
- //   pushUBO.model = model2;
- //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
- //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-
- //   model = glm::mat4(1.0f);
- //   model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
- //   model = glm::scale(model, glm::vec3(6.0f, 6.0f, 0.25f));
- //   pushUBO.model = model;
- //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
- //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-    
-//Lab 3 Task 3
- //   ModelPushConstant pushUBO{};
- //   
- //   glm::mat4 model = glm::mat4(1.0f);
- //   model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
- //   model = glm::scale(model, glm::vec3(0.5f, 0.5f, 3.0f));
- //   pushUBO.model = model;
- //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
- //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
- //   
- //   float angle = time * glm::radians(-90.0f);
- //   float orbitRadius = 1.0f;
- //   glm::vec3 orbitCenter = glm::vec3(0.0f, -2.0f, 0.75f);
-
-	//glm::vec3 posOnPath = orbitCenter + glm::vec3(orbitRadius * cos(angle), orbitRadius * sin(angle), 0.0f);
-
-	//glm::vec3 tangent = glm::vec3(-glm::sin(angle) * orbitRadius, glm::cos(angle) * orbitRadius, 0.0f);
-	//tangent = glm::normalize(tangent);
-
-	//glm::vec3 worldUp = glm::vec3(0.0f, 0.0f, 1.0f);
-
- //   glm::vec3 right = glm::normalize(glm::cross(worldUp, tangent));
- //   glm::vec3 upCorrected = glm::cross(tangent, right);
-
- //   glm::mat3 basis = glm::mat3(right, tangent, upCorrected);
- //   glm::mat4 rot = glm::mat4(basis);
-
- //   glm::mat4 model2 = glm::mat4(1.0f);
- //   model2 = glm::translate(model2, posOnPath);
- //   model2 *= rot;
- //   model2 = glm::scale(model2, glm::vec3(0.25f, 1.0f, 0.25f));
-
- //   pushUBO.model = model2;
- //   vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
- //   vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-
-//Lab 3 - Task 4
-//glm::vec3 sunPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-//
-//
-////Sun
-//    ModelPushConstant pushUBO{};
-//    
-//    glm::mat4 model = glm::mat4(1.0f);
-//    model = glm::translate(model, sunPosition);
-//    model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-//	model = glm::rotate(model, time * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-//    pushUBO.model = model;
-//    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-//    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-//    
-//
-//
-//
-////Earth
-//
-//    float orbitalDistance = 1.0f;
-//	glm::vec3 orbitTranslation = glm::vec3(orbitalDistance, orbitalDistance, 0.0f);
-//
-//
-//    model = glm::rotate(model, time * glm::radians(20.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-//	model = glm::translate(model, orbitTranslation);
-//    model = glm::rotate(model, time * glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-//	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-//    pushUBO.model = model;
-//    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-//    vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-//
-//
-////Moon
-//
-//	float moonOrbitalDistance = 1.5f;
-//	glm::vec3 moonOrbitTranslation = glm::vec3(0.0f, moonOrbitalDistance, 0.0f);
-//
-//	model = glm::rotate(model, time * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-//	model = glm::translate(model, moonOrbitTranslation);
-//	model = glm::scale(model, glm::vec3(0.27f, 0.27f, 0.27f));
-//	pushUBO.model = model;
-//	vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-//	vkCmdDrawIndexed(commandBuffer, indices.size(), 1, 0, 0, 0);
-//
-//
-
-//Lab 4
     
 ModelPushConstant pushUBO{};
 glm::mat4 model = glm::mat4(1.0f);
@@ -2966,9 +2874,14 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     float time = std::chrono::duration<float>(currentTime - startTime).count();
 
     UniformBufferObject ubo{};
-    float cameraDistance = 0.0f;
-    glm::vec3 eyePos = glm::vec3(cameraDistance, 0.0f, -2.0f);
-	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 center = glm::vec3(0.0f);
+    float xzRadius = cameraRadius * std::cos(cameraPitch);
+    glm::vec3 eyePos = center + glm::vec3(
+        xzRadius * std::sin(cameraYaw),
+        cameraRadius * std::sin(cameraPitch),
+        xzRadius * std::cos(cameraYaw)
+    );
+
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 lightPos = glm::vec3(-3.0f, -3.0f, -3.0f);
 

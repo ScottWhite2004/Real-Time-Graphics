@@ -182,15 +182,15 @@
     <CustomBuild Include="SHADERS\skybox.frag">
       <FileType>Document</FileType>
       <DeploymentContent>true</DeploymentContent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VULKAN_SDK)\Bin\glslangValidator.exe -V "$(InputFile)" -o "$(ProjectDir)SHADERS\$(InputName)$(InputExt).spv"</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)SHADERS\$(InputName)$(InputExt).spv</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslc ".\Shaders\skybox.frag" -o ".\Shaders\skyboxFrag.spv"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Shaders\skyboxFrag.spv</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(InputPath);%(AdditionalInputs)</AdditionalInputs>
     </CustomBuild>
     <CustomBuild Include="SHADERS\skybox.vert">
       <FileType>Document</FileType>
       <DeploymentContent>true</DeploymentContent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VULKAN_SDK)\Bin\glslangValidator.exe -V "$(InputFile)" -o "$(ProjectDir)SHADERS\$(InputName)$(InputExt).spv"</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)SHADERS\$(InputName)$(InputExt).spv;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslc ".\Shaders\skybox.vert" -o ".\Shaders\skyboxVert.spv"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Shaders\skyboxVert.spv;%(Outputs)</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(InputPath);%(AdditionalInputs)</AdditionalInputs>
     </CustomBuild>
   </ItemGroup>

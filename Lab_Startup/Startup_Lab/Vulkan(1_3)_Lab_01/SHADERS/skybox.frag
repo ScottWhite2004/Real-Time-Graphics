@@ -1,7 +1,6 @@
 #version 450
-#version 450
 
-layout(std140, binding = 0) uniform UniformBufferObject{
+layout(std140, binding = 0) uniform UniformBufferObject {
     vec4 eye;
     vec4 center;
     vec4 up;
@@ -11,13 +10,9 @@ layout(std140, binding = 0) uniform UniformBufferObject{
     float aspect;
     float zNear;
     float zFar;
-}ubo;
+} ubo;
 
-layout(binding = 1) uniform sampler2D texSampler;
-layout(binding = 2) uniform sampler2D normalSampler;
-layout(binding = 3) uniform sampler2D heightSampler;
 layout(binding = 4) uniform samplerCube skyboxSampler;
-
 
 layout(push_constant) uniform PushConstants {
     mat4 model;
@@ -25,12 +20,9 @@ layout(push_constant) uniform PushConstants {
     vec4 matAmbient;
 } pushConstants;
 
-layout(location = 3) in vec3 fragTexCoord;
-layout(location = 1) in vec3 viewDir;
-
+layout(location = 3) in vec3 fragDir;
 layout(location = 0) out vec4 outColor;
 
-void main()
-{
-    outColor = texture(skyboxSampler, fragTexCoord);
+void main() {
+    outColor = texture(skyboxSampler,normalize(fragDir));
 }
