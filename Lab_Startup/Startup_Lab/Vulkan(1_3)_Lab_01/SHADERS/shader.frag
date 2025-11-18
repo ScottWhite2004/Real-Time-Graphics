@@ -37,35 +37,13 @@ layout(location = 0) out vec4 outColor;
 
 void main() {
     
-    //vec3 lightColour = vec3(1.0, 1.0, 1.0);
-    //vec3 albedo = texture(texSampler, fragTexCoord).rgb;
-
-    //vec3 N_tangent = texture(normalSampler, fragTexCoord).xyz;
-    //N_tangent.xy *= 1.0;
-    //N_tangent.z = sqrt(max(0.0, 1.0 - dot(N_tangent.xy, N_tangent.xy)));
-    //N_tangent = normalize(vec3((N_tangent.r * 2.0 - 1.0), (N_tangent.g * 2.0 - 1.0), (N_tangent.b * 2.0 - 1.0)));
-
-    //vec3 L = normalize(fragLightPos_tangent - fragPos_tangent);
-    //vec3 V = normalize(fragViewPos_tangent - fragPos_tangent);
-
-    //vec3 ambient = pushConstants.matAmbient.rgb * albedo;
-
-    //float NdotL = max(dot(N_tangent, L), 0.0);
-    //vec3 diffuse = lightColour * NdotL * albedo;
-
-    //vec3 H = normalize(L + V);
-    //float spec = pow(max(dot(N_tangent, H), 0.0), pushConstants.shininess);
-    //float specMask = 1.0;
-    //vec3 specular = lightColour * spec * specMask * 0.3;
-
-    //vec3 color = albedo;
-
     vec3 N = normalize(fragWorldNormal);
     vec3 V = normalize(ubo.eye.xyz - fragWorldPos); // View vector
     // Calculate the reflection vector
-    vec3 R = normalize(reflect(-V, N)); // reflect() expects incident vector
+    vec3 R = reflect(-V, N);
     // Sample the skybox with the reflection vector
-    vec3 reflectionColor = vec3(N * 0.5+0.5);
+    vec3 sampleR = vec3(R.x, R.y, R.z);
+    vec3 reflectionColor = texture(skyboxSampler, sampleR).rgb;
     
     outColor = vec4(reflectionColor, 1.0);
 }

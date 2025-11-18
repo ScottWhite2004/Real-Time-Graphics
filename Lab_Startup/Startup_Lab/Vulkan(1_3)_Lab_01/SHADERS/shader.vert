@@ -75,6 +75,7 @@ void main() {
 
     mat4 viewMatrix = lookAtRH(eyePos, centerPos, upDir);
     mat4 projMatrix = perspective(ubo.fovy, ubo.aspect, ubo.zNear, ubo.zFar);
+    projMatrix[1][1] *= -1; // flip Y for Vulkan    
         
         // Model -> World
     mat4 model = pushConstants.model;
@@ -100,6 +101,8 @@ void main() {
     fragViewPos_tangent = TBN * viewPos_world;
     fragPos_tangent = TBN *fragPos_world;
 
+
+    fragWorldNormal = normalize(normalMat * inNormal);
 
     // Pass-through
     fragTexCoord = inTexCoord;

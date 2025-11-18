@@ -49,7 +49,7 @@ void main()
     fragDir = inPosition;
     mat4 view = viewRotationOnly(ubo.eye.xyz, ubo.center.xyz, ubo.up.xyz);
     mat4 proj = perspective(ubo.fovy, ubo.aspect, ubo.zNear, ubo.zFar);
-    proj[1][1] *= -1; // flip Y for Vulkan]
+    proj[1][1] *= -1; // flip Y for Vulkan
     mat4 modelRotScale = mat4(mat3(pushConstants.model));
     gl_Position = proj * view * modelRotScale * vec4(inPosition, 1.0);
 }
