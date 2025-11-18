@@ -353,7 +353,7 @@ void loadModel() {
 	
 
     indices = triangle_Strip_Indices;
-	vertices = Quad_vertices_normals;
+    vertices = Quad_vertices_normals;
     //Lab B Exercise 4
     //vertices.clear();
 	//indices.clear();
@@ -530,6 +530,9 @@ private:
     void cleanupSwapChain();
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void updateUniformBuffer(uint32_t currentImage);
+
+    //Particle System
+    std::vector<Vertex> createParticle(int numParticles, float zMin = 0.0f, float zMax = 1.0f);
 
 	//camera control
     void handleCameraInput(float dt);
@@ -1284,7 +1287,6 @@ void HelloTriangleApplication::initVulkan() {
     createSurface();
     pickPhysicalDevice();
     createLogicalDevice();
-	
 
     
     createSwapChain();
@@ -1325,6 +1327,8 @@ void HelloTriangleApplication::initVulkan() {
 		});
 
     loadModel();
+    vertices.clear();
+    vertices = createParticle(100);
     //createTerrain(100, 100, vertices, indices);
 	//createCylinder(20,0.5f,vertices,indices);
 	//createGrid(50, 50, vertices, indices);
@@ -2802,6 +2806,7 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
 
     VkBuffer vertexBuffers[] = { vertexBuffer };
     VkDeviceSize offsets[] = { 0 };
+    vertices = Quad_vertices_normals;
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
     vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
@@ -2818,6 +2823,9 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     // Non-indexed draw: your skybox uses the same 36-vertex cube data (Quad_vertices_normals)
     vkCmdDraw(commandBuffer, static_cast<uint32_t>(Quad_vertices_normals.size()), 1, 0, 0);
 
+    vertices = createParticle(100);
+    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
     vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
@@ -2889,6 +2897,45 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
     memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
 
 
+}
+
+std::vector<Vertex> HelloTriangleApplication::createParticle(int numParticles, float zMin, float zMax)
+{
+    std::vector<Vertex> outVertices;
+
+    for(int i = 0; i < numParticles; i++)
+    {
+        Vertex v0{}, v1{}, v2{}, v3{};
+		float t = (float)i / (float)(numParticles - 1);
+        float z = glm::mix(zMin, zMax, t);
+
+        v0.pos = glm::vec3(-1.0f, -1.0f, z);
+        v1.pos = glm::vec3(1.0f, -1.0f, z);
+        v2.pos = glm::vec3(1.0f, 1.0f, z);
+        v3.pos = glm::vec3(-1.0f, 1.0f, z);
+
+        glm::vec3 white = glm::vec3(1.0f);
+        v0.color = v1.color = v2.color = v3.color = white;
+
+        glm::vec3 normal = glm::vec3(0.0f, 0.0f, 1.0f);
+        glm::vec3 tangent = glm::vec3(1.0f, 0.0f, 0.0f);
+        glm::vec3 binormal = glm::vec3(0.0f, 1.0f, 0.0f);
+        v0.normal = v1.normal = v2.normal = v3.normal = normal;
+        v0.tangent = v1.tangent = v2.tangent = v3.tangent = tangent;
+        v0.binormal = v1.binormal = v2.binormal = v3.binormal = binormal;
+
+        v0.texCoord = glm::vec2(0.0f, 0.0f);
+        v1.texCoord = glm::vec2(1.0f, 0.0f);
+        v2.texCoord = glm::vec2(1.0f, 1.0f);
+        v3.texCoord = glm::vec2(0.0f, 1.0f);
+
+        outVertices.push_back(v0);
+        outVertices.push_back(v1);
+        outVertices.push_back(v2);
+        outVertices.push_back(v3);
+	}
+
+	return outVertices;
 }
 
 // --- Helper Implementations ---
