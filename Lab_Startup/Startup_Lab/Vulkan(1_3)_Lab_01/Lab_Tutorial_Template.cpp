@@ -142,6 +142,7 @@ struct UniformBufferObject {
     float aspect;
     float zNear;
 	float zFar;
+    float time;
 };
 
 //Geometry Generator
@@ -254,6 +255,12 @@ struct ModelPushConstant
     glm::vec4 matAmbient;
 };
 
+struct InstanceData {
+    glm::vec3 offset;
+    float padding;
+};
+
+
 const std::vector<Vertex> Quad_vertices = {
     {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
     {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
@@ -343,6 +350,8 @@ const std::vector<uint32_t> triangle_Strip_Indices = {
 
 std::vector<Vertex> vertices;
 std::vector<uint32_t> indices;
+
+std::vector<Vertex> particles;
 
 VkFormat depthFormat;
 VkImage depthImage = VK_NULL_HANDLE;
@@ -469,15 +478,24 @@ private:
     VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
     VkPipeline graphicsPipeline = VK_NULL_HANDLE;
 	VkPipeline skyboxPipeline = VK_NULL_HANDLE;
+	VkPipeline particlePipeline = VK_NULL_HANDLE;
 
     // --- Buffers and Memory ---
     VkBuffer vertexBuffer = VK_NULL_HANDLE;
     VkDeviceMemory vertexBufferMemory = VK_NULL_HANDLE;
     VkBuffer indexBuffer = VK_NULL_HANDLE;
     VkDeviceMemory indexBufferMemory = VK_NULL_HANDLE;
+	VkBuffer instanceBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory instanceBufferMemory = VK_NULL_HANDLE;
     std::vector<VkBuffer> uniformBuffers;
     std::vector<VkDeviceMemory> uniformBuffersMemory;
     std::vector<void*> uniformBuffersMapped;
+
+    //Particle Buffers
+	VkBuffer particleVertexBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory particleVertexBufferMemory = VK_NULL_HANDLE;
+
+    uint32_t particleInstanceCount = 0;
 
     // --- Descriptors ---
     VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
@@ -510,6 +528,7 @@ private:
     void createImageViews();
     void createDescriptorSetLayout();
     void createGraphicsPipeline();
+    void createParticlePipeline();
     void createTriangleStripGraphicsPipeline();
 	void createSkyboxGraphicsPipeline();
 	void createPointGraphicsPipeline();
@@ -566,6 +585,8 @@ private:
     static std::vector<char> readFile(const std::string& filename);
     VkShaderModule createShaderModule(const std::vector<char>& code);
     void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+	void createInstanceBuffer(const std::vector<InstanceData>& instances, VkBuffer& outBuffer, VkDeviceMemory& outMemory);
+    void createVertexBufferFromData(const std::vector<Vertex>& data, VkBuffer& outBuffer, VkDeviceMemory& outMemory);
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
@@ -628,6 +649,9 @@ void HelloTriangleApplication::handleCameraInput(float dt) {
     if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS) cameraRadius = std::max(1.0f, cameraRadius - zoomSpeed * dt);
     if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS) cameraRadius += zoomSpeed * dt;
 
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) cameraRadius = std::max(0.1f, cameraRadius - zoomSpeed * dt);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) cameraRadius += zoomSpeed * dt;
+
     cameraPitch = glm::clamp(cameraPitch, glm::radians(-85.0f), glm::radians(85.0f));
 }
 
@@ -679,6 +703,7 @@ void HelloTriangleApplication::createTextureSampler(VkSampler& outSampler)
         throw std::runtime_error("failed to create texture sampler!");
     }
 }
+
 
 void HelloTriangleApplication::createTextureFromFile(const std::string &filename)
 {
@@ -1312,6 +1337,7 @@ void HelloTriangleApplication::initVulkan() {
 
 	createTriangleStripGraphicsPipeline();
     createSkyboxGraphicsPipeline();
+	createParticlePipeline();
     createCommandPool();
 
 	createTextureFromFile("stones2.jpg");
@@ -1327,11 +1353,54 @@ void HelloTriangleApplication::initVulkan() {
 		});
 
     loadModel();
-    vertices.clear();
-    vertices = createParticle(100);
     //createTerrain(100, 100, vertices, indices);
 	//createCylinder(20,0.5f,vertices,indices);
 	//createGrid(50, 50, vertices, indices);
+    // --- replace instance creation block in HelloTriangleApplication::initVulkan() ---
+    std::vector<InstanceData> instances;
+    int numInstances = 100;
+    instances.resize(numInstances);
+
+    // Create a sequence of instances along the Z axis.
+    // Each instance uses the same XY (0,0) so per-vertex quad size remains [-1,1] x [-1,1].
+    // Z ranges from 0.0 -> 1.0 and can be read in the vertex shader via the instance attribute (location 6).
+    for (int i = 0; i < numInstances; ++i) {
+        float t = (numInstances == 1) ? 0.0f : static_cast<float>(i) / static_cast<float>(numInstances - 1);
+        float z = glm::mix(0.0f, 1.0f, t);
+        instances[i].offset = glm::vec3(0.0f, 0.0f, z);
+        instances[i].padding = 0.0f;
+    }
+
+    createInstanceBuffer(instances, instanceBuffer, instanceBufferMemory);
+    particleInstanceCount = numInstances;
+    std::vector<Vertex> particleQuad;
+    {
+        Vertex v0{}, v1{}, v2{}, v3{};
+        v0.pos = glm::vec3(-1.0f, -1.0f, 0.0f);
+        v1.pos = glm::vec3(1.0f, -1.0f, 0.0f);
+        v2.pos = glm::vec3(1.0f, 1.0f, 0.0f);
+        v3.pos = glm::vec3(-1.0f, 1.0f, 0.0f);
+        glm::vec3 white(1.0f);
+        v0.color = v1.color = v2.color = v3.color = white;
+        glm::vec3 normal(0.0f, 0.0f, 1.0f);
+        glm::vec3 tangent(1.0f, 0.0f, 0.0f);
+        glm::vec3 binormal(0.0f, 1.0f, 0.0f);
+        v0.normal = v1.normal = v2.normal = v3.normal = normal;
+        v0.tangent = v1.tangent = v2.tangent = v3.tangent = tangent;
+        v0.binormal = v1.binormal = v2.binormal = v3.binormal = binormal;
+        v0.texCoord = glm::vec2(0.0f, 0.0f);
+        v1.texCoord = glm::vec2(1.0f, 0.0f);
+        v2.texCoord = glm::vec2(1.0f, 1.0f);
+        v3.texCoord = glm::vec2(0.0f, 1.0f);
+
+        // two triangles (triangle-list)
+        particleQuad = {
+            v0, v1, v2,   // first triangle
+            v2, v3, v0    // second triangle
+        };
+
+    }
+    createVertexBufferFromData(particleQuad, particleVertexBuffer, particleVertexBufferMemory);
     createVertexBuffer();
     createIndexBuffer();
     createUniformBuffers();
@@ -1935,6 +2004,159 @@ void HelloTriangleApplication::createGraphicsPipeline() {
     vkDestroyShaderModule(device, vertShaderModule, nullptr);
 }
 
+void HelloTriangleApplication::createParticlePipeline() {
+    auto vertShaderCode = readFile("shaders/particleVert.spv");
+    auto fragShaderCode = readFile("shaders/particleFrag.spv");
+
+    VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
+    VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
+
+    VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
+    vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+    vertShaderStageInfo.module = vertShaderModule;
+    vertShaderStageInfo.pName = "main";
+
+    VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
+    fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+    fragShaderStageInfo.module = fragShaderModule;
+    fragShaderStageInfo.pName = "main";
+
+    VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
+
+    // Replace the existing bindingDescription/attributeDescriptions usage with this:
+    VkVertexInputBindingDescription bindingDescriptions[2]{};
+    bindingDescriptions[0].binding = 0;
+    bindingDescriptions[0].stride = sizeof(Vertex);
+    bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+    bindingDescriptions[1].binding = 1; // instance data binding
+    bindingDescriptions[1].stride = sizeof(InstanceData);
+    bindingDescriptions[1].inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
+
+    // existing per-vertex attributes (locations 0..5 as before)
+    auto attr = Vertex::getAttributeDescriptions();
+    std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
+    attributeDescriptions.insert(attributeDescriptions.end(), attr.begin(), attr.end());
+
+    // add instance attribute(s): location 6 = vec3 offset
+    VkVertexInputAttributeDescription instAttr{};
+    instAttr.location = 6;
+    instAttr.binding = 1; // comes from binding 1
+    instAttr.format = VK_FORMAT_R32G32B32_SFLOAT;
+    instAttr.offset = offsetof(InstanceData, offset);
+    attributeDescriptions.push_back(instAttr);
+
+    VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
+    vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+    vertexInputInfo.vertexBindingDescriptionCount = 2;
+    vertexInputInfo.pVertexBindingDescriptions = bindingDescriptions;
+    vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+    vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
+
+    VkPushConstantRange pushConstantRange{};
+    pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    pushConstantRange.offset = 0;
+    pushConstantRange.size = sizeof(ModelPushConstant);
+
+    VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
+    inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+    //inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+    inputAssembly.primitiveRestartEnable = VK_TRUE;
+
+    VkProvokingVertexModeEXT provokingVertexMode = VK_PROVOKING_VERTEX_MODE_FIRST_VERTEX_EXT;
+
+    VkPipelineViewportStateCreateInfo viewportState{};
+    viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    viewportState.viewportCount = 1;
+    viewportState.scissorCount = 1;
+
+    VkPipelineRasterizationStateCreateInfo rasterizer{};
+    rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+    rasterizer.depthClampEnable = VK_FALSE;
+    rasterizer.rasterizerDiscardEnable = VK_FALSE;
+    //rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
+    rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+    rasterizer.lineWidth = 1.0f;
+	rasterizer.cullMode = VK_CULL_MODE_NONE;
+    rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+    rasterizer.depthBiasEnable = VK_FALSE;
+
+    VkPipelineDepthStencilStateCreateInfo depthStencil{};
+    depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+    depthStencil.depthTestEnable = VK_TRUE;
+    depthStencil.depthWriteEnable = VK_FALSE;
+    depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+    depthStencil.depthBoundsTestEnable = VK_FALSE;
+    depthStencil.stencilTestEnable = VK_FALSE;
+
+    VkPipelineMultisampleStateCreateInfo multisampling{};
+    multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+    multisampling.sampleShadingEnable = VK_FALSE;
+    multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+    VkPipelineColorBlendAttachmentState colorBlendAttachment{};
+    colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+    colorBlendAttachment.blendEnable = VK_TRUE;
+    colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+	colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+
+    VkPipelineColorBlendStateCreateInfo colorBlending{};
+    colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    colorBlending.logicOpEnable = VK_FALSE;
+    colorBlending.attachmentCount = 1;
+    colorBlending.pAttachments = &colorBlendAttachment;
+
+    std::vector<VkDynamicState> dynamicStates = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
+    VkPipelineDynamicStateCreateInfo dynamicState{};
+    dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+    dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+    dynamicState.pDynamicStates = dynamicStates.data();
+
+    VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+    pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutInfo.setLayoutCount = 1;
+    pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
+    pipelineLayoutInfo.pushConstantRangeCount = 1;
+    pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+
+    if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create pipeline layout!");
+    }
+
+    VkPipelineRenderingCreateInfo renderingCreateInfo{};
+    renderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO;
+    renderingCreateInfo.colorAttachmentCount = 1;
+    renderingCreateInfo.pColorAttachmentFormats = &swapChainImageFormat;
+    renderingCreateInfo.depthAttachmentFormat = depthFormat;
+
+    VkGraphicsPipelineCreateInfo pipelineInfo{};
+    pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    pipelineInfo.pNext = &renderingCreateInfo;
+    pipelineInfo.stageCount = 2;
+    pipelineInfo.pStages = shaderStages;
+    pipelineInfo.pVertexInputState = &vertexInputInfo;
+    pipelineInfo.pInputAssemblyState = &inputAssembly;
+    pipelineInfo.pViewportState = &viewportState;
+    pipelineInfo.pRasterizationState = &rasterizer;
+    pipelineInfo.pMultisampleState = &multisampling;
+    pipelineInfo.pColorBlendState = &colorBlending;
+    pipelineInfo.pDynamicState = &dynamicState;
+    pipelineInfo.layout = pipelineLayout;
+    pipelineInfo.renderPass = VK_NULL_HANDLE;
+    pipelineInfo.subpass = 0;
+    pipelineInfo.pDepthStencilState = &depthStencil;
+
+    if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &particlePipeline) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create graphics pipeline!");
+    }
+
+    vkDestroyShaderModule(device, fragShaderModule, nullptr);
+    vkDestroyShaderModule(device, vertShaderModule, nullptr);
+}
+
 void HelloTriangleApplication::createWireFrameGraphicsPipeline() {
     auto vertShaderCode = readFile("shaders/vert.spv");
     auto fragShaderCode = readFile("shaders/frag.spv");
@@ -2180,13 +2402,33 @@ void HelloTriangleApplication::createTriangleStripGraphicsPipeline() {
 
     VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 
-    auto bindingDescription = Vertex::getBindingDescription();
-    auto attributeDescriptions = Vertex::getAttributeDescriptions();
+    // Replace the existing bindingDescription/attributeDescriptions usage with this:
+    VkVertexInputBindingDescription bindingDescriptions[2]{};
+    bindingDescriptions[0].binding = 0;
+    bindingDescriptions[0].stride = sizeof(Vertex);
+    bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+    bindingDescriptions[1].binding = 1; // instance data binding
+    bindingDescriptions[1].stride = sizeof(InstanceData);
+    bindingDescriptions[1].inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
+
+    // existing per-vertex attributes (locations 0..5 as before)
+    auto attr = Vertex::getAttributeDescriptions();
+    std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
+    attributeDescriptions.insert(attributeDescriptions.end(), attr.begin(), attr.end());
+
+    // add instance attribute(s): location 6 = vec3 offset
+    VkVertexInputAttributeDescription instAttr{};
+    instAttr.location = 6;
+    instAttr.binding = 1; // comes from binding 1
+    instAttr.format = VK_FORMAT_R32G32B32_SFLOAT;
+    instAttr.offset = offsetof(InstanceData, offset);
+    attributeDescriptions.push_back(instAttr);
 
     VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
     vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    vertexInputInfo.vertexBindingDescriptionCount = 1;
-    vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+    vertexInputInfo.vertexBindingDescriptionCount = 2;
+    vertexInputInfo.pVertexBindingDescriptions = bindingDescriptions;
     vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
     vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
@@ -2804,42 +3046,47 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     scissor.extent = swapChainExtent;
     vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-    VkBuffer vertexBuffers[] = { vertexBuffer };
-    VkDeviceSize offsets[] = { 0 };
-    vertices = Quad_vertices_normals;
-    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+    // --- Skybox draw: bind only the skybox vertex buffer (vertexBuffer holds the cube vertices created earlier)
+    {
+        VkBuffer skyVbs[] = { vertexBuffer };
+        VkDeviceSize skyOffsets[] = { 0 };
+        vkCmdBindVertexBuffers(commandBuffer, 0, 1, skyVbs, skyOffsets);
+        // Skybox pipeline
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, skyboxPipeline);
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+        ModelPushConstant skyPC{};
+        skyPC.model = glm::scale(glm::mat4(1.0f), glm::vec3(50.0f));
+        skyPC.shininess = 0.0f;
+        skyPC.matAmbient = glm::vec4(0.0f);
+        vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &skyPC);
 
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, skyboxPipeline);
-    vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+        // draw skybox (one instance)
+        vkCmdDraw(commandBuffer, static_cast<uint32_t>(Quad_vertices_normals.size()), 1, 0, 0);
+    }
 
-    ModelPushConstant skyPC{};
-    // Large cube; translation ignored in skybox.vert (view has no translation)
-    skyPC.model = glm::scale(glm::mat4(1.0f), glm::vec3(50.0f));
-    skyPC.shininess = 0.0f;
-    skyPC.matAmbient = glm::vec4(0.0f);
-    vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &skyPC);
+    // --- Particle instanced draw: bind particle quad vertex buffer (binding 0) and instance buffer (binding 1)
+    {
+        VkBuffer particleVbs[] = { particleVertexBuffer, instanceBuffer };
+        VkDeviceSize particleOffsets[] = { 0, 0 };
+        // bind both buffers (binding 0 = per-vertex, binding 1 = per-instance
+        vkCmdBindVertexBuffers(commandBuffer, 0, 2, particleVbs, particleOffsets);
 
-    // Non-indexed draw: your skybox uses the same 36-vertex cube data (Quad_vertices_normals)
-    vkCmdDraw(commandBuffer, static_cast<uint32_t>(Quad_vertices_normals.size()), 1, 0, 0);
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, particlePipeline);
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-    vertices = createParticle(100);
-    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-    vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+        // Per-object push constants (if needed)
+        ModelPushConstant pushUBO{};
+        glm::mat4 model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(0.01f));
+        pushUBO.model = model;
+        pushUBO.shininess = 32.0f;
+        pushUBO.matAmbient = glm::vec4(0.05f, 0.05f, 0.05f, 0.0f);
+        vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
 
-    
-ModelPushConstant pushUBO{};
-glm::mat4 model = glm::mat4(1.0f);
-model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-pushUBO.model = model;
-pushUBO.shininess = 32.0f;
-pushUBO.matAmbient = glm::vec4(0.05f, 0.05f, 0.05f,0.0f);
-vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-vkCmdDraw(commandBuffer, Quad_vertices_normals.size(), 1, 0, 0);
+        // Draw one quad (4 vertices) instanced particleInstanceCount times
+        const uint32_t particleVertexCount = 6;
+        vkCmdDraw(commandBuffer, particleVertexCount, particleInstanceCount, 0, 0);
+    }
 
     vkCmdEndRendering(commandBuffer);
 
@@ -2892,6 +3139,7 @@ void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
 	ubo.aspect = swapChainExtent.width / (float)swapChainExtent.height;
     ubo.zNear = 0.1f;
 	ubo.zFar = 200.0f;
+	ubo.time = time;
 
 
     memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
@@ -3137,6 +3385,78 @@ void HelloTriangleApplication::createBuffer(VkDeviceSize size, VkBufferUsageFlag
 
     vkBindBufferMemory(device, buffer, bufferMemory, 0);
 }
+
+void HelloTriangleApplication::createInstanceBuffer(const std::vector<InstanceData>& instances, VkBuffer& outBuffer, VkDeviceMemory& outMemory)
+{
+    if (instances.empty()) {
+        outBuffer = VK_NULL_HANDLE;
+        outMemory = VK_NULL_HANDLE;
+        return;
+    }
+
+    VkDeviceSize bufferSize = sizeof(InstanceData) * instances.size();
+
+    // staging
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
+    createBuffer(bufferSize,
+        VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+        stagingBuffer,
+        stagingBufferMemory);
+
+    void* mapped = nullptr;
+    vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &mapped);
+    memcpy(mapped, instances.data(), static_cast<size_t>(bufferSize));
+    vkUnmapMemory(device, stagingBufferMemory);
+
+    // device local vertex buffer (used as vertex buffer binding 1)
+    createBuffer(bufferSize,
+        VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+        outBuffer,
+        outMemory);
+
+    // copy staging -> device local
+    copyBuffer(stagingBuffer, outBuffer, bufferSize);
+
+    // cleanup staging
+    vkDestroyBuffer(device, stagingBuffer, nullptr);
+    vkFreeMemory(device, stagingBufferMemory, nullptr);
+}
+
+void HelloTriangleApplication::createVertexBufferFromData(const std::vector<Vertex>& data, VkBuffer& outBuffer, VkDeviceMemory& outMemory)
+{
+    
+    if (data.empty()) return;
+
+    VkDeviceSize bufferSize = sizeof(data[0]) * data.size();
+
+    // staging
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
+    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+        stagingBuffer, stagingBufferMemory);
+
+    void* mapped;
+    vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &mapped);
+    memcpy(mapped, data.data(), static_cast<size_t>(bufferSize));
+    vkUnmapMemory(device, stagingBufferMemory);
+
+    // device local vertex buffer
+    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, outBuffer, outMemory);
+
+    // copy staging -> device
+    copyBuffer(stagingBuffer, outBuffer, bufferSize);
+
+    vkDestroyBuffer(device, stagingBuffer, nullptr);
+    vkFreeMemory(device, stagingBufferMemory, nullptr);
+
+}
+
+
 
 void HelloTriangleApplication::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
     VkCommandBufferAllocateInfo allocInfo{};

@@ -25,6 +25,7 @@ layout(location = 2) in vec3 inNormal;
 layout(location = 3) in vec2 inTexCoord;
 layout(location = 4) in vec3 inTangent;
 layout(location = 5) in vec3 inBinormal;
+layout(location = 6) in vec3 inInstanceOffset;
 
 layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec3 fragWorldPos;
@@ -79,7 +80,7 @@ void main() {
         
         // Model -> World
     mat4 model = pushConstants.model;
-    vec4 worldPos4 = model * vec4(inPosition, 1.0);
+    vec4 worldPos4 = model * vec4(inPosition + inInstanceOffset, 1.0);
     fragWorldPos = worldPos4.xyz;
 
     // Normal matrix and world-space normal
@@ -108,7 +109,7 @@ void main() {
     fragTexCoord = inTexCoord;
     fragColor = inColor;
 
-    gl_Position = projMatrix * viewMatrix * model * vec4(inPosition, 1.0);
+    gl_Position = projMatrix * viewMatrix * model * vec4(inPosition + inInstanceOffset, 1.0);
     gl_PointSize = 10.0;
 
 }
