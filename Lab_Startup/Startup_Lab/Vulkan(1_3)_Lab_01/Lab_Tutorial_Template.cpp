@@ -280,51 +280,51 @@ const std::vector<Vertex> Quad_vertices = {
 const std::vector<Vertex> Quad_vertices_normals = {
     // Front face (+Z)  normal (0,0,1)
     {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {2.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
     {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Back face (-Z) normal (0,0,-1)
     {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {2.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {2.0f,2.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
     {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {2.0f,2.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,2.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Right face (+X) normal (1,0,0)
     {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {2.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
     {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
 
     // Left face (-X) normal (-1,0,0)
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {2.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
 
     // Top face (+Y) normal (0,1,0)
     {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {2.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
     {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
 
     // Bottom face (-Y) normal (0,-1,0)
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {2.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}}
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}}
 };
 
 const std::vector<uint16_t> Quad_indices = {
@@ -364,67 +364,8 @@ VkDeviceMemory depthImageMemory = VK_NULL_HANDLE;
 VkImageView depthImageView = VK_NULL_HANDLE;
 
 void loadModel() {
-	
-
-    indices = triangle_Strip_Indices;
     vertices = Quad_vertices_normals;
-    //Lab B Exercise 4
-    //vertices.clear();
-	//indices.clear();
-	//shapeDrawInfos.clear();
- //   
-	//auto [gridVertices, gridIndices] = geometryGenerator::CreateGrid(50, 50);
-	//auto [cylinderVertices, cylinderIndices] = geometryGenerator::CreateCylinder(0.5f, 20,2.0f);
-    
- //   ShapeDrawInfo gridInfo;
-	//gridInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
-	//gridInfo.indexOffset = static_cast<uint32_t>(indices.size());
-	//gridInfo.indexCount = static_cast<uint32_t>(gridIndices.size());
-	//gridInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
-	//vertices.insert(vertices.end(), gridVertices.begin(), gridVertices.end());
- //   for (auto idx : gridIndices)
- //   {
-	//	indices.push_back(idx + gridInfo.vertexOffset);
- //   }
-	//shapeDrawInfos.push_back(gridInfo);
-
-	//ShapeDrawInfo cylinderInfo;
-	//cylinderInfo.vertexOffset = static_cast<uint32_t>(vertices.size());
-	//cylinderInfo.indexOffset = static_cast<uint32_t>(indices.size());
-	//cylinderInfo.indexCount = static_cast<uint32_t>(cylinderIndices.size());
-	//cylinderInfo.modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
- //   vertices.insert(vertices.end(), cylinderVertices.begin(), cylinderVertices.end());
- //   for (auto idx : cylinderIndices)
- //   {
- //       indices.push_back(idx == RESTART_INDEX ? RESTART_INDEX : idx + cylinderInfo.vertexOffset);
-	//}
-	//shapeDrawInfos.push_back(cylinderInfo);
-    // 
-    
-    //Lab B Exercise 5
-	//Assimp::Importer importer;
- //   const aiScene* scene = importer.ReadFile("20902_Ceramic_Teapot_with_Lifting_Handle_v1.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
- //   aiMesh* mesh = scene->mMeshes[0];
-
- //   for (unsigned int i = 0; i < mesh->mNumVertices; i++)
- //   {
- //       Vertex vertex{};
- //       vertex.pos = {
- //           mesh->mVertices[i].x / 3.0f,
- //           mesh->mVertices[i].y / 3.0f,
- //           mesh->mVertices[i].z / 3.0f,
-	//	};
-
-	//	vertex.color = { 0.0f, 1.0f, 0.0f };
-	//	vertices.push_back(vertex);
- //   }
-
- //   for(unsigned int i = 0; i < mesh->mNumFaces; i++)
- //   {
- //       aiFace face = mesh->mFaces[i];
- //       for (unsigned int j = 0; j < face.mNumIndices; j++)
- //           indices.push_back(face.mIndices[j]);
-	//}
+    indices.clear();
 }
 
 // --- Vulkan Debug Messenger ---
@@ -486,6 +427,7 @@ private:
 	VkPipeline skyboxPipeline = VK_NULL_HANDLE;
 	VkPipeline particlePipeline = VK_NULL_HANDLE;
 	VkPipeline postProcessPipeline = VK_NULL_HANDLE;
+	VkPipelineLayout postProcessPipelineLayout = VK_NULL_HANDLE;
 
     // --- Buffers and Memory ---
     VkBuffer vertexBuffer = VK_NULL_HANDLE;
@@ -1390,7 +1332,6 @@ void HelloTriangleApplication::initVulkan() {
     createSkyboxGraphicsPipeline();
 	createParticlePipeline();
     createCommandPool();
-    setupPostProcess();
 
 	createTextureFromFile("stones2.jpg");
 	createNormalMapFromFile("rockNormal.bmp");
@@ -1405,9 +1346,6 @@ void HelloTriangleApplication::initVulkan() {
 		});
 
     loadModel();
-    //createTerrain(100, 100, vertices, indices);
-	//createCylinder(20,0.5f,vertices,indices);
-	//createGrid(50, 50, vertices, indices);
     // --- replace instance creation block in HelloTriangleApplication::initVulkan() ---
     std::vector<InstanceData> instances;
     int numInstances = 100;
@@ -1454,8 +1392,8 @@ void HelloTriangleApplication::initVulkan() {
     }
     createVertexBufferFromData(particleQuad, particleVertexBuffer, particleVertexBufferMemory);
     createVertexBuffer();
-    createIndexBuffer();
     createUniformBuffers();
+    setupPostProcess();
     createDescriptorPool();
     createDescriptorSets();
     createCommandBuffers();
@@ -1643,6 +1581,14 @@ void HelloTriangleApplication::createCylinder(int segments, float radius, std::v
 void HelloTriangleApplication::cleanup() {
     cleanupSwapChain();
 
+    if (postProcessPipeline != VK_NULL_HANDLE) vkDestroyPipeline(device, postProcessPipeline, nullptr);
+    if (postProcessDescriptorSetLayout != VK_NULL_HANDLE) vkDestroyDescriptorSetLayout(device, postProcessDescriptorSetLayout, nullptr);
+    if (postProcessDescriptorPool != VK_NULL_HANDLE) vkDestroyDescriptorPool(device, postProcessDescriptorPool, nullptr);
+    if (offscreenSampler != VK_NULL_HANDLE) vkDestroySampler(device, offscreenSampler, nullptr);
+    if (offscreenImageView != VK_NULL_HANDLE) vkDestroyImageView(device, offscreenImageView, nullptr);
+    if (offscreenImage != VK_NULL_HANDLE) vkDestroyImage(device, offscreenImage, nullptr);
+    if (offscreenImageMemory != VK_NULL_HANDLE) vkFreeMemory(device, offscreenImageMemory, nullptr);
+    
     if (textureSampler != VK_NULL_HANDLE) vkDestroySampler(device, textureSampler, nullptr);
     if (textureImageViews != VK_NULL_HANDLE) vkDestroyImageView(device, textureImageViews, nullptr);
     if (textureImages != VK_NULL_HANDLE) vkDestroyImage(device, textureImages, nullptr);
@@ -3050,197 +2996,185 @@ void HelloTriangleApplication::cleanupSwapChain() {
 }
 
 void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
-    // Defensive check: ensure imageIndex is in-range before subscripting vectors
-    
-    if (imageIndex >= swapChainImages.size() || imageIndex >= swapChainImageViews.size()) {
-        // invalid index — fail fast so caller can recreate swapchain
-        throw std::runtime_error("recordCommandBuffer: imageIndex out of range; recreate swapchain");
-    }
-    
-    static auto startTime = std::chrono::high_resolution_clock::now();
-    auto currentTime = std::chrono::high_resolution_clock::now();
-    float time = std::chrono::duration<float>(currentTime - startTime).count();
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    if (vkBeginCommandBuffer(commandBuffer, &beginInfo) != VK_SUCCESS) {
-        throw std::runtime_error("Failed to begin recording command buffer!");
+    vkBeginCommandBuffer(commandBuffer, &beginInfo);
+
+    // Transition swapchain image for final pass (leave it untouched until second pass)
+    // Only depth gets transitioned now.
+    if (depthImage != VK_NULL_HANDLE) {
+        VkImageMemoryBarrier2 depthBarrier{};
+        depthBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
+        depthBarrier.srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
+        depthBarrier.dstStageMask = VK_PIPELINE_STAGE_2_EARLY_FRAGMENT_TESTS_BIT;
+        depthBarrier.srcAccessMask = 0;
+        depthBarrier.dstAccessMask = VK_ACCESS_2_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT | VK_ACCESS_2_DEPTH_STENCIL_ATTACHMENT_READ_BIT;
+        depthBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        depthBarrier.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        depthBarrier.image = depthImage;
+        depthBarrier.subresourceRange = { VK_IMAGE_ASPECT_DEPTH_BIT, 0, 1, 0, 1 };
+
+        VkDependencyInfo depthDep{};
+        depthDep.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
+        depthDep.imageMemoryBarrierCount = 1;
+        depthDep.pImageMemoryBarriers = &depthBarrier;
+        vkCmdPipelineBarrier2(commandBuffer, &depthDep);
     }
 
-    VkImageMemoryBarrier2 imageBarrierToAttachment{};
-    imageBarrierToAttachment.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
-    imageBarrierToAttachment.srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
-    imageBarrierToAttachment.dstStageMask = VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT;
-    imageBarrierToAttachment.dstAccessMask = VK_ACCESS_2_COLOR_ATTACHMENT_WRITE_BIT;
-    imageBarrierToAttachment.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-    imageBarrierToAttachment.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-    imageBarrierToAttachment.image = swapChainImages[imageIndex];
-    imageBarrierToAttachment.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+    // ----- First pass: render scene INTO offscreenImage -----
+    VkRenderingAttachmentInfo offscreenColor{};
+    offscreenColor.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
+    offscreenColor.imageView = offscreenImageView;
+    offscreenColor.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    offscreenColor.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    offscreenColor.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    offscreenColor.clearValue.color = { {0.f, 0.f, 0.f, 1.f} };
 
-	VkImageMemoryBarrier2 depthImageBarrierToAttachment{};
-	depthImageBarrierToAttachment.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
-	depthImageBarrierToAttachment.srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
-	depthImageBarrierToAttachment.dstStageMask = VK_PIPELINE_STAGE_2_EARLY_FRAGMENT_TESTS_BIT;
-	depthImageBarrierToAttachment.dstAccessMask = VK_ACCESS_2_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-	depthImageBarrierToAttachment.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-	depthImageBarrierToAttachment.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	depthImageBarrierToAttachment.image = depthImage;
-	depthImageBarrierToAttachment.subresourceRange = { VK_IMAGE_ASPECT_DEPTH_BIT, 0, 1, 0, 1 };
+    VkRenderingAttachmentInfo depthAttachment{};
+    depthAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
+    depthAttachment.imageView = depthImageView;
+    depthAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    depthAttachment.clearValue.depthStencil = { 1.f, 0 };
 
+    VkRenderingInfo sceneRenderInfo{};
+    sceneRenderInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO;
+    sceneRenderInfo.renderArea = { {0,0}, swapChainExtent };
+    sceneRenderInfo.layerCount = 1;
+    sceneRenderInfo.colorAttachmentCount = 1;
+    sceneRenderInfo.pColorAttachments = &offscreenColor;
+    sceneRenderInfo.pDepthAttachment = &depthAttachment;
 
-    VkImageMemoryBarrier2 barriers[2] = { imageBarrierToAttachment, depthImageBarrierToAttachment };
+    vkCmdBeginRendering(commandBuffer, &sceneRenderInfo);
 
-    VkDependencyInfo dependencyInfoToAttachment{};
-    dependencyInfoToAttachment.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
-    dependencyInfoToAttachment.imageMemoryBarrierCount = 2;
-    dependencyInfoToAttachment.pImageMemoryBarriers = barriers;
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
-    vkCmdPipelineBarrier2(commandBuffer, &dependencyInfoToAttachment);
+    VkViewport vp{ 0.f,0.f,(float)swapChainExtent.width,(float)swapChainExtent.height,0.f,1.f };
+    vkCmdSetViewport(commandBuffer, 0, 1, &vp);
+    VkRect2D sc{ {0,0},swapChainExtent };
+    vkCmdSetScissor(commandBuffer, 0, 1, &sc);
 
-    VkRenderingAttachmentInfo colorAttachment{};
-    colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
-    colorAttachment.imageView = swapChainImageViews[imageIndex];
-    colorAttachment.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-    colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-    colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-    colorAttachment.clearValue.color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+    VkBuffer vbufs[] = { vertexBuffer };
+    VkDeviceSize vOffs[] = { 0 };
+    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vbufs, vOffs);
 
-	VkRenderingAttachmentInfo depthAttachment{};
-	depthAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
-	depthAttachment.imageView = depthImageView;
-	depthAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	depthAttachment.clearValue.depthStencil = { 1.0f, 0 };
+    vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout,
+        0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-    VkRenderingInfo renderingInfo{};
-    renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO;
-    renderingInfo.renderArea = { {0, 0}, swapChainExtent };
-    renderingInfo.layerCount = 1;
-    renderingInfo.colorAttachmentCount = 1;
-    renderingInfo.pColorAttachments = &colorAttachment;
-	renderingInfo.pDepthAttachment = &depthAttachment;
+    ModelPushConstant pc{};
+    pc.model = glm::mat4(1.f);
+    vkCmdPushConstants(commandBuffer, pipelineLayout,
+        VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+        0, sizeof(ModelPushConstant), &pc);
 
-    vkCmdBeginRendering(commandBuffer, &renderingInfo);
-
-    VkViewport viewport{};
-    viewport.width = static_cast<float>(swapChainExtent.width);
-    viewport.height = static_cast<float>(swapChainExtent.height);
-    viewport.maxDepth = 1.0f;
-    vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-
-
-    VkRect2D scissor{};
-    scissor.extent = swapChainExtent;
-    vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-
-    // --- Skybox draw: bind only the skybox vertex buffer (vertexBuffer holds the cube vertices created earlier)
-    {
-        VkBuffer skyVbs[] = { vertexBuffer };
-        VkDeviceSize skyOffsets[] = { 0 };
-        vkCmdBindVertexBuffers(commandBuffer, 0, 1, skyVbs, skyOffsets);
-        // Skybox pipeline
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, skyboxPipeline);
-        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
-        ModelPushConstant skyPC{};
-        skyPC.model = glm::scale(glm::mat4(1.0f), glm::vec3(50.0f));
-        skyPC.shininess = 0.0f;
-        skyPC.matAmbient = glm::vec4(0.0f);
-        vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &skyPC);
-
-        // draw skybox (one instance)
-        vkCmdDraw(commandBuffer, static_cast<uint32_t>(Quad_vertices_normals.size()), 1, 0, 0);
-    }
-
-    // --- Particle instanced draw: bind particle quad vertex buffer (binding 0) and instance buffer (binding 1)
-    {
-        VkBuffer particleVbs[] = { particleVertexBuffer, instanceBuffer };
-        VkDeviceSize particleOffsets[] = { 0, 0 };
-        // bind both buffers (binding 0 = per-vertex, binding 1 = per-instance
-        vkCmdBindVertexBuffers(commandBuffer, 0, 2, particleVbs, particleOffsets);
-
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, particlePipeline);
-        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
-
-        // Per-object push constants (if needed)
-        ModelPushConstant pushUBO{};
-        glm::mat4 model = glm::mat4(1.0f);
-        pushUBO.model = model;
-        pushUBO.shininess = 32.0f;
-        pushUBO.matAmbient = glm::vec4(0.05f, 0.05f, 0.05f, 0.0f);
-        vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ModelPushConstant), &pushUBO);
-
-        // Draw one quad (4 vertices) instanced particleInstanceCount times
-        const uint32_t particleVertexCount = 6;
-        vkCmdDraw(commandBuffer, particleVertexCount, particleInstanceCount, 0, 0);
-    }
+    // Indexed draw (triangle strip with restart indices)
+    vkCmdDraw(commandBuffer,vertices.size(), 1, 0, 0);
 
     vkCmdEndRendering(commandBuffer);
 
-    VkImageMemoryBarrier2 imageBarrierToPresent{};
-    imageBarrierToPresent.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
-    imageBarrierToPresent.srcStageMask = VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT;
-    imageBarrierToPresent.srcAccessMask = VK_ACCESS_2_COLOR_ATTACHMENT_WRITE_BIT;
-    imageBarrierToPresent.dstStageMask = VK_PIPELINE_STAGE_2_BOTTOM_OF_PIPE_BIT;
-    imageBarrierToPresent.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-    imageBarrierToPresent.newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-    imageBarrierToPresent.image = swapChainImages[imageIndex];
-    imageBarrierToPresent.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+    // Transition offscreen to shader-read for post-process
+    VkImageMemoryBarrier2 offscreenBarrier{};
+    offscreenBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
+    offscreenBarrier.srcStageMask = VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT;
+    offscreenBarrier.dstStageMask = VK_PIPELINE_STAGE_2_FRAGMENT_SHADER_BIT;
+    offscreenBarrier.srcAccessMask = VK_ACCESS_2_COLOR_ATTACHMENT_WRITE_BIT;
+    offscreenBarrier.dstAccessMask = VK_ACCESS_2_SHADER_READ_BIT;
+    offscreenBarrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    offscreenBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    offscreenBarrier.image = offscreenImage;
+    offscreenBarrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
 
-    VkDependencyInfo dependencyInfoToPresent{};
-    dependencyInfoToPresent.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
-    dependencyInfoToPresent.imageMemoryBarrierCount = 1;
-    dependencyInfoToPresent.pImageMemoryBarriers = &imageBarrierToPresent;
-    vkCmdPipelineBarrier2(commandBuffer, &dependencyInfoToPresent);
+    VkDependencyInfo offscreenDep{};
+    offscreenDep.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
+    offscreenDep.imageMemoryBarrierCount = 1;
+    offscreenDep.pImageMemoryBarriers = &offscreenBarrier;
+    vkCmdPipelineBarrier2(commandBuffer, &offscreenDep);
 
-    if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
-        throw std::runtime_error("Failed to record command buffer!");
-    }
-}
+    // Transition swapchain image for final pass
+    VkImageMemoryBarrier2 swapchainBarrier{};
+    swapchainBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
+    swapchainBarrier.srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
+    swapchainBarrier.dstStageMask = VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT;
+    swapchainBarrier.srcAccessMask = 0;
+    swapchainBarrier.dstAccessMask = VK_ACCESS_2_COLOR_ATTACHMENT_WRITE_BIT;
+    swapchainBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    swapchainBarrier.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    swapchainBarrier.image = swapChainImages[imageIndex];
+    swapchainBarrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
 
-void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
-    if (currentImage >= uniformBuffersMapped.size()) {
-        throw std::runtime_error("updateUniformBuffer: currentImage index out of range");
-    }
-    static auto startTime = std::chrono::high_resolution_clock::now();
-    auto currentTime = std::chrono::high_resolution_clock::now();
-    float time = std::chrono::duration<float>(currentTime - startTime).count();
+    VkDependencyInfo swapDep{};
+    swapDep.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
+    swapDep.imageMemoryBarrierCount = 1;
+    swapDep.pImageMemoryBarriers = &swapchainBarrier;
+    vkCmdPipelineBarrier2(commandBuffer, &swapDep);
 
-    UniformBufferObject ubo{};
-    glm::vec3 center = glm::vec3(0.0f);
-    float xzRadius = cameraRadius * std::cos(cameraPitch);
-    glm::vec3 eyePos = center + glm::vec3(
-        xzRadius * std::sin(cameraYaw),
-        cameraRadius * std::sin(cameraPitch),
-        xzRadius * std::cos(cameraYaw)
-    );
+    // ----- Final pass: sample offscreen and render to swapchain -----
+    VkRenderingAttachmentInfo finalColor{};
+    finalColor.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
+    finalColor.imageView = swapChainImageViews[imageIndex];
+    finalColor.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    finalColor.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    finalColor.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    finalColor.clearValue.color = { {0.f,0.f,0.f,1.f} };
 
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 lightPos = glm::vec3(-3.0f, -3.0f, -3.0f);
+    VkRenderingInfo finalInfo{};
+    finalInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO;
+    finalInfo.renderArea = { {0,0}, swapChainExtent };
+    finalInfo.layerCount = 1;
+    finalInfo.colorAttachmentCount = 1;
+    finalInfo.pColorAttachments = &finalColor;
+    // (If depth needed in post-process, add depthAttachment pointer here)
 
-	glm::vec3 lightPos2 = glm::vec3(-2.0f,0.0f,0.0f);
+    vkCmdBeginRendering(commandBuffer, &finalInfo);
 
-	ubo.eye = glm::vec4(eyePos, 1.0f);
-	ubo.center = glm::vec4(center, 1.0f);
-	ubo.up = glm::vec4(up, 0.0f);
-	ubo.lightPos = glm::vec4(lightPos,0.0f);
-    ubo.light2Pos = glm::vec4(lightPos2, 0.0f);
-    ubo.fovy = glm::radians(90.0f);
-	ubo.aspect = swapChainExtent.width / (float)swapChainExtent.height;
-    ubo.zNear = 0.1f;
-	ubo.zFar = 200.0f;
-	ubo.time = time;
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, postProcessPipeline);
 
+    vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+        postProcessPipelineLayout, 0, 1,
+        &postProcessDescriptorSets[currentFrame], 0, nullptr);
 
-    memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
+    vkCmdSetViewport(commandBuffer, 0, 1, &vp);
+    vkCmdSetScissor(commandBuffer, 0, 1, &sc);
 
+    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vbufs, vOffs);
 
+    ModelPushConstant postPC{};
+    postPC.model = glm::mat4(1.f);
+    vkCmdPushConstants(commandBuffer, postProcessPipelineLayout,
+        VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+        0, sizeof(ModelPushConstant), &postPC);
+
+    vkCmdDraw(commandBuffer,vertices.size(), 1, 0, 0);
+
+    vkCmdEndRendering(commandBuffer);
+
+    // Present transition
+    VkImageMemoryBarrier2 presentBarrier{};
+    presentBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
+    presentBarrier.srcStageMask = VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT;
+    presentBarrier.dstStageMask = VK_PIPELINE_STAGE_2_BOTTOM_OF_PIPE_BIT;
+    presentBarrier.srcAccessMask = VK_ACCESS_2_COLOR_ATTACHMENT_WRITE_BIT;
+    presentBarrier.dstAccessMask = 0;
+    presentBarrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    presentBarrier.newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+    presentBarrier.image = swapChainImages[imageIndex];
+    presentBarrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+
+    VkDependencyInfo presentDep{};
+    presentDep.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
+    presentDep.imageMemoryBarrierCount = 1;
+    presentDep.pImageMemoryBarriers = &presentBarrier;
+    vkCmdPipelineBarrier2(commandBuffer, &presentDep);
+
+    vkEndCommandBuffer(commandBuffer);
 }
 
 void HelloTriangleApplication::createPostProcessImage()
 {
 	VkImageCreateInfo imageInfo{};
 	imageInfo.imageType = VK_IMAGE_TYPE_2D;
-	imageInfo.format = swapChainImageFormat;
+	imageInfo.format = VK_FORMAT_R16G16B16A16_SFLOAT;
 	imageInfo.extent.width = swapChainExtent.width;
 	imageInfo.extent.height = swapChainExtent.height;
 	imageInfo.extent.depth = 1;
@@ -3279,6 +3213,42 @@ void HelloTriangleApplication::createPostProcessImage()
 
 }
 
+void HelloTriangleApplication::updateUniformBuffer(uint32_t currentImage) {
+    if (currentImage >= uniformBuffersMapped.size()) {
+        throw std::runtime_error("updateUniformBuffer: currentImage index out of range");
+    }
+
+    static auto startTime = std::chrono::high_resolution_clock::now();
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    float time = std::chrono::duration<float>(currentTime - startTime).count();
+
+    UniformBufferObject ubo{};
+    glm::vec3 center = glm::vec3(0.0f);
+    float xzRadius = cameraRadius * std::cos(cameraPitch);
+    glm::vec3 eyePos = center + glm::vec3(
+        xzRadius * std::sin(cameraYaw),
+        cameraRadius * std::sin(cameraPitch),
+        xzRadius * std::cos(cameraYaw)
+    );
+
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 lightPos = glm::vec3(-3.0f, -3.0f, -3.0f);
+    glm::vec3 light2Pos = glm::vec3(-2.0f, 0.0f, 0.0f);
+
+    ubo.eye = glm::vec4(eyePos, 1.0f);
+    ubo.center = glm::vec4(center, 1.0f);
+    ubo.up = glm::vec4(up, 0.0f);
+    ubo.lightPos = glm::vec4(lightPos, 0.0f);
+    ubo.light2Pos = glm::vec4(light2Pos, 0.0f);
+    ubo.fovy = glm::radians(90.0f);
+    ubo.aspect = swapChainExtent.width / (float)swapChainExtent.height;
+    ubo.zNear = 0.1f;
+    ubo.zFar = 200.0f;
+    ubo.time = time;
+
+    memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
+}
+
 void HelloTriangleApplication::createPostProcessImageView()
 {
     if (offscreenImage == VK_NULL_HANDLE) return;
@@ -3312,25 +3282,23 @@ void HelloTriangleApplication::createPostProcessPipeline()
 
     VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 
-    // Replace the existing bindingDescription/attributeDescriptions usage with this:
+    // Vertex input — simple fullscreen quad or reuse Vertex description
     VkVertexInputBindingDescription bindingDescriptions[2]{};
     bindingDescriptions[0].binding = 0;
     bindingDescriptions[0].stride = sizeof(Vertex);
     bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 
-    bindingDescriptions[1].binding = 1; // instance data binding
+    bindingDescriptions[1].binding = 1;
     bindingDescriptions[1].stride = sizeof(InstanceData);
     bindingDescriptions[1].inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
 
-    // existing per-vertex attributes (locations 0..5 as before)
     auto attr = Vertex::getAttributeDescriptions();
     std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
     attributeDescriptions.insert(attributeDescriptions.end(), attr.begin(), attr.end());
 
-    // add instance attribute(s): location 6 = vec3 offset
     VkVertexInputAttributeDescription instAttr{};
     instAttr.location = 6;
-    instAttr.binding = 1; // comes from binding 1
+    instAttr.binding = 1;
     instAttr.format = VK_FORMAT_R32G32B32_SFLOAT;
     instAttr.offset = offsetof(InstanceData, offset);
     attributeDescriptions.push_back(instAttr);
@@ -3349,11 +3317,8 @@ void HelloTriangleApplication::createPostProcessPipeline()
 
     VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
     inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-    //inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     inputAssembly.primitiveRestartEnable = VK_TRUE;
-
-    VkProvokingVertexModeEXT provokingVertexMode = VK_PROVOKING_VERTEX_MODE_FIRST_VERTEX_EXT;
 
     VkPipelineViewportStateCreateInfo viewportState{};
     viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -3364,7 +3329,6 @@ void HelloTriangleApplication::createPostProcessPipeline()
     rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     rasterizer.depthClampEnable = VK_FALSE;
     rasterizer.rasterizerDiscardEnable = VK_FALSE;
-    //rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
     rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizer.lineWidth = 1.0f;
     rasterizer.cullMode = VK_CULL_MODE_NONE;
@@ -3400,6 +3364,7 @@ void HelloTriangleApplication::createPostProcessPipeline()
     dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
     dynamicState.pDynamicStates = dynamicStates.data();
 
+    // create a dedicated pipeline layout for post-process
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
     pipelineLayoutInfo.setLayoutCount = 1;
@@ -3407,14 +3372,16 @@ void HelloTriangleApplication::createPostProcessPipeline()
     pipelineLayoutInfo.pushConstantRangeCount = 1;
     pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
-    if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
-        throw std::runtime_error("Failed to create pipeline layout!");
+    if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &postProcessPipelineLayout) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create post-process pipeline layout!");
     }
 
     VkPipelineRenderingCreateInfo renderingCreateInfo{};
     renderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO;
+    // use the HDR format for the color attachment
+    VkFormat offscreenFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
     renderingCreateInfo.colorAttachmentCount = 1;
-    renderingCreateInfo.pColorAttachmentFormats = &swapChainImageFormat;
+    renderingCreateInfo.pColorAttachmentFormats = &offscreenFormat;
     renderingCreateInfo.depthAttachmentFormat = depthFormat;
 
     VkGraphicsPipelineCreateInfo pipelineInfo{};
@@ -3429,18 +3396,17 @@ void HelloTriangleApplication::createPostProcessPipeline()
     pipelineInfo.pMultisampleState = &multisampling;
     pipelineInfo.pColorBlendState = &colorBlending;
     pipelineInfo.pDynamicState = &dynamicState;
-    pipelineInfo.layout = pipelineLayout;
+    pipelineInfo.layout = postProcessPipelineLayout;
     pipelineInfo.renderPass = VK_NULL_HANDLE;
     pipelineInfo.subpass = 0;
     pipelineInfo.pDepthStencilState = &depthStencil;
 
-    if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
-        throw std::runtime_error("Failed to create graphics pipeline!");
+    if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &postProcessPipeline) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create post-process graphics pipeline!");
     }
 
     vkDestroyShaderModule(device, fragShaderModule, nullptr);
     vkDestroyShaderModule(device, vertShaderModule, nullptr);
-
 }
 
 void HelloTriangleApplication::createPostProcessDescriptorSetLayout()
@@ -3459,7 +3425,7 @@ void HelloTriangleApplication::createPostProcessDescriptorSetLayout()
     samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
 
-    std::array<VkDescriptorSetLayoutBinding, 5> bindings = { uboLayoutBinding, samplerLayoutBinding};
+    std::array<VkDescriptorSetLayoutBinding, 2> bindings = { uboLayoutBinding, samplerLayoutBinding};
     VkDescriptorSetLayoutCreateInfo layoutInfo{};
     layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
     layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());

@@ -37,13 +37,6 @@ layout(location = 0) out vec4 outColor;
 
 void main() {
     
-    vec3 N = normalize(fragWorldNormal);
-    vec3 V = normalize(ubo.eye.xyz - fragWorldPos); // View vector
-    // Calculate the reflection vector
-    vec3 R = reflect(-V, N);
-    // Sample the skybox with the reflection vector
-    vec3 sampleR = vec3(R.x, R.y, R.z);
-    vec3 reflectionColor = texture(skyboxSampler, sampleR).rgb;
     
-    outColor = vec4(reflectionColor, 1.0);
+    outColor = vec4(fragColor, 1.0);
 }
