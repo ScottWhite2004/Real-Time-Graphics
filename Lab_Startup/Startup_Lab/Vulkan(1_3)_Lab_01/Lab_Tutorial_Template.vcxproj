@@ -209,6 +209,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(InputPath)</AdditionalInputs>
     </CustomBuild>
+    <CustomBuild Include="SHADERS\texture_cube.frag">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslc ".\Shaders\texture_cube.frag" -o ".\Shaders\textureFrag.spv"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Shaders\textureFrag.spv</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="SHADERS\texture_cube.vert">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslc ".\Shaders\texture_cube.vert" -o ".\Shaders\textureVert.spv"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Shaders\textureVert.spv;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

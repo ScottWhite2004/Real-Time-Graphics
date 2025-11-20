@@ -1,10 +1,10 @@
 #version 450
 
 #define particleSpeed 0.48
-#define particleSpread 20.48
+#define particleSpread 2.0
 #define particleShape 0.37
-#define particleSize 0.1
-#define particleSystemHeight 60.0
+#define particleSize 1.0
+#define particleSystemHeight 10.0
 
 layout(std140, binding = 0) uniform UniformBufferObject {
     vec4 eye;
@@ -36,6 +36,7 @@ layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec3 fragWorldPos;
 layout(location = 2) out vec3 fragWorldNormal;
 layout(location = 3) out vec2 fragTexCoord;
+layout(location = 4) out float fragLife;
 
 mat4 lookAtRH(vec3 eye, vec3 center, vec3 up)
 {
@@ -79,6 +80,7 @@ void main()
     // use instance z as a particle "seed" and animate using time
     float seed = inInstanceOffset.z;
     float t = fract(seed + particleSpeed * ubo.time);
+    fragLife = t;
 
     // radial spread controlled by seed and t
     float angleX = 50.0 * seed;

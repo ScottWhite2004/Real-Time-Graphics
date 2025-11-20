@@ -10,6 +10,8 @@
     <CustomBuild Include="SHADERS\skybox.vert" />
     <CustomBuild Include="SHADERS\particle.frag" />
     <CustomBuild Include="SHADERS\particle.vert" />
+    <CustomBuild Include="SHADERS\texture_cube.frag" />
+    <CustomBuild Include="SHADERS\texture_cube.vert" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

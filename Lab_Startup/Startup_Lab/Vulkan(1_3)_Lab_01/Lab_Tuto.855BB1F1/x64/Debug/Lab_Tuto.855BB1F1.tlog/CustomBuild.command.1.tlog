@@ -10,3 +10,7 @@ glslc ".\Shaders\skybox.vert" -o ".\Shaders\skyboxVert.spv"
 glslc ".\Shaders\particle.frag" -o ".\Shaders\particleFrag.spv"
 ^C:\USERS\712769\WORKSPACE\REAL-TIME-GRAPHICS\LAB_STARTUP\STARTUP_LAB\VULKAN(1_3)_LAB_01\SHADERS\PARTICLE.VERT
 glslc ".\Shaders\particle.vert" -o ".\Shaders\particleVert.spv"
+^C:\USERS\712769\WORKSPACE\REAL-TIME-GRAPHICS\LAB_STARTUP\STARTUP_LAB\VULKAN(1_3)_LAB_01\SHADERS\TEXTURE_CUBE.FRAG
+glslc ".\Shaders\texture_cube.frag" -o ".\Shaders\textureFrag.spv"
+^C:\USERS\712769\WORKSPACE\REAL-TIME-GRAPHICS\LAB_STARTUP\STARTUP_LAB\VULKAN(1_3)_LAB_01\SHADERS\TEXTURE_CUBE.VERT
+glslc ".\Shaders\texture_cube.vert" -o ".\Shaders\textureVert.spv"
