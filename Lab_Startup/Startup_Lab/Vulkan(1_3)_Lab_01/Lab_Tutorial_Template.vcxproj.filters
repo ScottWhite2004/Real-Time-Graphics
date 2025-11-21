@@ -12,6 +12,8 @@
     <CustomBuild Include="SHADERS\particle.vert" />
     <CustomBuild Include="SHADERS\texture_cube.frag" />
     <CustomBuild Include="SHADERS\texture_cube.vert" />
+    <CustomBuild Include="SHADERS\blur.frag" />
+    <CustomBuild Include="SHADERS\fullscreen.vert" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

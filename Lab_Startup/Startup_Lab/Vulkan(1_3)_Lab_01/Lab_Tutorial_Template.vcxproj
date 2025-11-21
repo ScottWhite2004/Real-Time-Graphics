@@ -219,6 +219,16 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslc ".\Shaders\texture_cube.vert" -o ".\Shaders\textureVert.spv"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Shaders\textureVert.spv;%(Outputs)</Outputs>
     </CustomBuild>
+    <CustomBuild Include="SHADERS\blur.frag">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslc ".\Shaders\blur.frag" -o ".\Shaders\blurFrag.spv" </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Shaders\blurFrag.spv;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="SHADERS\fullscreen.vert">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslc ".\Shaders\fullscreen.vert" -o ".\Shaders\fullscreenVert.spv" </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Shaders\fullscreenVert.spv;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

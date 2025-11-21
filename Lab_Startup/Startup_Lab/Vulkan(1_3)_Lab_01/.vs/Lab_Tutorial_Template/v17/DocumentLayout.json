@@ -3,32 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\texture_cube.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\blur.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\blur.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\texture_cube.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\fullscreen.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\fullscreen.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\skybox.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\skybox.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\skybox.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\skybox.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\particle.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\particle.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\particle.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\particle.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\particle.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\particle.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\skybox.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\skybox.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\skybox.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\skybox.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Lab_Tutorial_Template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Shaders\\shader.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -39,7 +39,15 @@
       "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:Shaders\\shader.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\texture_cube.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{855BB1F1-C11F-9561-0EA6-A7583A00AEAB}|Lab_Tutorial_Template.vcxproj|solutionrelative:SHADERS\\texture_cube.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
@@ -52,11 +60,41 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
+              "Title": "blur.frag",
+              "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\blur.frag",
+              "RelativeDocumentMoniker": "SHADERS\\blur.frag",
+              "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\blur.frag",
+              "RelativeToolTip": "SHADERS\\blur.frag",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADAAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-21T10:38:37.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "fullscreen.vert",
+              "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\fullscreen.vert",
+              "RelativeDocumentMoniker": "SHADERS\\fullscreen.vert",
+              "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\fullscreen.vert",
+              "RelativeToolTip": "SHADERS\\fullscreen.vert",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAFsAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-21T10:28:37.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "particle.vert",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\particle.vert",
               "RelativeDocumentMoniker": "SHADERS\\particle.vert",
@@ -69,7 +107,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "particle.frag",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\particle.frag",
               "RelativeDocumentMoniker": "SHADERS\\particle.frag",
@@ -95,7 +133,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "skybox.frag",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\skybox.frag",
               "RelativeDocumentMoniker": "SHADERS\\skybox.frag",
@@ -108,20 +146,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Lab_Tutorial_Template.cpp",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
               "RelativeDocumentMoniker": "Lab_Tutorial_Template.cpp",
               "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\Lab_Tutorial_Template.cpp",
               "RelativeToolTip": "Lab_Tutorial_Template.cpp",
-              "ViewState": "AgIAABIBAAAAAAAAAAAcwEYBAABKAAAAAAAAAA==",
+              "ViewState": "AgIAADsNAAAAAAAAAAAvwDwNAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-10-07T12:22:05.895Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "Microsoft.CppCommon.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
@@ -132,26 +170,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 11,
               "Title": "texture_cube.frag",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.frag",
               "RelativeDocumentMoniker": "SHADERS\\texture_cube.frag",
               "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.frag",
               "RelativeToolTip": "SHADERS\\texture_cube.frag",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAgAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-11-20T16:14:12.9Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "texture_cube.vert",
               "DocumentMoniker": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.vert",
               "RelativeDocumentMoniker": "SHADERS\\texture_cube.vert",
               "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\texture_cube.vert",
               "RelativeToolTip": "SHADERS\\texture_cube.vert",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-11-20T16:14:46.577Z",
               "EditorCaption": ""
@@ -164,14 +202,10 @@
               "RelativeDocumentMoniker": "SHADERS\\shader.frag",
               "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\shader.frag",
               "RelativeToolTip": "SHADERS\\shader.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-10-08T13:29:04.19Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -181,20 +215,20 @@
               "RelativeDocumentMoniker": "SHADERS\\shader.vert",
               "ToolTip": "C:\\Users\\712769\\Workspace\\Real-Time-Graphics\\Lab_Startup\\Startup_Lab\\Vulkan(1_3)_Lab_01\\SHADERS\\shader.vert",
               "RelativeToolTip": "SHADERS\\shader.vert",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAE4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAE4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-10-08T13:20:38.966Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Microsoft.CppCommon.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
               "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets",
-              "ViewState": "AgIAAN4AAAAAAAAAAAArwP0AAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAN4AAAAAAAAAAAAQwP0AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
               "WhenOpened": "2025-10-22T13:43:59.885Z",
               "EditorCaption": ""

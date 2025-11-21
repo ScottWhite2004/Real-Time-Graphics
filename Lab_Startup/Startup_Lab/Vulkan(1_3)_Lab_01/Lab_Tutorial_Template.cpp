@@ -280,51 +280,51 @@ const std::vector<Vertex> Quad_vertices = {
 const std::vector<Vertex> Quad_vertices_normals = {
     // Front face (+Z)  normal (0,0,1)
     {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {2.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
     {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,1.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Back face (-Z) normal (0,0,-1)
     {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {2.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {2.0f,2.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
     {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,0.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {2.0f,2.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,2.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {1.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,-1.0f}, {0.0f,1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f,0.0f}},
 
     // Right face (+X) normal (1,0,0)
     {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {2.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
     {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f,0.0f,0.0f}, {0.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,1.0f}},
 
     // Left face (-X) normal (-1,0,0)
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {2.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,0.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {2.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,2.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {1.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {-1.0f,0.0f,0.0f}, {0.0f,1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f,-1.0f}},
 
     // Top face (+Y) normal (0,1,0)
     {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {2.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
     {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
-    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,-1.0f}},
 
     // Bottom face (-Y) normal (0,-1,0)
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {2.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
     {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,0.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {2.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
-    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,2.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}}
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {1.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f,-1.0f,0.0f}, {0.0f,1.0f}, {1.0f,0.0f,0.0f}, {0.0f,0.0f,1.0f}}
 };
 
 const std::vector<uint16_t> Quad_indices = {
@@ -499,6 +499,7 @@ private:
     void drawFrame();
     void recreateSwapChain();
     void cleanupSwapChain();
+    void cleanupPostProcess();
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void updateUniformBuffer(uint32_t currentImage);
 
@@ -2675,7 +2676,7 @@ void HelloTriangleApplication::createCommandPool() {
 
 void HelloTriangleApplication::createVertexBuffer() {
     if (vertices.empty()) {
-        // Nothing to upload — avoid out-of-range access and make the failure explicit
+        // Nothing to upload â€” avoid out-of-range access and make the failure explicit
         throw std::runtime_error("createVertexBuffer: 'vertices' is empty");
     }
     VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
@@ -2697,7 +2698,7 @@ void HelloTriangleApplication::createVertexBuffer() {
 
 void HelloTriangleApplication::createIndexBuffer() {
     if (indices.empty()) {
-        // Nothing to upload — avoid out-of-range access and make the failure explicit
+        // Nothing to upload â€” avoid out-of-range access and make the failure explicit
         throw std::runtime_error("createIndexBuffer: 'indices' is empty");
     }
     VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
@@ -2901,7 +2902,7 @@ void HelloTriangleApplication::drawFrame() {
 
     // Defensive: make sure the returned imageIndex is valid before using it.
     if (imageIndex >= swapChainImages.size() || imageIndex >= swapChainImageViews.size()) {
-        // Swapchain probably changed under us — recreate and skip this frame.
+        // Swapchain probably changed under us â€” recreate and skip this frame.
         recreateSwapChain();
         return;
     }
@@ -2970,9 +2971,15 @@ void HelloTriangleApplication::recreateSwapChain() {
     }
     vkDeviceWaitIdle(device);
     cleanupSwapChain();
+	cleanupPostProcess();
     createSwapChain();
 	createDepthResources();
     createImageViews();
+
+    createPostProcessImage();
+    createPostProcessDescriptorPool();
+    createPostProcessDescriptorSets();
+	createPostProcessPipeline();
 }
 
 void HelloTriangleApplication::cleanupSwapChain() {
@@ -2992,6 +2999,35 @@ void HelloTriangleApplication::cleanupSwapChain() {
     if (depthImageMemory != VK_NULL_HANDLE) {
         vkFreeMemory(device, depthImageMemory, nullptr);
         depthImageMemory = VK_NULL_HANDLE;
+    }
+}
+
+void HelloTriangleApplication::cleanupPostProcess()
+{
+    if (postProcessPipeline != VK_NULL_HANDLE) {
+        vkDestroyPipeline(device, postProcessPipeline, nullptr);
+        postProcessPipeline = VK_NULL_HANDLE;
+    }
+    if (offscreenSampler != VK_NULL_HANDLE) {
+        vkDestroySampler(device, offscreenSampler, nullptr);
+        offscreenSampler = VK_NULL_HANDLE;
+    }
+    if (offscreenImageView != VK_NULL_HANDLE) {
+        vkDestroyImageView(device, offscreenImageView, nullptr);
+        offscreenImageView = VK_NULL_HANDLE;
+    }
+    if (offscreenImage != VK_NULL_HANDLE) {
+        vkDestroyImage(device, offscreenImage, nullptr);
+        offscreenImage = VK_NULL_HANDLE;
+    }
+    if (offscreenImageMemory != VK_NULL_HANDLE) {
+        vkFreeMemory(device, offscreenImageMemory, nullptr);
+        offscreenImageMemory = VK_NULL_HANDLE;
+    }
+    if (postProcessDescriptorPool != VK_NULL_HANDLE) {
+        vkDestroyDescriptorPool(device, postProcessDescriptorPool, nullptr);
+        postProcessDescriptorPool = VK_NULL_HANDLE;
+        postProcessDescriptorSets.clear();
     }
 }
 
@@ -3137,15 +3173,13 @@ void HelloTriangleApplication::recordCommandBuffer(VkCommandBuffer commandBuffer
     vkCmdSetViewport(commandBuffer, 0, 1, &vp);
     vkCmdSetScissor(commandBuffer, 0, 1, &sc);
 
-    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vbufs, vOffs);
-
     ModelPushConstant postPC{};
     postPC.model = glm::mat4(1.f);
     vkCmdPushConstants(commandBuffer, postProcessPipelineLayout,
         VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
         0, sizeof(ModelPushConstant), &postPC);
 
-    vkCmdDraw(commandBuffer,vertices.size(), 1, 0, 0);
+    vkCmdDraw(commandBuffer,6, 1, 0, 0);
 
     vkCmdEndRendering(commandBuffer);
 
@@ -3262,8 +3296,8 @@ void HelloTriangleApplication::createPostProcessSampler()
 
 void HelloTriangleApplication::createPostProcessPipeline()
 {
-    auto vertShaderCode = readFile("shaders/textureVert.spv");
-    auto fragShaderCode = readFile("shaders/textureFrag.spv");
+    auto vertShaderCode = readFile("shaders/fullscreenVert.spv");
+    auto fragShaderCode = readFile("shaders/blurFrag.spv");
 
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
@@ -3282,7 +3316,7 @@ void HelloTriangleApplication::createPostProcessPipeline()
 
     VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 
-    // Vertex input — simple fullscreen quad or reuse Vertex description
+    // Vertex input â€” simple fullscreen quad or reuse Vertex description
     VkVertexInputBindingDescription bindingDescriptions[2]{};
     bindingDescriptions[0].binding = 0;
     bindingDescriptions[0].stride = sizeof(Vertex);
@@ -3305,10 +3339,6 @@ void HelloTriangleApplication::createPostProcessPipeline()
 
     VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
     vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    vertexInputInfo.vertexBindingDescriptionCount = 2;
-    vertexInputInfo.pVertexBindingDescriptions = bindingDescriptions;
-    vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
-    vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
     VkPushConstantRange pushConstantRange{};
     pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
@@ -3350,7 +3380,14 @@ void HelloTriangleApplication::createPostProcessPipeline()
 
     VkPipelineColorBlendAttachmentState colorBlendAttachment{};
     colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-    colorBlendAttachment.blendEnable = VK_FALSE;
+    colorBlendAttachment.blendEnable = VK_TRUE;
+    colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+    colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+    colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+    // Alpha channel also adds; swapchain alpha usually ignored
+    colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+    colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+    colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 
     VkPipelineColorBlendStateCreateInfo colorBlending{};
     colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;

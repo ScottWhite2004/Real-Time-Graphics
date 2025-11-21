@@ -14,3 +14,7 @@ glslc ".\Shaders\particle.vert" -o ".\Shaders\particleVert.spv"
 glslc ".\Shaders\texture_cube.frag" -o ".\Shaders\textureFrag.spv"
 ^C:\USERS\712769\WORKSPACE\REAL-TIME-GRAPHICS\LAB_STARTUP\STARTUP_LAB\VULKAN(1_3)_LAB_01\SHADERS\TEXTURE_CUBE.VERT
 glslc ".\Shaders\texture_cube.vert" -o ".\Shaders\textureVert.spv"
+^C:\USERS\712769\WORKSPACE\REAL-TIME-GRAPHICS\LAB_STARTUP\STARTUP_LAB\VULKAN(1_3)_LAB_01\SHADERS\BLUR.FRAG
+glslc ".\Shaders\blur.frag" -o ".\Shaders\blurFrag.spv"
+^C:\USERS\712769\WORKSPACE\REAL-TIME-GRAPHICS\LAB_STARTUP\STARTUP_LAB\VULKAN(1_3)_LAB_01\SHADERS\FULLSCREEN.VERT
+glslc ".\Shaders\fullscreen.vert" -o ".\Shaders\fullscreenVert.spv"
